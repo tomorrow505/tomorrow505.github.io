@@ -18,7 +18,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（一） - Tomorrow&#39;s blog</title>
+  <title>如何在Hexo+Fluid主题下加入打赏功能 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（一）">
+            <span class="h2" id="subtitle" title="如何在Hexo+Fluid主题下加入打赏功能">
               
             </span>
 
@@ -189,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 13:46" pubdate>
-        2021年3月18日 下午
+      <time datetime="2021-03-19 21:26" pubdate>
+        2021年3月19日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      832 字
+      626 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      9
        分钟
     </span>
   
@@ -249,85 +249,109 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（一）</h1>
+            <h1 style="display: none">如何在Hexo+Fluid主题下加入打赏功能</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：9 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>玩PT的大概都知道发布的时候要上传mediainfo和截图，无论内外站都支持的图床之一就是imgbox。而无论是盒子还是本地，mediainfo或者截图上传都是比较繁琐枯燥的一件事情。那么，基于此，工具就来了。</p>
-<p>这是一个比较系统的工具了，会用到一系列基础知识，所以打算做成一个系列。</p>
-<p>本篇文章为第一篇：如何自动截取视频截图？</p>
-<h3 id="FFMPEG"><a href="#FFMPEG" class="headerlink" title="FFMPEG"></a>FFMPEG</h3><hr>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.ffmpeg.org/">FFMPEG</a>是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。</p>
-</li>
-<li><p>FFMPEG在windows下安装教程链接。<a target="_blank" rel="noopener" href="https://blog.csdn.net/Fish_cyy/article/details/105797337">https://blog.csdn.net/Fish_cyy/article/details/105797337</a></p>
-</li>
-</ul>
-<p>总之FFMPEG的功能十分强大，无论是windows还是linux都可以使用。而今天我们主要说明如何使用该工具进行截图。废话不多说，直接上代码。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">ffmpeg -ss &#123;timestring&#125; -y -i <span class="hljs-string">&quot;&#123;file&#125;&quot;</span> <span class="hljs-string">&quot;-f&quot;</span> <span class="hljs-string">&quot;image2&quot;</span> <span class="hljs-string">&quot;-frames:v&quot;</span> <span class="hljs-string">&quot;1&quot;</span> <span class="hljs-string">&quot;-c:v&quot;</span> <span class="hljs-string">&quot;png&quot;</span> <span class="hljs-string">&quot;-loglevel&quot;</span> <span class="hljs-string">&quot;8&quot;</span> <span class="hljs-string">&quot;&#123;img_path&#125;&quot;</span>
+              <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><hr>
+<p>看到别人的博客有打赏功能，好像是别的主题也有这样的默认功能？辣么，我也想要。</p>
+<h3 id="搜寻过程"><a href="#搜寻过程" class="headerlink" title="搜寻过程"></a>搜寻过程</h3><hr>
+<p>还是没有找到能够将Fluid和打赏联系起来的博客，但是Hexo各个主题大同小异，我又找到了一篇相关的博客<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="Hexo博客添加打赏功能
+">[1]</span></a></sup>。</p>
+<p>思想其实很简单，就是自己定一个一个div插入页面中。div为ejs文本，然后写一个样式表，在渲染的时候插入指定位置即可。</p>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><hr>
+<p>话不多说，上代码：</p>
+<ol>
+<li><code>layout\_partial</code>下新建<code>donate.ejs</code>输入如下内容：</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs javascript">&lt;! -- 添加捐赠图标 --&gt;
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span> </span>=<span class="hljs-string">&quot;post-donate&quot;</span>&gt;
+    &lt;div id=<span class="hljs-string">&quot;donate_board&quot;</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;donate_bar center&quot;</span>&gt;
+        &lt;span <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;donate_txt&quot;</span>&gt;
+		   &lt;%=theme.post.donate_message%&gt;
+        &lt;/span&gt;
+		&lt;input type=<span class="hljs-string">&quot;button&quot;</span> id=<span class="hljs-string">&quot;btn_donate&quot;</span> style=<span class="hljs-string">&quot;background-color: red; color: white; border: none; height=35; width=80&quot;</span> value=<span class="hljs-string">&quot;打赏&quot;</span>/&gt;
+        &lt;br&gt;
+      &lt;/div&gt;  
+	&lt;div id=<span class="hljs-string">&quot;donate_guide&quot;</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">&quot;donate_bar center&quot;</span> style=<span class="hljs-string">&quot;display: none&quot;</span>&gt;
+		&lt;!-- 支付宝打赏图案 --&gt;
+		&lt;img src=<span class="hljs-string">&quot;/img/ali_pay.png&quot;</span> alt=<span class="hljs-string">&quot;支付宝打赏&quot;</span>&gt; 
+		&lt;!-- 微信打赏图案 --&gt;
+		&lt;img src=<span class="hljs-string">&quot;/img/wechat_pay.png&quot;</span> alt=<span class="hljs-string">&quot;微信打赏&quot;</span>&gt;  
+    &lt;/div&gt;
+	&lt;script type=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;
+		<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;btn_donate&#x27;</span>).onclick = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+			<span class="hljs-keyword">var</span> qr=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;donate_guide&quot;</span>);
+			<span class="hljs-string">&quot;none&quot;</span>===qr.style.display?qr.style.display=<span class="hljs-string">&quot;block&quot;</span>:qr.style.display=<span class="hljs-string">&quot;none&quot;</span>
+		&#125;
+	&lt;/script&gt;
+&lt;/div&gt;
+&lt;! -- 添加捐赠图标 --&gt;</code></pre></div>
 
-<span class="hljs-comment"># 参数说明</span>
-<span class="hljs-comment"># -ss................指定视频文件中截图的时间，01:00：00表示从视频文件的第一个小时截图</span>
-<span class="hljs-comment"># -y.................表示覆盖，如果存在同名文件直接覆盖</span>
-<span class="hljs-comment"># -i.................指定输入文件，使用双引号避免文件路径存在空格</span>
-<span class="hljs-comment"># -f.................指定输出格式，image2表示输出图片</span>
-<span class="hljs-comment"># -frames............指定截取几帧，这里指定为1</span>
-<span class="hljs-comment"># -c.................编码格式，指定输出为png</span>
-<span class="hljs-comment"># -loglevel..........日志等级相关参数，这里设置为8</span>
-<span class="hljs-comment"># 最后img_path代表输出文件路径，包含文件名。</span>
-<span class="hljs-comment"># 更多细节可以直接调用&quot;ffmpeg -h&quot;进行学习。</span></code></pre></div>
+<p>需要准备了两张图，一个是支付宝收款码，一个是微信收款码。放到img路径下。</p>
+<ol start="2">
+<li>然后在css路径下新建一个_partial目录，新建一个donate.styl脚本。</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-class">.donate_bar</span> &#123;
+	<span class="hljs-attribute">text-align</span>: center;
+	<span class="hljs-attribute">margin-top</span>: <span class="hljs-number">5%</span>
+&#125;
 
-<p>很显然的一个问题，ffmpeg需要指定截图时间，那么视频有多长，什么时候开始截取呢？我们需要知道这个视频的长度。mediainfo便是一个很好的工具，而且ffmpeg直接就封装了mediainfo，可以直接使用指令获取视频信息：</p>
-<p><code>ffmpeg -i test.mkv</code></p>
-<p><img src="/post/ffmpeg.png" srcset="/img/loading.gif" lazyload alt="ffmpeg"></p>
-<p>忽略中文乱码我们其实可以获取到视频得长度的。其实我们还有一个python模块可以干这件事。<a target="_blank" rel="noopener" href="https://pymediainfo.readthedocs.io/en/stable/">pymediainfo</a>使用代码示范：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pprint <span class="hljs-keyword">import</span> pprint
-<span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> MediaInfo
+<span class="hljs-selector-class">.donate_bar</span>&#123;
+	<span class="hljs-attribute">background-position</span>: <span class="hljs-number">0</span> -<span class="hljs-number">10px</span>
+&#125;
 
-media_info = MediaInfo.parse(<span class="hljs-string">&quot;my_video_file.mp4&quot;</span>)
-<span class="hljs-keyword">for</span> track <span class="hljs-keyword">in</span> media_info.tracks:
-    <span class="hljs-keyword">if</span> track.track_type == <span class="hljs-string">&quot;Video&quot;</span>:
-        print(<span class="hljs-string">&quot;Bit rate: &#123;t.bit_rate&#125;, Frame rate: &#123;t.frame_rate&#125;, &quot;</span>
-              <span class="hljs-string">&quot;Format: &#123;t.format&#125;&quot;</span>.<span class="hljs-built_in">format</span>(t=track)
-        )
-        print(<span class="hljs-string">&quot;Duration (raw value):&quot;</span>, track.duration)
-        print(<span class="hljs-string">&quot;Duration (other values:&quot;</span>)
-        pprint(track.other_duration)
-    <span class="hljs-keyword">elif</span> track.track_type == <span class="hljs-string">&quot;Audio&quot;</span>:
-        print(<span class="hljs-string">&quot;Track data:&quot;</span>)
-        pprint(track.to_data())</code></pre></div>
+<span class="hljs-selector-class">.donate_bar</span> <span class="hljs-selector-class">.donate_txt</span> &#123;
+	<span class="hljs-attribute">display</span>: block;
+	<span class="hljs-attribute">color</span>: <span class="hljs-number">#9d9d9d</span>;
+	<span class="hljs-attribute">font</span>: <span class="hljs-number">14px</span>/<span class="hljs-number">2</span> <span class="hljs-string">&quot;Microsoft Yahei&quot;</span>
+&#125;
 
-<p>得到的结果如下：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python">Bit rate: <span class="hljs-number">3117597</span>, Frame rate: <span class="hljs-number">23.976</span>, Format: AVC
-Duration (raw value): <span class="hljs-number">958</span>
-Duration (other values):
-[<span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00.958&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00;23&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00.958 (00:00:00;23)&#x27;</span>]
-Track data:
-&#123;<span class="hljs-string">&#x27;bit_rate&#x27;</span>: <span class="hljs-number">236392</span>,
- <span class="hljs-string">&#x27;bit_rate_mode&#x27;</span>: <span class="hljs-string">&#x27;VBR&#x27;</span>,
- <span class="hljs-string">&#x27;channel_layout&#x27;</span>: <span class="hljs-string">&#x27;L R&#x27;</span>,
- <span class="hljs-string">&#x27;channel_positions&#x27;</span>: <span class="hljs-string">&#x27;Front: L R&#x27;</span>,
- <span class="hljs-string">&#x27;channel_s&#x27;</span>: <span class="hljs-number">2</span>,
- <span class="hljs-string">&#x27;codec_id&#x27;</span>: <span class="hljs-string">&#x27;mp4a-40-2&#x27;</span>,
- <span class="hljs-string">&#x27;commercial_name&#x27;</span>: <span class="hljs-string">&#x27;AAC&#x27;</span>,
- <span class="hljs-string">&#x27;compression_mode&#x27;</span>: <span class="hljs-string">&#x27;Lossy&#x27;</span>,
- …
+<span class="hljs-selector-class">.post-donate</span>&#123;
+	<span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0px</span>;
+&#125;
+
+<span class="hljs-selector-id">#btn_donate</span>&#123;
+	<span class="hljs-attribute">outline</span>:none;
+&#125;
+
+<span class="hljs-selector-id">#donate_guide</span>&#123;
+	<span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+	<span class="hljs-attribute">width</span>: <span class="hljs-number">400px</span>;
+	<span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+&#125;
+
+<span class="hljs-selector-id">#donate_guide</span> <span class="hljs-selector-tag">img</span>&#123;
+	<span class="hljs-attribute">height</span>: <span class="hljs-number">180px</span>;
+	<span class="hljs-attribute">height</span>: <span class="hljs-number">180px</span>;
 &#125;</code></pre></div>
 
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>我们现在知道了ffmpeg的截图命令，也知道了怎么获取一个视频文件的时长，可能形式需要转换一下。那么在已知视频文件路径的前提下，如何用python进行截图操作呢？预知后事，请听下回分解。</p>
+<ol start="3">
+<li>接着就找文章模板，就是layout的post.ejs，我们在指定位置插入下面的代码：</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs markdown">&lt;% if (theme.post.donate!=false &amp;&amp; theme.post.donate!=false)&#123; %&gt;
+&lt;%- partial(&#x27;<span class="hljs-emphasis">_partial/donate&#x27;) %&gt;</span>
+<span class="hljs-emphasis">&lt;% &#125; %&gt;</span></code></pre></div>
 
+<p>然后在主题配置文件中设置post下添加：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># 打赏</span>
+<span class="hljs-comment"># 是否开启打赏功能</span>
+<span class="hljs-attr">donate:</span> <span class="hljs-literal">true</span>
+<span class="hljs-comment"># 打赏文案</span>
+<span class="hljs-attr">donate_message:</span> <span class="hljs-string">坚持技术分享，你的支持将鼓励我继续创作！</span></code></pre></div>
+
+<p>接下来我们看看效果吧：</p>
+<p><img src="/post/donate.png" srcset="/img/loading.gif" lazyload alt="donate"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>技术分享本是不易，若是能从中找到乐趣便已足够。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/16a8f15c543d">Hexo博客添加打赏功能</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.axihe.com/tools/markdown/extended-syntax/footnote.html">Markdown 插入脚注</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -336,7 +360,7 @@ Track data:
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -346,9 +370,9 @@ Track data:
                     
                       <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
                     
                   </div>
                 
@@ -388,29 +412,6 @@ Track data:
                   
                 </p>
               
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2021/ckmf3rc7l000b6oag1bymbixh/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（二）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2021/ckmf3rc7m000d6oag1ycr0oww/">
-                        <span class="hidden-mobile">Ubuntu或者Debian环境下编译qbittorrent4.3.3</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
