@@ -259,7 +259,8 @@
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>本着不折腾浑身难受的理念，按照教程<strong>绑定GitHub上的个人博客到Godaddy域名</strong>[^1]做了一次域名解析，发现难倒是不难，就是访问速度变慢了很多。后边再想想要不要CDN加速吧，反正现在先用着。哈哈~将流程记录下来。</p>
+<p>本着不折腾浑身难受的理念，按照教程<strong>绑定GitHub上的个人博客到Godaddy域名</strong><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="绑定Github上的个人博客到Godaddy域名
+">[1]</span></a></sup>做了一次域名解析，发现难倒是不难，就是访问速度变慢了很多。后边再想想要不要CDN加速吧，反正现在先用着。哈哈~将流程记录下来。</p>
 <h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><hr>
 <h3 id="1-首先在Godaddy官网购买域名"><a href="#1-首先在Godaddy官网购买域名" class="headerlink" title="1. 首先在Godaddy官网购买域名"></a>1. 首先在<a target="_blank" rel="noopener" href="https://sg.godaddy.com/zh/">Godaddy官网</a>购买域名</h3><h3 id="2-配置GitHub"><a href="#2-配置GitHub" class="headerlink" title="2. 配置GitHub"></a>2. 配置GitHub</h3><p>在Hexo的source目录下创建CNAME文件将域名写进去。之后部署项目。</p>
 <div class="hljs code-wrapper"><pre><code class="hljs bash">hexo g
@@ -297,7 +298,8 @@ hexo d</code></pre></div>
 </tr>
 </tbody></table>
 <h3 id="4-去-GoDaddy-修改-DNS-地址"><a href="#4-去-GoDaddy-修改-DNS-地址" class="headerlink" title="4. 去 GoDaddy 修改 DNS 地址"></a>4. 去 GoDaddy 修改 DNS 地址</h3><p>具体过程去看源帖吧。在更改域名服务器的时候我用的是DNSPod提供的，一开始不会生效，等一会儿就好了。最后就能打开了。</p>
-<h3 id="5-优化参考性及可行性"><a href="#5-优化参考性及可行性" class="headerlink" title="5. 优化参考性及可行性"></a>5. 优化参考性及可行性</h3><p>在帖子[^2]发现博客部署在GitHub Pages上，从国内打开访问速度很慢，我第一感觉就是图片加载很慢了。</p>
+<h3 id="5-优化参考性及可行性"><a href="#5-优化参考性及可行性" class="headerlink" title="5. 优化参考性及可行性"></a>5. 优化参考性及可行性</h3><p>在帖子<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="优化 Hexo 博客的访问速度
+">[2]</span></a></sup>发现博客部署在GitHub Pages上，从国内打开访问速度很慢，我第一感觉就是图片加载很慢了。</p>
 <blockquote>
 <p>过慢的访问速度会使得用户在访问网站的时候失去耐心，导致有些用户可能会直接关闭你的网站</p>
 </blockquote>
@@ -308,7 +310,8 @@ hexo d</code></pre></div>
 <li><p>二是压缩图片的分辨率。</p>
 </li>
 </ul>
-<h3 id="6-不怂就是干，用python来实现一波。"><a href="#6-不怂就是干，用python来实现一波。" class="headerlink" title="6. 不怂就是干，用python来实现一波。"></a>6. 不怂就是干，用python来实现一波。</h3><p>因为这种脚本网上肯定多得很，直接参考了一下这个帖子[^3]写了一下。</p>
+<h3 id="6-不怂就是干，用python来实现一波。"><a href="#6-不怂就是干，用python来实现一波。" class="headerlink" title="6. 不怂就是干，用python来实现一波。"></a>6. 不怂就是干，用python来实现一波。</h3><p>因为这种脚本网上肯定多得很，直接参考了一下这个帖子<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="Python 图片尺寸缩放的4种方式
+">[3]</span></a></sup>写了一下。</p>
 <div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
 <span class="hljs-keyword">import</span> shutil
 <span class="hljs-keyword">import</span> os
@@ -363,10 +366,12 @@ hexo d</code></pre></div>
             Graphics.resize_by_size(<span class="hljs-number">300</span>)</code></pre></div>
 
 <p>测试了一波，还没有人家提到的站点做的一半好，承让了，直接使用<a target="_blank" rel="noopener" href="https://tinypng.com/">TinyPNG</a>来压缩图片。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p>[^1] <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1367881">绑定Github上的个人博客到Godaddy域名</a></p>
-<p>[^2] <a target="_blank" rel="noopener" href="https://kaitohh.com/tweak-hexo/">优化 Hexo 博客的访问速度</a></p>
-<p>[^3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/ln152315/article/details/42777149">Python 图片尺寸缩放的4种方式</a></p>
-
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>其实很多人已经在你前边走了一条路，但是你不走过去，你怎么知道沿途的风景呢？</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1367881">绑定Github上的个人博客到Godaddy域名</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://kaitohh.com/tweak-hexo/">优化 Hexo 博客的访问速度</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/ln152315/article/details/42777149">Python 图片尺寸缩放的4种方式</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
