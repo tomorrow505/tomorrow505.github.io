@@ -18,7 +18,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="">
   
-  <title>Ubuntu或者Debian环境下编译qbittorrent4.3.3 - Tomorrow&#39;s blog</title>
+  <title>我的PT之路 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -60,7 +60,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":false,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"6b843aa5a4ef58e77922cd321ec00d74","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz","app_key":"30XfVcujY9je2cwoCu1NwYEG","server_url":null}}};
+    var CONFIG = {"hostname":"tomorrow505.xyz","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":false,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"6b843aa5a4ef58e77922cd321ec00d74","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz","app_key":"30XfVcujY9je2cwoCu1NwYEG","server_url":null}}};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Ubuntu或者Debian环境下编译qbittorrent4.3.3">
+            <span class="h2" id="subtitle" title="我的PT之路">
               
             </span>
 
@@ -189,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 10:11" pubdate>
-        2021年3月18日 上午
+      <time datetime="2021-03-17 13:30" pubdate>
+        2021年3月17日 下午
       </time>
     </span>
   
@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      751 字
+      3.1k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      31
        分钟
     </span>
   
@@ -249,7 +249,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Ubuntu或者Debian环境下编译qbittorrent4.3.3</h1>
+            <h1 style="display: none">我的PT之路</h1>
             
               <p class="note note-info">
                 
@@ -258,127 +258,31 @@
               </p>
             
             <div class="markdown-body">
-              <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>本文为安装最新或指定版本qBittorrent4.3.3的教学 适用于Ubuntu 18或更新版本，Debian 10或更新版本。</p>
-<h3 id="安装须知"><a href="#安装须知" class="headerlink" title="安装须知"></a>安装须知</h3><hr>
-<p>libtorrent是qBittorrent必要的后端程序，本教程使用1.2.12。在此之前需要安装编译libtorrent环境。</p>
-<p>此外还依赖一些其他的包，在尝试的时候遇到了一些坑，都记录了下来，然后最近初学shell编程，所以整理了一个一键安装脚本。</p>
-<p>最后的最后，在盒子上进行调试的时候3o会在编译qb的时候出现一个linking错误，后边看有没有机会修复吧。</p>
-<h3 id="废话不多说，上部分代码"><a href="#废话不多说，上部分代码" class="headerlink" title="废话不多说，上部分代码"></a>废话不多说，上部分代码</h3><hr>
-<ul>
-<li>准备安装环境</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt update
-apt -y install build-essential pkg-config automake libtool git libgeoip-dev python3 python3-dev
-apt -y install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev
-apt -y install qtbase5-dev qttools5-dev-tools libqt5svg5-dev zlib1g-dev</code></pre></div>
-
-<ul>
-<li>编译boost</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install mpi-default-dev　　<span class="hljs-comment">#安装mpi库</span>
-apt-get -y install libicu-dev　　　　　<span class="hljs-comment">#支持正则表达式的UNICODE字符集　</span>
-apt-get -y install libbz2-dev
-
-wget https://dl.bintray.com/boostorg/release/1.75.0/<span class="hljs-built_in">source</span>/boost_1_75_0.tar.bz2
-tar -jxvf boost_1_75_0.tar.bz2
-<span class="hljs-built_in">cd</span> boost_1_75_0
-sh ./bootstrap.sh
-./b2
-./b2/install</code></pre></div>
-
-<ul>
-<li>编译libtorrent</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt -y install libssl-dev
-apt -y install openssl
-
-wget https://github.com/arvidn/libtorrent/releases/download/v1.2.12/libtorrent-rasterbar-1.2.11.tar.gz
-tar xf libtorrent-rasterbar-1.2.12.tar.gz
-<span class="hljs-built_in">cd</span> libtorrent-rasterbar-1.2.12
-./configure --disable-debug --enable-encryption --with-libgeoip=system CXXFLAGS=-std=c++14
-
-make -j$(nproc)
-make install
-ldconfig</code></pre></div>
-
-<ul>
-<li>安装qbittorrent</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install qt5-default
-apt-get -y install zlib1g-dev
-
-<span class="hljs-comment"># 将命令改名，可能是新版本的调用脚本命名不一样了</span>
-file1=<span class="hljs-string">&quot;/usr/bin/lrelease&quot;</span>
-file2=<span class="hljs-string">&quot;/bin/lrelease&quot;</span>
-<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
-  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file1&#125;</span>-qt5&quot;</span>
-<span class="hljs-keyword">fi</span>
-<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
-  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file21&#125;</span>-qt5&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-
-<span class="hljs-comment"># mv /bin/lrelease /bin/lrelease-qt5</span>
-<span class="hljs-comment"># mv /usr/lib/qt5/bin/lrelease /usr/lib/qt5/bin/lrelease-qt5</span>
-
-wget https://github.com/qbittorrent/qBittorrent/archive/release-4.3.3.tar.gz
-tar xf release-4.3.3.tar.gz
-<span class="hljs-built_in">cd</span> qBittorrent-release-4.3.3
-./configure --disable-gui --disable-debug CXXFLAGS=-std=c++14
-
-make -j$(nproc)
-make install
-
-<span class="hljs-comment"># 写入service文件</span>
-qbit_service=<span class="hljs-string">&quot;/etc/systemd/system/qbittorrent.service&quot;</span>
-touch <span class="hljs-variable">$qbit_service</span>
-cat&gt;<span class="hljs-variable">$qbit_service</span>&lt;&lt;<span class="hljs-string">EOF</span>
-<span class="hljs-string">[Unit]</span>
-<span class="hljs-string">Description=qBittorrent Daemon Service</span>
-<span class="hljs-string">After=network.target</span>
-<span class="hljs-string">[Service]</span>
-<span class="hljs-string">LimitNOFILE=512000</span>
-<span class="hljs-string">User=root</span>
-<span class="hljs-string">ExecStart=/usr/local/bin/qbittorrent-nox</span>
-<span class="hljs-string">ExecStop=/usr/bin/killall -w qbittorrent-nox</span>
-<span class="hljs-string">[Install]</span>
-<span class="hljs-string">WantedBy=multi-user.target</span>
-<span class="hljs-string">EOF</span>
-
-systemctl <span class="hljs-built_in">enable</span> qbittorrent.service <span class="hljs-comment"># 设置开机自启动</span>
-qbittorrent-nox -y --webui-port=2021 <span class="hljs-comment"># 打开尝试然后ctrl+c退出。</span>
-
-<span class="hljs-comment"># 默认端口是2021哦，用户名admin，密码adminadmin。</span></code></pre></div>
-
-<ul>
-<li>设置qbittorrent命令</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">qbit_command=<span class="hljs-string">&quot;/usr/bin/qbittorrent&quot;</span>
-touch <span class="hljs-variable">$qbit_command</span>
-cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs-string">EOF</span>
-<span class="hljs-string">#!/bin/bash</span>
-<span class="hljs-string">if [ \$1 == &quot;start&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl start qbittorrent.service #启动qBittorrent</span>
-<span class="hljs-string">elif [ \$1 == &quot;stop&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl stop qbittorrent.service #关闭qBittorrent</span>
-<span class="hljs-string">elif [ \$1 == &quot;restart&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl restart qbittorrent.service #重启qBittorrent</span>
-<span class="hljs-string">fi</span>
-<span class="hljs-string">EOF</span>
-<span class="hljs-built_in">cd</span> /usr/bin &amp;&amp; chmod +x qbittorrent
-
-<span class="hljs-comment">#之后就可以使用命令qbittorrent start|stop|restart 分别代表开始，关闭，重启。</span></code></pre></div>
-
-
-
-<h3 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h3><hr>
-<p>因为我已经整理成了shell文件放到我的<a target="_blank" rel="noopener" href="https://github.com/tomorrow505/qbittorrent433">GitHub</a>上了，感兴趣的可以去看看源代码。</p>
-<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/install.sh -O install.sh &amp;&gt;/dev/null &amp;&amp; /bin/bash install.sh</code></p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>[1]：<a target="_blank" rel="noopener" href="https://npchk.info/ubuntu-debian-install-qbittorrent/">Ubuntu/Debian Linux編譯qBittorrent安裝指南</a></p>
+              <p>写在6年之期的一些小的感悟。</p>
+<h2 id="影之大，一个优盘放不下"><a href="#影之大，一个优盘放不下" class="headerlink" title="影之大，一个优盘放不下"></a>影之大，一个优盘放不下</h2><p>早些年时候，硬盘大多4G-8G存一些课件之类的东西，足够了。突然有一天同学过来串门，说给我看一部电影《被解放的姜戈》，果断拿优盘过去拷，结果竟然放不下~尴了个尬的，一问多大，高清8G以上……好在教育网互传还挺快。才知道PT这么一回事，他的电影都是在学校PT站内下载的。说这我也想注册一个，结果傻眼了，未开放注册~~同学也就是个普通会员，没有邀请啥的。所以就等，说是每年会开注两次。</p>
+<p>直到15年3月13日，估计是有人跟我说了，我才进了我的第一个PT站，一看很新奇，但是视频确实都很大。看了眼规则啥的，还要分享率、保种什么的，七七八八看下来，心里直觉得麻烦~~许是当时课程比较紧，就弃置了。</p>
+<p>4月份的时候下载了第一部电影《外星醉汉PK地球神》，很喜欢阿米尔-汗，他的《三傻大闹宝莱坞》看了不下五遍，每一次看都有新的感触。但是不知为何，站点又再次搁置了，应该是比较忙的吧。</p>
+<h2 id="迟来的发布员和开心的时光"><a href="#迟来的发布员和开心的时光" class="headerlink" title="迟来的发布员和开心的时光"></a>迟来的发布员和开心的时光</h2><p>到10月份的时候，一些事情算是尘埃落定了，我把之前在油管上爬的一个教程传了上去，看到有人下载，心里十分开心。Sharing changes the world. 是站点的理念，真的很感激那些为站点付出的人，看了下论坛，他们一个个都很有激情，让人不禁加入进去，于是我下载的第二个种子就是怎么上传种子到站点。</p>
+<p>慢慢地，我开始使用百度云离线，QQ旋风，迅雷等去公网搜寻种子，然后转载过来。并且个人喜欢篮球，看NBA，所以也下载了很多NBA录像传了上去，也学到了很多发布的知识，那真是一段开心的时光，纯粹的开心。久了就有大佬PM：你愿意做发布员吗？此时我已经为了玩PT买了一个2T的西数移动硬盘，也几乎不怎么关电脑。答案自然是：Yes。</p>
+<p>进了发布组，里边的大佬还是挺多的，09年开站，一代代的传承有很多已经成为公网的活跃分子。通过论坛的学习以及跟他们的交流，也规范了自己的发种姿势，更加知道了PT站的广阔天地。为了更好的转载，于是开始走上了收割之路……北邮人、落樱、清影、葡萄、馒头、春天、听听歌、蒲公英、好大啊、我堡等等。要么是论坛申请，要么是大佬在发布群内发邀，总之每次过考核都跟升级一样，时不时去看看，总是害怕不小心挂了。（当时还进了外网HDT，本地是要吐了，还要每个季度下载15G，想来后来肯定是放弃了，死掉了。）</p>
+<h2 id="沉寂的时光太过漫长，写个工具吧"><a href="#沉寂的时光太过漫长，写个工具吧" class="headerlink" title="沉寂的时光太过漫长，写个工具吧"></a>沉寂的时光太过漫长，写个工具吧</h2><p>16年，校园站点意外关闭，收割的站点总是少了点什么，缺少一种归属感，像飘在外面一样，之前的发布组成员也一个个离开了，新进来的很少，校园PT的青黄不接就像河水断流，日渐颓势。好在还有站点可以逛，只是时间太漫长……</p>
+<p>也不是说关了就一直没有开，偶尔开俩月，又维护，域名也是换来换去，慢慢地，用户就少了很多。</p>
+<p>直到后来开站，已经不再支持IPV4，也没有什么工作组员了，我成为了一个版主。没有什么荣耀加身的乐趣，干的还是发布的活。当时落樱出了一个转载美剧的机器人，我们也萌生了这样的观念，想要快速把别的站资源转发过来。先后有了三个版本的种鸡，一个是Lancesaber基于python和tr的版本，需要配置环境自动运行。一个是rach的shell版本，也是基于qb，但是需要linux。当时想着是所有发布员都要用，所以第三个版本就是我的基于python和ut的半自动转载，之所以称之为半自动，是需要输入源种链接进去的，RSS是后期加上的。后来在Matthew的建议下使用了qb. 打包编译成了windows版本。</p>
+<p>蛰伏的时间也很快，测试发种-修复bug-添加新站点-测试发种修复bug……终于还是基本成型了，于是开启了疯狂转种模式，上了京东两块4T（后悔死了），因为发布员很少了，基本上就是几台种鸡在跑，下载的人也寥寥，可是归属感在那里，有人下就接着发。于是乎，成为了管理，干的还是发布的活。</p>
+<h2 id="开启公网之旅-那个男人是贝壳啊"><a href="#开启公网之旅-那个男人是贝壳啊" class="headerlink" title="开启公网之旅-那个男人是贝壳啊"></a>开启公网之旅-那个男人是贝壳啊</h2><p>转眼已经到了18年底。应该是这个时间节点吧，之前沉寂的时候也进了一些站点哇，南北洋、天空、朋友、家园。至今盛传八大只剩岛了，后来进站点都是走的论坛邀请区，因为孤岛所以没见官窑。</p>
+<p>适逢春天关站后重开改域名，trcker也换了，用qb的都知道不能批量改，于是写了一个工具放在几个站点的论坛。后来突然一个贝壳图像的QQ加我说要把工具放到GitHub上，然后问种鸡能不能支持转发更多的站点。自己在校园站high了蛮久，或许是时候去外面看看了。</p>
+<p>贝壳大佬邀请我进了猫，慢慢的进了备胎、铂金，直到8月岛开邀，终于集齐了。多数时间在校园网混迹的我，开始了种鸡适配之旅，这期间遇到了很多的问题，也有一些不愉快，大站点相对小站点的傲气是有资本积累的，无所谓对错，更多的时候就是不适合，所以我最终还是去往了相对较小较新的站点。由于种鸡适配，进入了猫站发布组，认识了很多大佬，轻松愉快，也知道了，那个男人叫贝壳大佬。</p>
+<p>猫站的论坛可以学习到很多东西，也有很多nice的大佬。见识到了贝壳大佬、猫大、手大、宝大、86大、甘蔗大、空白大……都是一群极其厉害的人物，更加见识了，PT之路的无止境。</p>
+<h2 id="外网之旅，你的脚本给我用一下吧"><a href="#外网之旅，你的脚本给我用一下吧" class="headerlink" title="外网之旅，你的脚本给我用一下吧"></a>外网之旅，你的脚本给我用一下吧</h2><p>时光很快到19年底，武汉的疫情牵动了整个国家的心，我们却迎来了最长的一个假期。在家里百无聊赖的时候，一个大佬说可以效仿别的站点搞一个美剧鸡，于是乎从猫站进了MTV，租了个小盒子开始把功能加到种鸡里边，由于自己没有太多看美剧的经验，没有甄别质量的想法，加之校园PT总是希望小体积的想法，写得不是很完善。另外当时需要拿盒子过岛的考核，时间一久，便没有精力再弄了。</p>
+<p>期间进了吐鲁番、柠檬、杜比等等站点，也见证了柠檬的第一次发种大赛，宝大第一，手大拿着种鸡混了个第二，机智的雨小天大佬第三，后来才知道这个比赛还有钱拿，哈哈~~（国庆的时候果断参加了音乐大赛，真香。）</p>
+<p>后来86大佬突然在群里问及一个js正则的问题，即使没有系统学过js，也帮忙解答了。后来有人在群里说旧的一键转载的脚本很多站点不能用了，本着助人为乐以及折腾无止境的精神，我找来了当时的脚本，帮忙把问题给解决了。宝大找到我说他还有一个高级版本的脚本，但是不太好用了。高级脚本牵扯到外站了，各个站点不一样，导致脚本整体脉络不是很清晰，想要厘清存在一些难度，与其补丁打满，不如开始重构。</p>
+<p>于是乎，重构工作开始了，形如宝大、86大这类狠人站点可是真的多，一个接一个砸过来，我也就开始了外站。PHD，AVZ，HDT，RED，BHD，UHD，MTV，BLU，IPT，FL……同期还进了PTP，HDF，Xthor之类的。其中PTP是校园PT小伙伴给的，后来还在上面跟外国友人求到了KG。以及后来的后来跟daom求到的CG，86大佬求到的JPOP，以及最后的最后HDB，现在就等着一个BTN了。</p>
+<p>脚本的编写还是有趣的，可以认识很多大佬，一起调试，期间因为大佬们的推荐，进了又一个潜力站点，柠檬，脚本也支持了众多国内小的站点，同时也在好几个发布组兼职。因为转载的还是那群人，就我自己而言，猫站是我的公网落脚站，柠檬是好朋友都在的站。所以脚本基本上会在这两个站的工作人员群更新。额外的人找到我也是同样的答案，想要脚本，去群里拿吧~</p>
+<h2 id="一些看法和感悟"><a href="#一些看法和感悟" class="headerlink" title="一些看法和感悟"></a>一些看法和感悟</h2><p>其实贴吧是个交流的好地方，但是因为网络上不知道谁是谁，扯皮也时有存在，但是我还是倾向于干两件事：写工具和发邀请，尴尬的是，一则虽然qbittorrent有着很好的api，可以做很多有意思的工具，之前写了几个放在贴吧，无奈关注的人并不多。另外由于自身佛系本性，极少去大站打工，倒是喜欢在潜力新站里边玩，所以大站邀请并不多。倒是由于特殊原因，靠着大佬帮忙，帮助两个Pter收齐了九大。</p>
+<p>个人的进军路线总结为：校园教育站-&gt;公网站-&gt;外网站。其中教育站由于连接性好，玩的比较多，公网是以后会用的比较多，也是一手资源出现的地方，很多官组什么的，外网站由于中文资源比较少，但是很多时候是一个补充，没有最好的，适合自己就好。进工作组认识大佬是个不错的途径，前提是有足够的的时间。</p>
+<p>个人的保种观念及外网推荐：其实保种很多时候是一个站点存在的根本，发的再多没有保种没法下，感谢IYUU的出现~外网中的HR就是为了让大家多保种，我是本地保种党，自己也有30T左右的硬盘，而由于保种玩的称心的外站有FileList，JPOP，PTP，xthor，HDF、蓝鸟等等。不玩游戏所以没有GGN。</p>
+<p>个人进站路线推荐：个人从来没有在贴吧求过邀请。心想，一来专一是好事，二来本地设备是优势，三来结识大佬是胜势。一个站点做种几万天，发种几百上千，这种人一般去求药应该不难；本地晒设备，有诚心，虚心请教，入门后数据好看，求药应该不难；认识大佬，谈笑风生，求种不难。求药场所无非贴吧、官窑、私信。还有TG什么的就不说了，但是三者都需要花费时间精力，如果想要速成，捐赠吧。</p>
+<p>最后的最后，希望大家能够玩得开心，没有收到站点不要气馁，时间久了都会有。更多的发邀是相互选择，在不认识的前提下强调数据无可厚非，我倒是希望给更多的新人一些机会，发了蛮多邀请，希望大家能够珍惜手里的站点，通过它们，数据好一点结识大佬的机会就多一点，然后进入更广阔的天地。</p>
 
             </div>
             <hr>
@@ -396,13 +300,11 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
                       <a class="hover-with-bg" href="/tags/PT/">PT</a>
                     
-                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
-                    
-                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
-                    
-                      <a class="hover-with-bg" href="/tags/qbittorrent/">qbittorrent</a>
+                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
                     
                   </div>
                 
@@ -447,21 +349,15 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
+                      <a href="/2021/ckmf3rc7m000d6oag1ycr0oww/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                        <span class="hidden-mobile">Ubuntu或者Debian环境下编译qbittorrent4.3.3</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/">
-                        <span class="hidden-mobile">我的PT之路</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
