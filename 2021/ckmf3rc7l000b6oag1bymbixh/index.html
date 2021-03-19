@@ -15,10 +15,10 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="tomorrow505">
   <meta name="keywords" content="">
   
-  <title>Ubuntu或者Debian环境下编译qbittorrent4.3.3 - Tomorrow&#39;s blog</title>
+  <title>Python基于FFMPEG自动截图上传至imgbox（二） - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Ubuntu或者Debian环境下编译qbittorrent4.3.3">
+            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（二）">
               
             </span>
 
@@ -189,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 10:11" pubdate>
-        2021年3月18日 上午
+      <time datetime="2021-03-18 19:18" pubdate>
+        2021年3月18日 晚上
       </time>
     </span>
   
@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      751 字
+      780 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      10
        分钟
     </span>
   
@@ -249,7 +249,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Ubuntu或者Debian环境下编译qbittorrent4.3.3</h1>
+            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（二）</h1>
             
               <p class="note note-info">
                 
@@ -259,126 +259,67 @@
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>本文为安装最新或指定版本qBittorrent4.3.3的教学 适用于Ubuntu 18或更新版本，Debian 10或更新版本。</p>
-<h3 id="安装须知"><a href="#安装须知" class="headerlink" title="安装须知"></a>安装须知</h3><hr>
-<p>libtorrent是qBittorrent必要的后端程序，本教程使用1.2.12。在此之前需要安装编译libtorrent环境。</p>
-<p>此外还依赖一些其他的包，在尝试的时候遇到了一些坑，都记录了下来，然后最近初学shell编程，所以整理了一个一键安装脚本。</p>
-<p>最后的最后，在盒子上进行调试的时候3o会在编译qb的时候出现一个linking错误，后边看有没有机会修复吧。</p>
-<h3 id="废话不多说，上部分代码"><a href="#废话不多说，上部分代码" class="headerlink" title="废话不多说，上部分代码"></a>废话不多说，上部分代码</h3><hr>
-<ul>
-<li>准备安装环境</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt update
-apt -y install build-essential pkg-config automake libtool git libgeoip-dev python3 python3-dev
-apt -y install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev
-apt -y install qtbase5-dev qttools5-dev-tools libqt5svg5-dev zlib1g-dev</code></pre></div>
+<p>话接上回，我么能够通过传递过来的视频文件路径获取视频长度和截图命令，那么如何使用python实现呢？</p>
+<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
+<p>话不多说，上代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> Mediainfo
 
-<ul>
-<li>编译boost</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install mpi-default-dev　　<span class="hljs-comment">#安装mpi库</span>
-apt-get -y install libicu-dev　　　　　<span class="hljs-comment">#支持正则表达式的UNICODE字符集　</span>
-apt-get -y install libbz2-dev
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_video_info</span>(<span class="hljs-params">video_path</span>) -&gt; int:</span>
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    :return: 视频长度，数字</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+    media_info = MediaInfo.parse(video_path) <span class="hljs-comment"># 解析视频</span>
+    data = media_info.to_json()
+    data = json.loads(data)[<span class="hljs-string">&#x27;tracks&#x27;</span>]        <span class="hljs-comment"># 获取视频各种信息</span>
+    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> data:
+        <span class="hljs-keyword">if</span> key[<span class="hljs-string">&#x27;track_type&#x27;</span>] == <span class="hljs-string">&#x27;Video&#x27;</span>:     <span class="hljs-comment"># 视频的总帧数除以帧率得到长度</span>
+            video_duration = <span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_count&#x27;</span>]) / (<span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_rate&#x27;</span>].split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))
+            <span class="hljs-keyword">return</span> video_duration</code></pre></div>
 
-wget https://dl.bintray.com/boostorg/release/1.75.0/<span class="hljs-built_in">source</span>/boost_1_75_0.tar.bz2
-tar -jxvf boost_1_75_0.tar.bz2
-<span class="hljs-built_in">cd</span> boost_1_75_0
-sh ./bootstrap.sh
-./b2
-./b2/install</code></pre></div>
+<p>上述代码可以直接得到一个视频的总的长度，但是我们想要截取图片的时候需要字符串，类似hh:mm:ss这样的。然后我们想要的是好几张图片？我以三张为例，假设一条线段想要有三个中间节点，那么我们会怎么处理呢？四等分就会有三个时间点了对不对？</p>
+<p>比如60分钟的电影，我们取15分钟时间间隔，15, 30, 45 三个时间节点刚刚好，一般电影开头和截图截不出来什么东西的。我们需要把时间总长度4等分然后取三个节点将其转换成字符串传入截图函数中即可。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
 
-<ul>
-<li>编译libtorrent</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt -y install libssl-dev
-apt -y install openssl
+<span class="hljs-comment"># 总的过程，传入一个时间长度，获取截图时间节点进行截图存储保存路径</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_thumbnails</span>(<span class="hljs-params">video_duration</span>):</span>
+    number = <span class="hljs-number">3</span> <span class="hljs-comment"># 截图张数</span>
+    picture_list = [] <span class="hljs-comment"># 用于存储截图的保存路径</span>
+    seektime = <span class="hljs-number">0</span> <span class="hljs-comment"># 用于记录截图距离开头的时长，以秒计</span>
+    
+    interval = <span class="hljs-built_in">int</span>(video_duration/(number+<span class="hljs-number">1</span>)) <span class="hljs-comment"># 计算时间间隔</span>
+    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, number):
+        seektime += interval <span class="hljs-comment"># 计算时间节点</span>
+        img = get_frame_at(seektime, n) <span class="hljs-comment"># 截取对应时间节点的图片</span>
+        <span class="hljs-keyword">if</span> img:
+            picture_list.append(img)
+    <span class="hljs-keyword">return</span> picture_list
 
-wget https://github.com/arvidn/libtorrent/releases/download/v1.2.12/libtorrent-rasterbar-1.2.11.tar.gz
-tar xf libtorrent-rasterbar-1.2.12.tar.gz
-<span class="hljs-built_in">cd</span> libtorrent-rasterbar-1.2.12
-./configure --disable-debug --enable-encryption --with-libgeoip=system CXXFLAGS=-std=c++14
+<span class="hljs-comment"># 被调用的函数，调用ffmpeg获取某一个时间节点的截图</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_frame_at</span>(<span class="hljs-params">seektime, n=<span class="hljs-number">99</span></span>):</span>
+    timestring = get_time_string(seektime) <span class="hljs-comment"># 将int型转为hh:mm:ss类型用于截图</span>
+    file_name = os.path.basename(video_path)
+    tmp_path = os.path.join(base_path, <span class="hljs-string">&#x27;tmp&#x27;</span>) <span class="hljs-comment"># 截图存放于事先新建的tmp目录下</span>
+    img_path = os.path.join(tmp_path, <span class="hljs-string">&quot;&#123;filename&#125;-out-&#123;d&#125;.png&quot;</span>.<span class="hljs-built_in">format</span>(filename=file_name, d=n)) <span class="hljs-comment"># 截图名称及存放绝对路径</span>
+    command = <span class="hljs-string">&#x27;ffmpeg -ss &#123;timestring&#125; -y -i &quot;&#123;file&#125;&quot; &quot;-f&quot; &quot;image2&quot; &quot;-frames:v&quot;  &quot;1&quot; &quot;-c:v&quot; &quot;png&quot; &#x27;</span> \
+    <span class="hljs-string">&#x27;&quot;-loglevel&quot; &quot;8&quot; &quot;&#123;img_path&#125;&quot;&#x27;</span>.<span class="hljs-built_in">format</span>(timestring=timestring, file=self.abs_file_path,
+                                          img_path=img_path)
+    <span class="hljs-keyword">try</span>:
+        subprocess.call(command, shell=<span class="hljs-literal">True</span>)
+        <span class="hljs-keyword">return</span> img_path
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
+        logger.info(<span class="hljs-string">&#x27;截图失败：%s&#x27;</span> % exc)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
 
-make -j$(nproc)
-make install
-ldconfig</code></pre></div>
+<span class="hljs-comment"># 用于将int型转换为字符串的函数</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_time_string</span>(<span class="hljs-params">seconds</span>) -&gt; str:</span>
+    hours = <span class="hljs-built_in">int</span>(seconds // <span class="hljs-number">3600</span>)
+    minutes = <span class="hljs-built_in">int</span>((seconds % <span class="hljs-number">3600</span>) // <span class="hljs-number">60</span>)
+    seconds = <span class="hljs-built_in">int</span>(seconds % <span class="hljs-number">60</span>)
+    timestring = <span class="hljs-built_in">str</span>(hours) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(minutes).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(seconds).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>)
+    <span class="hljs-keyword">return</span> timestring</code></pre></div>
 
-<ul>
-<li>安装qbittorrent</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install qt5-default
-apt-get -y install zlib1g-dev
-
-<span class="hljs-comment"># 将命令改名，可能是新版本的调用脚本命名不一样了</span>
-file1=<span class="hljs-string">&quot;/usr/bin/lrelease&quot;</span>
-file2=<span class="hljs-string">&quot;/bin/lrelease&quot;</span>
-<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
-  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file1&#125;</span>-qt5&quot;</span>
-<span class="hljs-keyword">fi</span>
-<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
-  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file21&#125;</span>-qt5&quot;</span>
-<span class="hljs-keyword">fi</span>
-
-
-<span class="hljs-comment"># mv /bin/lrelease /bin/lrelease-qt5</span>
-<span class="hljs-comment"># mv /usr/lib/qt5/bin/lrelease /usr/lib/qt5/bin/lrelease-qt5</span>
-
-wget https://github.com/qbittorrent/qBittorrent/archive/release-4.3.3.tar.gz
-tar xf release-4.3.3.tar.gz
-<span class="hljs-built_in">cd</span> qBittorrent-release-4.3.3
-./configure --disable-gui --disable-debug CXXFLAGS=-std=c++14
-
-make -j$(nproc)
-make install
-
-<span class="hljs-comment"># 写入service文件</span>
-qbit_service=<span class="hljs-string">&quot;/etc/systemd/system/qbittorrent.service&quot;</span>
-touch <span class="hljs-variable">$qbit_service</span>
-cat&gt;<span class="hljs-variable">$qbit_service</span>&lt;&lt;<span class="hljs-string">EOF</span>
-<span class="hljs-string">[Unit]</span>
-<span class="hljs-string">Description=qBittorrent Daemon Service</span>
-<span class="hljs-string">After=network.target</span>
-<span class="hljs-string">[Service]</span>
-<span class="hljs-string">LimitNOFILE=512000</span>
-<span class="hljs-string">User=root</span>
-<span class="hljs-string">ExecStart=/usr/local/bin/qbittorrent-nox</span>
-<span class="hljs-string">ExecStop=/usr/bin/killall -w qbittorrent-nox</span>
-<span class="hljs-string">[Install]</span>
-<span class="hljs-string">WantedBy=multi-user.target</span>
-<span class="hljs-string">EOF</span>
-
-systemctl <span class="hljs-built_in">enable</span> qbittorrent.service <span class="hljs-comment"># 设置开机自启动</span>
-qbittorrent-nox -y --webui-port=2021 <span class="hljs-comment"># 打开尝试然后ctrl+c退出。</span>
-
-<span class="hljs-comment"># 默认端口是2021哦，用户名admin，密码adminadmin。</span></code></pre></div>
-
-<ul>
-<li>设置qbittorrent命令</li>
-</ul>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">qbit_command=<span class="hljs-string">&quot;/usr/bin/qbittorrent&quot;</span>
-touch <span class="hljs-variable">$qbit_command</span>
-cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs-string">EOF</span>
-<span class="hljs-string">#!/bin/bash</span>
-<span class="hljs-string">if [ \$1 == &quot;start&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl start qbittorrent.service #启动qBittorrent</span>
-<span class="hljs-string">elif [ \$1 == &quot;stop&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl stop qbittorrent.service #关闭qBittorrent</span>
-<span class="hljs-string">elif [ \$1 == &quot;restart&quot;]</span>
-<span class="hljs-string">then</span>
-<span class="hljs-string">  systemctl restart qbittorrent.service #重启qBittorrent</span>
-<span class="hljs-string">fi</span>
-<span class="hljs-string">EOF</span>
-<span class="hljs-built_in">cd</span> /usr/bin &amp;&amp; chmod +x qbittorrent
-
-<span class="hljs-comment">#之后就可以使用命令qbittorrent start|stop|restart 分别代表开始，关闭，重启。</span></code></pre></div>
-
-
-
-<h3 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h3><hr>
-<p>因为我已经整理成了shell文件放到我的<a target="_blank" rel="noopener" href="https://github.com/tomorrow505/qbittorrent433">GitHub</a>上了，感兴趣的可以去看看源代码。</p>
-<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/install.sh -O install.sh &amp;&gt;/dev/null &amp;&amp; /bin/bash install.sh</code></p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>[1]：<a target="_blank" rel="noopener" href="https://npchk.info/ubuntu-debian-install-qbittorrent/">Ubuntu/Debian Linux編譯qBittorrent安裝指南</a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
+<p>是的，现在已经能够通过视频路径获取截图到指定目录了，但是怎么上传呢？国内外的图床很多都有着丰富的API，所以还需要使用一些模块来完成上传的工作。本例子使用imgbox作为目标图床。预知后事，请听下回分解。</p>
 
             </div>
             <hr>
@@ -388,7 +329,7 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
                     
                   </div>
                 
@@ -396,13 +337,11 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
                     
-                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
-                    
-                      <a class="hover-with-bg" href="/tags/qbittorrent/">qbittorrent</a>
+                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
                     
                   </div>
                 
@@ -447,9 +386,9 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
+                      <a href="/2021/ckmf3rc7l000a6oaghxm57hgy/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -457,8 +396,8 @@ cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/">
-                        <span class="hidden-mobile">我的PT之路</span>
+                      <a href="/2021/ckmf3rc7800016oag0x7k0s36/">
+                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

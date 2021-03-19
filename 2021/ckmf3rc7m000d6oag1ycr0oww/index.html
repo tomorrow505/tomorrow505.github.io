@@ -15,10 +15,10 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="tomorrow505">
   <meta name="keywords" content="">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（四） - Tomorrow&#39;s blog</title>
+  <title>Ubuntu或者Debian环境下编译qbittorrent4.3.3 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -179,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（四）">
+            <span class="h2" id="subtitle" title="Ubuntu或者Debian环境下编译qbittorrent4.3.3">
               
             </span>
 
@@ -189,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 20:40" pubdate>
-        2021年3月18日 晚上
+      <time datetime="2021-03-18 10:11" pubdate>
+        2021年3月18日 上午
       </time>
     </span>
   
@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      712 字
+      751 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      11
        分钟
     </span>
   
@@ -249,65 +249,136 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（四）</h1>
+            <h1 style="display: none">Ubuntu或者Debian环境下编译qbittorrent4.3.3</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 小时前
+                  本文最后更新于：8 小时前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>话接上回，我们已经实现了从视频到截图到bbcode的过程，但是还是有一个细节，很多网站短mediainfo没法弄，那么希望能够顺带也获取一下。</p>
-<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
-<p>这次使用到的就是mediainfo了，这个在linux可以用 apt install mediainfo 安装，windows下可以下载一个cli版添加到环境变量。</p>
-<p>教程：<a target="_blank" rel="noopener" href="https://fossies.org/linux/MediaInfo_CLI/MediaInfo/Contrib/CLI_Help.doc">https://fossies.org/linux/MediaInfo_CLI/MediaInfo/Contrib/CLI_Help.doc</a></p>
-<p>上面放了一个doc文档，可以自定义怎么输出剪短的mediainfo，但是我们现在就只需要长的就好了。话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
+<p>本文为安装最新或指定版本qBittorrent4.3.3的教学 适用于Ubuntu 18或更新版本，Debian 10或更新版本。</p>
+<h3 id="安装须知"><a href="#安装须知" class="headerlink" title="安装须知"></a>安装须知</h3><hr>
+<p>libtorrent是qBittorrent必要的后端程序，本教程使用1.2.12。在此之前需要安装编译libtorrent环境。</p>
+<p>此外还依赖一些其他的包，在尝试的时候遇到了一些坑，都记录了下来，然后最近初学shell编程，所以整理了一个一键安装脚本。</p>
+<p>最后的最后，在盒子上进行调试的时候3o会在编译qb的时候出现一个linking错误，后边看有没有机会修复吧。</p>
+<h3 id="废话不多说，上部分代码"><a href="#废话不多说，上部分代码" class="headerlink" title="废话不多说，上部分代码"></a>废话不多说，上部分代码</h3><hr>
+<ul>
+<li>准备安装环境</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt update
+apt -y install build-essential pkg-config automake libtool git libgeoip-dev python3 python3-dev
+apt -y install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev
+apt -y install qtbase5-dev qttools5-dev-tools libqt5svg5-dev zlib1g-dev</code></pre></div>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_mediainfo</span>(<span class="hljs-params">file</span>) -&gt; str:</span>
-    process = subprocess.Popen([<span class="hljs-string">&quot;mediainfo&quot;</span>, file], stdout=subprocess.PIPE)
-    output, error = process.communicate()
+<ul>
+<li>编译boost</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install mpi-default-dev　　<span class="hljs-comment">#安装mpi库</span>
+apt-get -y install libicu-dev　　　　　<span class="hljs-comment">#支持正则表达式的UNICODE字符集　</span>
+apt-get -y install libbz2-dev
 
-    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> error <span class="hljs-keyword">and</span> output != <span class="hljs-string">b&quot;\n&quot;</span>:
-        output = output.decode()  <span class="hljs-comment"># bytes -&gt; string</span>
-        output = re.sub(re.escape(file), os.path.basename(file), output)  <span class="hljs-comment"># Hide file path</span>
-        <span class="hljs-keyword">return</span> output
-    <span class="hljs-keyword">else</span>:
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span></code></pre></div>
+wget https://dl.bintray.com/boostorg/release/1.75.0/<span class="hljs-built_in">source</span>/boost_1_75_0.tar.bz2
+tar -jxvf boost_1_75_0.tar.bz2
+<span class="hljs-built_in">cd</span> boost_1_75_0
+sh ./bootstrap.sh
+./b2
+./b2/install</code></pre></div>
 
-<p>简而言之就是通过调用mediainfo命令获取到了想要的信息并且只保留视频文件名。</p>
-<p>接下来就剩最后一个问题了，怎么快速获取到视频的存储路径呢？这里仅仅适合于qbittorrent，其他客户端应该也有类似的，先不探讨了。这里登场的模块叫做<a target="_blank" rel="noopener" href="https://pypi.org/project/qbittorrent-api/">qbittorrent-api</a>，用于调用qbittorrent的web api达到一些想要的结果。话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> qbittorrentapi
-<span class="hljs-keyword">import</span> os
+<ul>
+<li>编译libtorrent</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt -y install libssl-dev
+apt -y install openssl
 
-qb_host = <span class="hljs-string">&quot;http://localhost:2021&quot;</span> <span class="hljs-comment"># 这里基本上部署在本地才可以截图所以就直接用localhost了,假设端口是2021</span>
-qb_name = <span class="hljs-string">&quot;admin&quot;</span>
-qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
+wget https://github.com/arvidn/libtorrent/releases/download/v1.2.12/libtorrent-rasterbar-1.2.11.tar.gz
+tar xf libtorrent-rasterbar-1.2.12.tar.gz
+<span class="hljs-built_in">cd</span> libtorrent-rasterbar-1.2.12
+./configure --disable-debug --enable-encryption --with-libgeoip=system CXXFLAGS=-std=c++14
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_save_path_from_hash</span>(<span class="hljs-params">hash_value</span>):</span>
-    <span class="hljs-comment"># 首先登陆qbittorrent之前需要开启webui，然后通过host, port(可选), name, password进行登录</span>
-    qb = qbittorrentapi.Client(host=qbt_address, port=qbt_port, username=qbt_user, password=qbt_password)
-    <span class="hljs-keyword">try</span>:
-    	qb.auth_log_in()
-        torrents = qb.torrents_info(hashes=hash_value) <span class="hljs-comment"># 基本上有1个或者没有，返回种子列表</span>
-        torrent_name = torrents[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;name&#x27;</span>]
-        save_path = torrents[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;save_path&#x27;</span>] <span class="hljs-comment"># 获取到save_path和name基本上就可以得到视频或者视频文件的目录了</span>
-        path = os.path.join(save_path, torrent_name) <span class="hljs-comment"># 对path进行扫描获取到视频文件路径即可</span>
-        ...
-    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
-        print(exc)</code></pre></div>
+make -j$(nproc)
+make install
+ldconfig</code></pre></div>
 
-<p>qbittorrentapi还有很多其他的命令，这里只是用到了查询，还可以增删改，此处应有掌声。</p>
-<p>到了这一步，其实已经算完结了。整合所有的代码就可以完成从hash到视频mediainfo到截图到上传。怎么样，应该是学会了吧？不会也不要紧，直接上链接。</p>
-<p><code>https://github.com/tomorrow505/qbittorrent433/blob/main/get_mediaifno_picture.py</code></p>
-<p>如果你想在盒子上部署，也可以用下面的命令一键部署：</p>
-<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/get_mediaifno_picture.sh -O get_mediaifno_picture.sh &amp;&amp; /bin/bash get_mediaifno_picture.sh</code></p>
-<p>运行命令以后就可以用 up hash_of_torrent来进行传图了。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>到了这一步，其实传图命令已经差不多了，Windows、linux下都可以愉快的截图上传了。</p>
-<p>那么这一系列的教程就到此结束了，谢谢！！</p>
+<ul>
+<li>安装qbittorrent</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install qt5-default
+apt-get -y install zlib1g-dev
+
+<span class="hljs-comment"># 将命令改名，可能是新版本的调用脚本命名不一样了</span>
+file1=<span class="hljs-string">&quot;/usr/bin/lrelease&quot;</span>
+file2=<span class="hljs-string">&quot;/bin/lrelease&quot;</span>
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file1&#125;</span>-qt5&quot;</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file21&#125;</span>-qt5&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment"># mv /bin/lrelease /bin/lrelease-qt5</span>
+<span class="hljs-comment"># mv /usr/lib/qt5/bin/lrelease /usr/lib/qt5/bin/lrelease-qt5</span>
+
+wget https://github.com/qbittorrent/qBittorrent/archive/release-4.3.3.tar.gz
+tar xf release-4.3.3.tar.gz
+<span class="hljs-built_in">cd</span> qBittorrent-release-4.3.3
+./configure --disable-gui --disable-debug CXXFLAGS=-std=c++14
+
+make -j$(nproc)
+make install
+
+<span class="hljs-comment"># 写入service文件</span>
+qbit_service=<span class="hljs-string">&quot;/etc/systemd/system/qbittorrent.service&quot;</span>
+touch <span class="hljs-variable">$qbit_service</span>
+cat&gt;<span class="hljs-variable">$qbit_service</span>&lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">[Unit]</span>
+<span class="hljs-string">Description=qBittorrent Daemon Service</span>
+<span class="hljs-string">After=network.target</span>
+<span class="hljs-string">[Service]</span>
+<span class="hljs-string">LimitNOFILE=512000</span>
+<span class="hljs-string">User=root</span>
+<span class="hljs-string">ExecStart=/usr/local/bin/qbittorrent-nox</span>
+<span class="hljs-string">ExecStop=/usr/bin/killall -w qbittorrent-nox</span>
+<span class="hljs-string">[Install]</span>
+<span class="hljs-string">WantedBy=multi-user.target</span>
+<span class="hljs-string">EOF</span>
+
+systemctl <span class="hljs-built_in">enable</span> qbittorrent.service <span class="hljs-comment"># 设置开机自启动</span>
+qbittorrent-nox -y --webui-port=2021 <span class="hljs-comment"># 打开尝试然后ctrl+c退出。</span>
+
+<span class="hljs-comment"># 默认端口是2021哦，用户名admin，密码adminadmin。</span></code></pre></div>
+
+<ul>
+<li>设置qbittorrent命令</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">qbit_command=<span class="hljs-string">&quot;/usr/bin/qbittorrent&quot;</span>
+touch <span class="hljs-variable">$qbit_command</span>
+cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">#!/bin/bash</span>
+<span class="hljs-string">if [ \$1 == &quot;start&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl start qbittorrent.service #启动qBittorrent</span>
+<span class="hljs-string">elif [ \$1 == &quot;stop&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl stop qbittorrent.service #关闭qBittorrent</span>
+<span class="hljs-string">elif [ \$1 == &quot;restart&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl restart qbittorrent.service #重启qBittorrent</span>
+<span class="hljs-string">fi</span>
+<span class="hljs-string">EOF</span>
+<span class="hljs-built_in">cd</span> /usr/bin &amp;&amp; chmod +x qbittorrent
+
+<span class="hljs-comment">#之后就可以使用命令qbittorrent start|stop|restart 分别代表开始，关闭，重启。</span></code></pre></div>
+
+
+
+<h3 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h3><hr>
+<p>因为我已经整理成了shell文件放到我的<a target="_blank" rel="noopener" href="https://github.com/tomorrow505/qbittorrent433">GitHub</a>上了，感兴趣的可以去看看源代码。</p>
+<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/install.sh -O install.sh &amp;&gt;/dev/null &amp;&amp; /bin/bash install.sh</code></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>[1]：<a target="_blank" rel="noopener" href="https://npchk.info/ubuntu-debian-install-qbittorrent/">Ubuntu/Debian Linux編譯qBittorrent安裝指南</a></p>
 
             </div>
             <hr>
@@ -317,7 +388,7 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
                     
                   </div>
                 
@@ -325,11 +396,11 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
                     
                       <a class="hover-with-bg" href="/tags/qbittorrent/">qbittorrent</a>
                     
@@ -376,9 +447,9 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/19/Hexo-Fluid%E5%AE%9E%E7%8E%B0mac-panel%E9%A3%8E%E6%A0%BC%E4%BB%A3%E7%A0%81%E5%9D%97/">
+                      <a href="/2021/ckmf3rc7800016oag0x7k0s36/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hexo-Fluid实现mac panel风格代码块</span>
+                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -386,8 +457,8 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
+                      <a href="/2021/ckmf3rc7q000k6oag3wolcl8n/">
+                        <span class="hidden-mobile">我的PT之路</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
