@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.jpg">
+  <link rel="icon" href="/img/main.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>奋斗的研究僧</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/source/css/music.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":false,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"6b843aa5a4ef58e77922cd321ec00d74","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz","app_key":"30XfVcujY9je2cwoCu1NwYEG","server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>tomorrow505</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="心之所向，素履以往；生如逆旅,一苇以航。">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/19/Hexo-Fluid%E5%AE%9E%E7%8E%B0mac-panel%E9%A3%8E%E6%A0%BC%E4%BB%A3%E7%A0%81%E5%9D%97/" target="_self">
+          <img src="/post/carbon.png" srcset="/img/loading.gif" lazyload alt="Hexo-Fluid实现mac panel风格代码块">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/19/Hexo-Fluid%E5%AE%9E%E7%8E%B0mac-panel%E9%A3%8E%E6%A0%BC%E4%BB%A3%E7%A0%81%E5%9D%97/">Hexo-Fluid实现mac panel风格代码块</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/19/Hexo-Fluid%E5%AE%9E%E7%8E%B0mac-panel%E9%A3%8E%E6%A0%BC%E4%BB%A3%E7%A0%81%E5%9D%97/">
+          
+          
+            
+          
+          前言
+一直以来看别人博客都觉的Mac风格的代码块很炫酷，这几天尝试自己搭建博客，选中了Fluid这个主题，但是仅限于支持设定的两种风格。
+# 实现高亮的库，对应下面的设置
+# Options: highlightjs | prismjs
+lib: &quot;highlightjs&quot;
+
+highlightjs:
+# 在链接中挑选 style 填入
+# See: https://highl
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-19 10:19" pubdate>
+              2021-03-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/Fluid/">Fluid</a>
+            
+              <a href="/tags/%E7%BE%8E%E5%8C%96/">美化</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_self">
+          <img src="/post/ffmpeg_index.png" srcset="/img/loading.gif" lazyload alt="Python基于FFMPEG自动截图上传至imgbox（四）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E5%9B%9B%EF%BC%89/">Python基于FFMPEG自动截图上传至imgbox（四）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E5%9B%9B%EF%BC%89/">
+          
+          
+            
+          
+          前言
+话接上回，我们已经实现了从视频到截图到bbcode的过程，但是还是有一个细节，很多网站短mediainfo没法弄，那么希望能够顺带也获取一下。
+核心代码及思想
+这次使用到的就是mediainfo了，这个在linux可以用 apt install mediainfo 安装，windows下可以下载一个cli版添加到环境变量。
+教程：https://fossies.org/linux/Media
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-18 20:40" pubdate>
+              2021-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+            
+              <a href="/tags/qbittorrent/">qbittorrent</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/" target="_self">
+          <img src="/post/ffmpeg_index.png" srcset="/img/loading.gif" lazyload alt="Python基于FFMPEG自动截图上传至imgbox（三）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">Python基于FFMPEG自动截图上传至imgbox（三）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
+          
+          
+            
+          
+          前言
+话接上回，我们能够通过传递过来的视频文件路径截图图片存放到指定路径，并且返回了一个列表，那么我们怎么上传到指定图床？
+核心代码及思想
+我们在这个环节用到了一个imgbox的相关模块——pyimgbox。使用到了协程相关知识，类似于老王泡茶那个故事话不多说，上代码：
+import asyncio
+import pyimgbox
+
+# 将之前获取到的图片的路径列表传入
+async def up_
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-18 19:51" pubdate>
+              2021-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+          <img src="/post/ffmpeg_index.png" srcset="/img/loading.gif" lazyload alt="Python基于FFMPEG自动截图上传至imgbox（二）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%BA%8C%EF%BC%89/">Python基于FFMPEG自动截图上传至imgbox（二）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%BA%8C%EF%BC%89/">
+          
+          
+            
+          
+          前言
+话接上回，我么能够通过传递过来的视频文件路径获取视频长度和截图命令，那么如何使用python实现呢？
+核心代码及思想
+话不多说，上代码：
+from pymediainfo import Mediainfo
+
+def get_video_info(video_path) -&gt; int:
+    &quot;&quot;&quot;
+    :return: 视频长度，数字
+    &qu
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-18 19:18" pubdate>
+              2021-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/" target="_self">
+          <img src="/post/ffmpeg_index.png" srcset="/img/loading.gif" lazyload alt="Python基于FFMPEG自动截图上传至imgbox（一）">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">Python基于FFMPEG自动截图上传至imgbox（一）</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
+          
+          
+            
+          
+          前言
+玩PT的大概都知道发布的时候要上传mediainfo和截图，无论内外站都支持的图床之一就是imgbox。而无论是盒子还是本地，mediainfo或者截图上传都是比较繁琐枯燥的一件事情。那么，基于此，工具就来了。
+这是一个比较系统的工具了，会用到一系列基础知识，所以打算做成一个系列。
+本篇文章为第一篇：如何自动截取视频截图？
+FFMPEG
+
+FFMPEG是一套可以用来记录、转换数字音频、视频，
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-18 13:46" pubdate>
+              2021-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/18/Ubuntu%E6%88%96%E8%80%85Debian%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%BC%96%E8%AF%91qbittorrent4-3-3/" target="_self">
+          <img src="/post/qbittorrent.jpg" srcset="/img/loading.gif" lazyload alt="Ubuntu或者Debian环境下编译qbittorrent4.3.3">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/18/Ubuntu%E6%88%96%E8%80%85Debian%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%BC%96%E8%AF%91qbittorrent4-3-3/">Ubuntu或者Debian环境下编译qbittorrent4.3.3</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/18/Ubuntu%E6%88%96%E8%80%85Debian%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%BC%96%E8%AF%91qbittorrent4-3-3/">
+          
+          
+            
+          
+          前言
+本文为安装最新或指定版本qBittorrent4.3.3的教学 适用于Ubuntu 18或更新版本，Debian 10或更新版本。
+安装须知
+libtorrent是qBittorrent必要的后端程序，本教程使用1.2.12。在此之前需要安装编译libtorrent环境。
+此外还依赖一些其他的包，在尝试的时候遇到了一些坑，都记录了下来，然后最近初学shell编程，所以整理了一个一键安装脚本。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-18 10:11" pubdate>
+              2021-03-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/PT/">PT</a>
+            
+              <a href="/tags/shell/">shell</a>
+            
+              <a href="/tags/Linux/">Linux</a>
+            
+              <a href="/tags/qbittorrent/">qbittorrent</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/" target="_self">
+          <img src="/post/hudbt.png" srcset="/img/loading.gif" lazyload alt="我的PT之路">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/">我的PT之路</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/">
+          
+          
+            
+          
+          写在6年之期的一些小的感悟。
+影之大，一个优盘放不下早些年时候，硬盘大多4G-8G存一些课件之类的东西，足够了。突然有一天同学过来串门，说给我看一部电影《被解放的姜戈》，果断拿优盘过去拷，结果竟然放不下~尴了个尬的，一问多大，高清8G以上……好在教育网互传还挺快。才知道PT这么一回事，他的电影都是在学校PT站内下载的。说这我也想注册一个，结果傻眼了，未开放注册~~同学也就是个普通会员，没有邀请啥的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-17 13:30" pubdate>
+              2021-03-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/PT/">PT</a>
+            
+              <a href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备tomorrow505号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6b843aa5a4ef58e77922cd321ec00d74";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/main.jpg">
+  <link rel="icon" href="/img/main.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+  <title>Ubuntu或者Debian环境下编译qbittorrent4.3.3 - 奋斗的研究僧</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/hopscotch.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/source/css/music.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":false,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"6b843aa5a4ef58e77922cd321ec00d74","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz","app_key":"30XfVcujY9je2cwoCu1NwYEG","server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>tomorrow505</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/post.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ubuntu或者Debian环境下编译qbittorrent4.3.3">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-18 10:11" pubdate>
+        2021年3月18日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      751 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ubuntu或者Debian环境下编译qbittorrent4.3.3</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2 小时前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
+<p>本文为安装最新或指定版本qBittorrent4.3.3的教学 适用于Ubuntu 18或更新版本，Debian 10或更新版本。</p>
+<h3 id="安装须知"><a href="#安装须知" class="headerlink" title="安装须知"></a>安装须知</h3><hr>
+<p>libtorrent是qBittorrent必要的后端程序，本教程使用1.2.12。在此之前需要安装编译libtorrent环境。</p>
+<p>此外还依赖一些其他的包，在尝试的时候遇到了一些坑，都记录了下来，然后最近初学shell编程，所以整理了一个一键安装脚本。</p>
+<p>最后的最后，在盒子上进行调试的时候3o会在编译qb的时候出现一个linking错误，后边看有没有机会修复吧。</p>
+<h3 id="废话不多说，上部分代码"><a href="#废话不多说，上部分代码" class="headerlink" title="废话不多说，上部分代码"></a>废话不多说，上部分代码</h3><hr>
+<ul>
+<li>准备安装环境</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt update
+apt -y install build-essential pkg-config automake libtool git libgeoip-dev python3 python3-dev
+apt -y install libboost-dev libboost-system-dev libboost-chrono-dev libboost-random-dev libssl-dev
+apt -y install qtbase5-dev qttools5-dev-tools libqt5svg5-dev zlib1g-dev</code></pre></div>
+
+<ul>
+<li>编译boost</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install mpi-default-dev　　<span class="hljs-comment">#安装mpi库</span>
+apt-get -y install libicu-dev　　　　　<span class="hljs-comment">#支持正则表达式的UNICODE字符集　</span>
+apt-get -y install libbz2-dev
+
+wget https://dl.bintray.com/boostorg/release/1.75.0/<span class="hljs-built_in">source</span>/boost_1_75_0.tar.bz2
+tar -jxvf boost_1_75_0.tar.bz2
+<span class="hljs-built_in">cd</span> boost_1_75_0
+sh ./bootstrap.sh
+./b2
+./b2/install</code></pre></div>
+
+<ul>
+<li>编译libtorrent</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt -y install libssl-dev
+apt -y install openssl
+
+wget https://github.com/arvidn/libtorrent/releases/download/v1.2.12/libtorrent-rasterbar-1.2.11.tar.gz
+tar xf libtorrent-rasterbar-1.2.12.tar.gz
+<span class="hljs-built_in">cd</span> libtorrent-rasterbar-1.2.12
+./configure --disable-debug --enable-encryption --with-libgeoip=system CXXFLAGS=-std=c++14
+
+make -j$(nproc)
+make install
+ldconfig</code></pre></div>
+
+<ul>
+<li>安装qbittorrent</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">apt-get -y install qt5-default
+apt-get -y install zlib1g-dev
+
+<span class="hljs-comment"># 将命令改名，可能是新版本的调用脚本命名不一样了</span>
+file1=<span class="hljs-string">&quot;/usr/bin/lrelease&quot;</span>
+file2=<span class="hljs-string">&quot;/bin/lrelease&quot;</span>
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file1</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file1&#125;</span>-qt5&quot;</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> ]; <span class="hljs-keyword">then</span>
+  mv <span class="hljs-string">&quot;<span class="hljs-variable">$file2</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;file21&#125;</span>-qt5&quot;</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment"># mv /bin/lrelease /bin/lrelease-qt5</span>
+<span class="hljs-comment"># mv /usr/lib/qt5/bin/lrelease /usr/lib/qt5/bin/lrelease-qt5</span>
+
+wget https://github.com/qbittorrent/qBittorrent/archive/release-4.3.3.tar.gz
+tar xf release-4.3.3.tar.gz
+<span class="hljs-built_in">cd</span> qBittorrent-release-4.3.3
+./configure --disable-gui --disable-debug CXXFLAGS=-std=c++14
+
+make -j$(nproc)
+make install
+
+<span class="hljs-comment"># 写入service文件</span>
+qbit_service=<span class="hljs-string">&quot;/etc/systemd/system/qbittorrent.service&quot;</span>
+touch <span class="hljs-variable">$qbit_service</span>
+cat&gt;<span class="hljs-variable">$qbit_service</span>&lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">[Unit]</span>
+<span class="hljs-string">Description=qBittorrent Daemon Service</span>
+<span class="hljs-string">After=network.target</span>
+<span class="hljs-string">[Service]</span>
+<span class="hljs-string">LimitNOFILE=512000</span>
+<span class="hljs-string">User=root</span>
+<span class="hljs-string">ExecStart=/usr/local/bin/qbittorrent-nox</span>
+<span class="hljs-string">ExecStop=/usr/bin/killall -w qbittorrent-nox</span>
+<span class="hljs-string">[Install]</span>
+<span class="hljs-string">WantedBy=multi-user.target</span>
+<span class="hljs-string">EOF</span>
+
+systemctl <span class="hljs-built_in">enable</span> qbittorrent.service <span class="hljs-comment"># 设置开机自启动</span>
+qbittorrent-nox -y --webui-port=2021 <span class="hljs-comment"># 打开尝试然后ctrl+c退出。</span>
+
+<span class="hljs-comment"># 默认端口是2021哦，用户名admin，密码adminadmin。</span></code></pre></div>
+
+<ul>
+<li>设置qbittorrent命令</li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">qbit_command=<span class="hljs-string">&quot;/usr/bin/qbittorrent&quot;</span>
+touch <span class="hljs-variable">$qbit_command</span>
+cat&gt;<span class="hljs-variable">$qbit_command</span>&lt;&lt;<span class="hljs-string">EOF</span>
+<span class="hljs-string">#!/bin/bash</span>
+<span class="hljs-string">if [ \$1 == &quot;start&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl start qbittorrent.service #启动qBittorrent</span>
+<span class="hljs-string">elif [ \$1 == &quot;stop&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl stop qbittorrent.service #关闭qBittorrent</span>
+<span class="hljs-string">elif [ \$1 == &quot;restart&quot;]</span>
+<span class="hljs-string">then</span>
+<span class="hljs-string">  systemctl restart qbittorrent.service #重启qBittorrent</span>
+<span class="hljs-string">fi</span>
+<span class="hljs-string">EOF</span>
+<span class="hljs-built_in">cd</span> /usr/bin &amp;&amp; chmod +x qbittorrent
+
+<span class="hljs-comment">#之后就可以使用命令qbittorrent start|stop|restart 分别代表开始，关闭，重启。</span></code></pre></div>
+
+
+
+<h3 id="食用方法"><a href="#食用方法" class="headerlink" title="食用方法"></a>食用方法</h3><hr>
+<p>因为我已经整理成了shell文件放到我的<a target="_blank" rel="noopener" href="https://github.com/tomorrow505/qbittorrent433">GitHub</a>上了，感兴趣的可以去看看源代码。</p>
+<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/install.sh -O install.sh &amp;&gt;/dev/null &amp;&amp; /bin/bash install.sh</code></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>[1]：<a target="_blank" rel="noopener" href="https://npchk.info/ubuntu-debian-install-qbittorrent/">Ubuntu/Debian Linux編譯qBittorrent安裝指南</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
+                    
+                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                      <a class="hover-with-bg" href="/tags/qbittorrent/">qbittorrent</a>
+                    
+                  </div>
+                
+              </div>
+			  
+			  
+				<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <span class="donate_txt">
+		   坚持技术分享，你的支持将鼓励我继续创作！
+        </span>
+		<input type="button" id="btn_donate" style="background-color: red; color: white; border: none; height=35; width=80" value="打赏"/>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center" style="display: none">
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/ali_pay.png" srcset="/img/loading.gif" lazyload alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wechat_pay.png" srcset="/img/loading.gif" lazyload alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			var qr=document.getElementById("donate_guide");
+			"none"===qr.style.display?qr.style.display="block":qr.style.display="none"
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+			  
+			  <hr>
+			  
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/18/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/17/%E6%88%91%E7%9A%84PT%E4%B9%8B%E8%B7%AF/">
+                        <span class="hidden-mobile">我的PT之路</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.lazyComments('valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz",
+          app_key: "30XfVcujY9je2cwoCu1NwYEG",
+          placeholder: "欢迎留下您的宝贵意见~",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备tomorrow505号
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6b843aa5a4ef58e77922cd321ec00d74";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
