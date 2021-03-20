@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（四） - Tomorrow&#39;s blog</title>
+  <title>Hexo搭建的个人博客实现谷歌百度收录 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（四）">
+            <span class="h2" id="subtitle" title="Hexo搭建的个人博客实现谷歌百度收录">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 20:40" pubdate>
-        2021年3月18日 晚上
+      <time datetime="2021-03-20 11:09" pubdate>
+        2021年3月20日 上午
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      712 字
+      874 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9
+      10
        分钟
     </span>
   
@@ -250,66 +250,97 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（四）</h1>
+            <h1 style="display: none">Hexo搭建的个人博客实现谷歌百度收录</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>话接上回，我们已经实现了从视频到截图到bbcode的过程，但是还是有一个细节，很多网站短mediainfo没法弄，那么希望能够顺带也获取一下。</p>
-<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
-<p>这次使用到的就是mediainfo了，这个在linux可以用 apt install mediainfo 安装，windows下可以下载一个cli版添加到环境变量。</p>
-<p>教程：<a target="_blank" rel="noopener" href="https://fossies.org/linux/MediaInfo_CLI/MediaInfo/Contrib/CLI_Help.doc">https://fossies.org/linux/MediaInfo_CLI/MediaInfo/Contrib/CLI_Help.doc</a></p>
-<p>上面放了一个doc文档，可以自定义怎么输出剪短的mediainfo，但是我们现在就只需要长的就好了。话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
+<p>兴致冲冲的搜索自己发布的文章发现根本没有，也就是说只能自己输入网址才能够看到，别人根本搜不到，气急败坏。整！</p>
+<p>如何能够辨别自己的站点被收录了呢？输入site:tomorrow505.xyz，有相关结果就成功了。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>生成sitemap</p>
+<blockquote>
+<p>我们需要使用npm自动生成网站的sitemap，然后将生成的sitemap提交到百度和其他搜索引擎。sitemap是一种文件，您可以通过该文件列出您网站上的网页，从而将您网站内容的组织架构告知Google和其他搜索引擎。Googlebot等搜索引擎网页抓取工具会读取此文件，以便更加智能地抓取您的网站。</p>
+</blockquote>
+<p>安装插件走一波：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">$ npm install hexo-generator-sitemap --save
+$ npm install hexo-generator-baidu-sitemap –-save</code></pre></div>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_mediainfo</span>(<span class="hljs-params">file</span>) -&gt; str:</span>
-    process = subprocess.Popen([<span class="hljs-string">&quot;mediainfo&quot;</span>, file], stdout=subprocess.PIPE)
-    output, error = process.communicate()
+<p>编辑博客配置文件：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">vim</span> <span class="hljs-string">_config.yml</span>
+<span class="hljs-comment"># 自动生成sitemap</span>
+<span class="hljs-attr">sitemap:</span>
+  <span class="hljs-attr">path:</span> <span class="hljs-string">sitemap.xml</span>
+<span class="hljs-attr">baidusitemap:</span>
+  <span class="hljs-attr">path:</span> <span class="hljs-string">baidusitemap.xml</span></code></pre></div>
 
-    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> error <span class="hljs-keyword">and</span> output != <span class="hljs-string">b&quot;\n&quot;</span>:
-        output = output.decode()  <span class="hljs-comment"># bytes -&gt; string</span>
-        output = re.sub(re.escape(file), os.path.basename(file), output)  <span class="hljs-comment"># Hide file path</span>
-        <span class="hljs-keyword">return</span> output
-    <span class="hljs-keyword">else</span>:
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span></code></pre></div>
+<p>用于在generate的时候生成这两个文件，然后可以通过域名+名称的方式打开，如：<a href="http://tomorrow505.xyz/sitemap.xml%E5%B1%95%E7%A4%BA%E4%BA%86%E7%AB%99%E7%82%B9%E7%9A%84%E6%89%80%E6%9C%89%E9%93%BE%E6%8E%A5%E4%BF%A1%E6%81%AF%E3%80%82">http://tomorrow505.xyz/sitemap.xml展示了站点的所有链接信息。</a></p>
+<p>接下来就是谷歌和百度收录的工作了。</p>
+<h3 id="谷歌收录"><a href="#谷歌收录" class="headerlink" title="谷歌收录"></a>谷歌收录</h3><hr>
+<p>算是比较简单的了。根据帖子Hexo+github搭建个人博客（五）<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="Hexo+github搭建个人博客（五）：百度和谷歌收录博客
+">[1]</span></a></sup>的步骤登录<a target="_blank" rel="noopener" href="https://www.google.com/webmasters/">google search console</a>，添加自己的博客网站，google同样有多种方法。我选择CNAME方式验证，然后提交sitemap过去就好了。搜索site:tomorrow505.xyz，google已经能够搜索到博客，即google收录成功。</p>
+<h3 id="百度收录"><a href="#百度收录" class="headerlink" title="百度收录"></a>百度收录</h3><hr>
+<p>参考了第二篇文章，说的会比较详细，我也简单总结一下：</p>
+<ol>
+<li>站点URL优化所能够用到的插件或思想：(因为博客还在一步步搭建过程中，所以暂时先不考虑)</li>
+</ol>
+<ul>
+<li><p>hexo-abbrlink</p>
+</li>
+<li><p>设计urlname</p>
+</li>
+<li><p>中文链接转拼音方式( hexo-permalink-pinyin插件 ）</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>查询站点是否被收录，与谷歌一样，不再描述。</p>
+</li>
+<li><p>添加站点至谷歌搜索平台（SEO）第一步</p>
+</li>
+</ol>
+<p>我也是根据文章做的提交成功了，然后选择了主动推送的方案。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-baidu-url-submit --save</code></pre></div>
 
-<p>简而言之就是通过调用mediainfo命令获取到了想要的信息并且只保留视频文件名。</p>
-<p>接下来就剩最后一个问题了，怎么快速获取到视频的存储路径呢？这里仅仅适合于qbittorrent，其他客户端应该也有类似的，先不探讨了。这里登场的模块叫做<a target="_blank" rel="noopener" href="https://pypi.org/project/qbittorrent-api/">qbittorrent-api</a>，用于调用qbittorrent的web api达到一些想要的结果。话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> qbittorrentapi
-<span class="hljs-keyword">import</span> os
+<p>配置根目录_config.yml写入以下配置：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">baidu_url_submit:</span>
+  <span class="hljs-attr">count:</span> <span class="hljs-number">10</span>                           <span class="hljs-comment"># 提交最新的多少个链接</span>
+  <span class="hljs-attr">host:</span> <span class="hljs-string">https://yourname.gitee.io/</span>    <span class="hljs-comment"># 在百度站长平台中添加的域名</span>
+  <span class="hljs-attr">token:</span> <span class="hljs-string">your_token</span>             	  <span class="hljs-comment"># 秘钥</span>
+  <span class="hljs-attr">path:</span> <span class="hljs-string">baidu_urls.txt</span>                <span class="hljs-comment"># 文本文档的地址,新链接会保存在此文本文档里</span></code></pre></div>
 
-qb_host = <span class="hljs-string">&quot;http://localhost:2021&quot;</span> <span class="hljs-comment"># 这里基本上部署在本地才可以截图所以就直接用localhost了,假设端口是2021</span>
-qb_name = <span class="hljs-string">&quot;admin&quot;</span>
-qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
+<p>修改站点url为自己购买的域名，最后获取token配置提交方案：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># Deployment</span>
+<span class="hljs-comment">## Docs: https://hexo.io/docs/deployment.html</span>
+<span class="hljs-attr">deploy:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">git</span> 					<span class="hljs-comment">## 这是原来的deployer</span>
+  <span class="hljs-attr">repo:</span>
+  <span class="hljs-attr">branch:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">baidu_url_submitter</span> 	<span class="hljs-comment">## 在这里添加新内容即可</span></code></pre></div>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_save_path_from_hash</span>(<span class="hljs-params">hash_value</span>):</span>
-    <span class="hljs-comment"># 首先登陆qbittorrent之前需要开启webui，然后通过host, port(可选), name, password进行登录</span>
-    qb = qbittorrentapi.Client(host=qbt_address, port=qbt_port, username=qbt_user, password=qbt_password)
-    <span class="hljs-keyword">try</span>:
-    	qb.auth_log_in()
-        torrents = qb.torrents_info(hashes=hash_value) <span class="hljs-comment"># 基本上有1个或者没有，返回种子列表</span>
-        torrent_name = torrents[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;name&#x27;</span>]
-        save_path = torrents[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;save_path&#x27;</span>] <span class="hljs-comment"># 获取到save_path和name基本上就可以得到视频或者视频文件的目录了</span>
-        path = os.path.join(save_path, torrent_name) <span class="hljs-comment"># 对path进行扫描获取到视频文件路径即可</span>
-        ...
-    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
-        print(exc)</code></pre></div>
+<p>可以看出是增加了一个提交的type，然后执行部署提交的时候就可以实现主动推送了</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">http://tomorrow505.xyz/2021/ckmgbiu2e0000dsag6mnaf7y7/
+http://tomorrow505.xyz/2021/ckmfpryfc0000u0ag5e79dw4i/
+http://tomorrow505.xyz/2021/ckmf3rc7n000f6oag2b2g8tvx/
+http://tomorrow505.xyz/2021/ckmf3rc7l000a6oaghxm57hgy/
+http://tomorrow505.xyz/2021/ckmf3rc7l000b6oag1bymbixh/
+http://tomorrow505.xyz/2021/ckmf3rc7800016oag0x7k0s36/
+http://tomorrow505.xyz/2021/ckmf3rc7m000d6oag1ycr0oww/
+http://tomorrow505.xyz/2021/ckmf3rc7q000k6oag3wolcl8n/
+&#123;<span class="hljs-string">&quot;remain&quot;</span>:2992,<span class="hljs-string">&quot;success&quot;</span>:8&#125;
+INFO  Deploy <span class="hljs-keyword">done</span>: baidu_url_submitter</code></pre></div>
 
-<p>qbittorrentapi还有很多其他的命令，这里只是用到了查询，还可以增删改，此处应有掌声。</p>
-<p>到了这一步，其实已经算完结了。整合所有的代码就可以完成从hash到视频mediainfo到截图到上传。怎么样，应该是学会了吧？不会也不要紧，直接上链接。</p>
-<p><code>https://github.com/tomorrow505/qbittorrent433/blob/main/get_mediaifno_picture.py</code></p>
-<p>如果你想在盒子上部署，也可以用下面的命令一键部署：</p>
-<p><code>wget https://raw.githubusercontent.com/tomorrow505/qbittorrent433/main/get_mediaifno_picture.sh -O get_mediaifno_picture.sh &amp;&amp; /bin/bash get_mediaifno_picture.sh</code></p>
-<p>运行命令以后就可以用 up hash_of_torrent来进行传图了。</p>
+<p><strong>同时在<code>hexo\.deploy_git\</code>路径下会生成一个<code>baidu_urls.txt</code>文件，其中包含了你站点中的URL链接。</strong></p>
+<p>至于手动或者sitemap怎么推送就看教程就好了，这里只是一个记录。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>到了这一步，其实传图命令已经差不多了，Windows、linux下都可以愉快的截图上传了。</p>
-<p>那么这一系列的教程就到此结束了，谢谢！！</p>
-
+<p>活到老，学到老，以后就专心写博客了。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><hr>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="http://duansm.top/2018/08/08/hexo-sitemap/">Hexo+github搭建个人博客（五）：百度和谷歌收录博客</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/liangllhahaha/article/details/105343008">站点（e.g. Hexo Blog）提交百度搜索引擎收录实现SEO</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -318,7 +349,7 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -326,13 +357,9 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
-                    
-                      <a class="hover-with-bg" href="/tags/qbittorrent/">qbittorrent</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
                     
                   </div>
                 
@@ -377,18 +404,12 @@ qb_pwd = <span class="hljs-string">&quot;123456&quot;</span>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/ckmfpryfc0000u0ag5e79dw4i/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hexo-Fluid实现mac panel风格代码块</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/ckmf3rc7l000a6oaghxm57hgy/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
+                      <a href="/Github-Hexo%E7%BB%91%E5%AE%9A%E5%88%B0Godaddy%E5%9F%9F%E5%90%8D/">
+                        <span class="hidden-mobile">Github+Hexo绑定到Godaddy域名</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Hexo-Fluid实现mac panel风格代码块 - Tomorrow&#39;s blog</title>
+  <title>Github+Hexo绑定到Godaddy域名 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hexo-Fluid实现mac panel风格代码块">
+            <span class="h2" id="subtitle" title="Github+Hexo绑定到Godaddy域名">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-19 10:19" pubdate>
-        2021年3月19日 上午
+      <time datetime="2021-03-19 19:52" pubdate>
+        2021年3月19日 晚上
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20
+      12
        分钟
     </span>
   
@@ -250,168 +250,129 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo-Fluid实现mac panel风格代码块</h1>
+            <h1 style="display: none">Github+Hexo绑定到Godaddy域名</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：21 小时前
+                  本文最后更新于：14 小时前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>一直以来看别人博客都觉的Mac风格的代码块很炫酷，这几天尝试自己搭建博客，选中了<a target="_blank" rel="noopener" href="https://github.com/fluid-dev/hexo-theme-fluid">Fluid</a>这个主题，但是仅限于支持设定的两种风格。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># 实现高亮的库，对应下面的设置</span>
-<span class="hljs-comment"># Options: highlightjs | prismjs</span>
-<span class="hljs-attr">lib:</span> <span class="hljs-string">&quot;highlightjs&quot;</span>
+<p>本着不折腾浑身难受的理念，按照教程<strong>绑定GitHub上的个人博客到Godaddy域名</strong><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="绑定Github上的个人博客到Godaddy域名
+">[1]</span></a></sup>做了一次域名解析，发现难倒是不难，就是访问速度变慢了很多。后边再想想要不要CDN加速吧，反正现在先用着。哈哈~将流程记录下来。</p>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><hr>
+<h3 id="1-首先在Godaddy官网购买域名"><a href="#1-首先在Godaddy官网购买域名" class="headerlink" title="1. 首先在Godaddy官网购买域名"></a>1. 首先在<a target="_blank" rel="noopener" href="https://sg.godaddy.com/zh/">Godaddy官网</a>购买域名</h3><h3 id="2-配置GitHub"><a href="#2-配置GitHub" class="headerlink" title="2. 配置GitHub"></a>2. 配置GitHub</h3><p>在Hexo的source目录下创建CNAME文件将域名写进去。之后部署项目。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">hexo g
+hexo d</code></pre></div>
 
-<span class="hljs-attr">highlightjs:</span>
-<span class="hljs-comment"># 在链接中挑选 style 填入</span>
-<span class="hljs-comment"># See: https://highlightjs.org/static/demo/</span>
-<span class="hljs-attr">style:</span> <span class="hljs-string">&quot;Monokai Sublime&quot;</span>
-
-<span class="hljs-comment"># 是否根据 style 改变代码背景色（如果 style 是深色背景别忘了开启此项）</span>
-<span class="hljs-attr">bg_color:</span> <span class="hljs-literal">true</span>
-
-<span class="hljs-attr">prismjs:</span>
-<span class="hljs-comment"># 在下方链接页面右侧的圆形按钮挑选 style 填入，也可以直接填入 css 链接</span>
-<span class="hljs-comment"># See: https://prismjs.com/</span>
-<span class="hljs-attr">style:</span> <span class="hljs-string">&quot;default&quot;</span>
-
-<span class="hljs-comment"># 设为 true 高亮将本地静态生成（并只支持部分 prismjs 插件），设为 false 高亮将在浏览器通过 js 生成</span>
-<span class="hljs-attr">preprocess:</span> <span class="hljs-literal">true</span></code></pre></div>
-
-<p>这就让人很为难了，因为也看过一些教程，大多是next怎么做的。找了半天发现了相关为Yilia主题代码块添加Mac Panel效果的一篇教程。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="私人订制 为Yilia主题代码块添加Mac Panel效果
-">[1]</span></a></sup>所以就跟着弄了一下，也踩了一些坑，花了半天时间终于搞定了。哈哈~记录一下。</p>
-<h3 id="需要的条件"><a href="#需要的条件" class="headerlink" title="需要的条件"></a>需要的条件</h3><hr>
-<p>需要有一点点的css和JavaScript基础以及找寻代码判断相关性的能力。</p>
-<h3 id="大致思想及流程"><a href="#大致思想及流程" class="headerlink" title="大致思想及流程"></a>大致思想及流程</h3><hr>
-<ol>
-<li>自动更改样式。首先得大致知道hexo是如何把markdown的代码渲染出来的，在这个过程之后又怎样匹配出来了自己在ymal中定义的样式呢？</li>
-</ol>
-<p>根据highlightjs和prismjs作为关键字，通过一番查找找到了/fluid/scripts/events/lib/highlights.js，该js函数调用了hexo的生命周期在恰当的时间点博客中代码块内容进行替换，从而使得原有的代码块样式能够被替换指定的风格块。</p>
-<ol start="2">
-<li>找到了之后如何做呢？首先需要分析代码做了哪些工作。</li>
-</ol>
-<div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (config.code.highlight.lib === <span class="hljs-string">&#x27;highlightjs&#x27;</span>) &#123;
-    hexo.config.prismjs = objUtil.merge(&#123;&#125;, hexo.config.prismjs, &#123;
-        enable: <span class="hljs-literal">false</span>
-    &#125;);
-    hexo.config.highlight = objUtil.merge(&#123;&#125;, hexo.config.highlight, &#123;
-        enable     : <span class="hljs-literal">true</span>,
-        hljs       : <span class="hljs-literal">true</span>,
-        wrap       : <span class="hljs-literal">false</span>,
-        auto_detect: <span class="hljs-literal">true</span>,
-        line_number: config.code.highlight.line_number || <span class="hljs-literal">false</span>
-    &#125;);
-    hexo.extend.filter.register(<span class="hljs-string">&#x27;after_post_render&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">page</span>) =&gt;</span> &#123;
-        <span class="hljs-keyword">if</span> (config.code.highlight.highlightjs.bg_color) &#123;
-            page.content = page.content.replace(<span class="hljs-regexp">/(?&lt;!&lt;div class=&quot;hljs code-wrapper&quot;&gt;)(&lt;pre.+?&lt;\/pre&gt;)/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&quot;hljs code-wrapper&quot;&gt;<span class="hljs-subst">$&#123;p1&#125;</span>&lt;/div&gt;`</span>;
-            &#125;);
-            page.content = page.content.replace(<span class="hljs-regexp">/&lt;td class=&quot;gutter/gim</span>s, <span class="hljs-string">&#x27;&lt;td class=&quot;gutter hljs&#x27;</span>);
-        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!hexo.config.highlight.line_number) &#123;
-            page.content = page.content.replace(<span class="hljs-regexp">/(?&lt;!&lt;div class=&quot;code-wrapper&quot;&gt;)(&lt;pre.+?&lt;\/pre&gt;)/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&quot;code-wrapper&quot;&gt;<span class="hljs-subst">$&#123;p1&#125;</span>&lt;/div&gt;`</span>;
-            &#125;);
-        &#125;
-        <span class="hljs-keyword">if</span> (hexo.config.highlight.line_number) &#123;
-            <span class="hljs-comment">// Mermaid block adaptation</span>
-            page.content = page.content.replace(<span class="hljs-regexp">/&lt;figure.+?&lt;td class=&quot;code&quot;&gt;.*?(&lt;pre.+?&lt;\/pre&gt;).+?&lt;\/figure&gt;/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> p1.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>).replace(<span class="hljs-regexp">/&lt;br&gt;/gim</span>s, <span class="hljs-string">&#x27;\n&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> str;
-            &#125;);
-        &#125;
-        <span class="hljs-keyword">return</span> page;
-    &#125;);</code></pre></div>
-
-<p>好长的一段啊，但是大概是说禁用prismjs，然后根据yaml设置highlightjs的相关参数生成高亮配置参数。然后注入了一个渲染后的事件，传入渲染后的页面进行一些正则替换，主要是改变class，然后把替换好的代码包裹在一个div里边，注意，div的class为<strong>code-wrapper</strong>。</p>
-<ol start="3">
-<li>实施替换</li>
-</ol>
-<p>看到教程中提到的某段话：</p>
 <blockquote>
-<p>添加了自动更换样式的脚本后，我们将需要替换到代码块的样式放入主题的css文件夹中，以便于浏览器能够正常渲染。在Yilia主题路径\source-src\css下，新建css文件，文件名为code-block.css。并复制以下代码blablabla……</p>
+<p>如果你是用 hexo 框架搭建博客并部署到 Github Pages 上: 每次hexo g hexo d 后会把你的博客所在目录下 public 文件夹里的东西都推到 Github Pages 仓库上，并且把 CNAME 文件覆盖掉，解决这个问题可以直接<strong>把CNAME文件添加到source文件夹里</strong>，这样每次推的时候就不用担心仓库里的 CNAME 文件被覆盖掉了。</p>
 </blockquote>
-<p>也就是说这个class就是我们后期渲染的关键。我们再找找Fluid是怎么渲染的呢？又是一段查找，.styl文件用于存放css样式，所以顺藤摸瓜找到了主题source目录下的css目录，一番折腾发现存放于该目录下_page下的rewrite.styl中。<strong>\fluid\source\css_pages_base</strong>。</p>
-<p>根据关键字code-wrapper我们找到了定义的样式：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs css">&amp; &gt; <span class="hljs-selector-class">.code-wrapper</span>
-  <span class="hljs-attribute">position</span> relative
-  <span class="hljs-attribute">border-radius</span> <span class="hljs-number">3px</span></code></pre></div>
+<p>折腾的时候放在主目录提交一次删一次。。坑~~</p>
+<blockquote>
+<p><em>还有一种方式是：在网站的Github项目上，点击设置Settings，找到Custom domain，填入申请的域名，并保存。这样也会在Github项目的根目录看到这个文件，但是当你在每次部署项目之后，这个CNAME文件都会消失，本质上相当于你新建的CNAME放在了本地Github项目的根目录了，而不是在source文件夹下。</em></p>
+</blockquote>
+<h3 id="3-向你的-DNS-配置中添加-3-条记录（在域名解析提供商，下面以dnspod为例）"><a href="#3-向你的-DNS-配置中添加-3-条记录（在域名解析提供商，下面以dnspod为例）" class="headerlink" title="3. 向你的 DNS 配置中添加 3 条记录（在域名解析提供商，下面以dnspod为例）"></a>3. 向你的 DNS 配置中添加 3 条记录（在<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cns?from=10680">域名解析</a>提供商，下面以dnspod为例）</h3><table>
+<thead>
+<tr>
+<th>Host(主机记录)</th>
+<th>记录类型</th>
+<th>Points To(记录值)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@</td>
+<td>A</td>
+<td>192.30.252.153</td>
+</tr>
+<tr>
+<td>@</td>
+<td>A</td>
+<td>192.30.252.154</td>
+</tr>
+<tr>
+<td>www</td>
+<td>CNAME</td>
+<td>username.github.io</td>
+</tr>
+</tbody></table>
+<h3 id="4-去-GoDaddy-修改-DNS-地址"><a href="#4-去-GoDaddy-修改-DNS-地址" class="headerlink" title="4. 去 GoDaddy 修改 DNS 地址"></a>4. 去 GoDaddy 修改 DNS 地址</h3><p>具体过程去看源帖吧。在更改域名服务器的时候我用的是DNSPod提供的，一开始不会生效，等一会儿就好了。最后就能打开了。</p>
+<h3 id="5-优化参考性及可行性"><a href="#5-优化参考性及可行性" class="headerlink" title="5. 优化参考性及可行性"></a>5. 优化参考性及可行性</h3><p>在帖子<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="优化 Hexo 博客的访问速度
+">[2]</span></a></sup>发现博客部署在GitHub Pages上，从国内打开访问速度很慢，我第一感觉就是图片加载很慢了。</p>
+<blockquote>
+<p>过慢的访问速度会使得用户在访问网站的时候失去耐心，导致有些用户可能会直接关闭你的网站</p>
+</blockquote>
+<p>我十分认同这样的理念，但是CDN一开始我就没考虑，因为博客刚刚起步，本来就没有什么访客，所以我着眼于图片压缩。</p>
+<ul>
+<li><p>一是压缩图片的尺寸。</p>
+</li>
+<li><p>二是压缩图片的分辨率。</p>
+</li>
+</ul>
+<h3 id="6-不怂就是干，用python来实现一波。"><a href="#6-不怂就是干，用python来实现一波。" class="headerlink" title="6. 不怂就是干，用python来实现一波。"></a>6. 不怂就是干，用python来实现一波。</h3><p>因为这种脚本网上肯定多得很，直接参考了一下这个帖子<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="Python 图片尺寸缩放的4种方式
+">[3]</span></a></sup>写了一下。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+<span class="hljs-keyword">import</span> shutil
+<span class="hljs-keyword">import</span> os
 
-<p>这么简单嘛？那么我们就注释掉这段开始自定义样式咯，参照教程在新建在css目录下新建_custom目录，创建macpanel.styl。并在main.styl中引入。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-class">.code-wrapper</span>&#123;
-  <span class="hljs-attribute">position</span>: relative;
-  <span class="hljs-attribute">overflow</span>: hidden;
-  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
-  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span> <span class="hljs-number">10px</span> <span class="hljs-number">0px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.4</span>);
-  <span class="hljs-attribute">margin</span>: <span class="hljs-number">30px</span> <span class="hljs-number">0</span>;
-  ::-webkit-scrollbar &#123;
-    height: <span class="hljs-number">10px</span>;
-  &#125;
-  ::-webkit-scrollbar-track &#123;
-    -webkit-box-shadow: inset <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">6px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.3</span>);
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;
-  &#125;
 
-  ::-webkit-scrollbar-thumb &#123;
-    border-radius: <span class="hljs-number">10px</span>;
-    -webkit-<span class="hljs-attribute">box-shadow</span>: inset <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">6px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>);
-  &#125;
-  &amp;<span class="hljs-selector-pseudo">::before</span> &#123;
-    <span class="hljs-attribute">color</span>: white;
-    <span class="hljs-attribute">content</span>: <span class="hljs-built_in">attr</span>(data-rel);
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">30px</span>;
-    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#21252b</span>;
-    <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
-    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;
-    <span class="hljs-attribute">position</span>: absolute;
-    <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
-    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#x27;Source Sans Pro&#x27;</span>, sans-serif;
-    <span class="hljs-attribute">font-weight</span>: bold;
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0px</span> <span class="hljs-number">80px</span>;
-    <span class="hljs-attribute">text-indent</span>: <span class="hljs-number">15px</span>;
-    <span class="hljs-attribute">float</span>: left;
-  &#125;
-  &amp;<span class="hljs-selector-pseudo">::after</span> &#123;
-    <span class="hljs-attribute">content</span>: <span class="hljs-string">&#x27; &#x27;</span>;
-    <span class="hljs-attribute">position</span>: absolute;
-    -webkit-<span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fc625d</span>;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">12px</span>;
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">12px</span>;
-    <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">left</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">13px</span>;
-    -webkit-<span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">20px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#fdbc40</span>, <span class="hljs-number">40px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#35cd4b</span>;
-    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">20px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#fdbc40</span>, <span class="hljs-number">40px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#35cd4b</span>;
-    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">3</span>;
-  &#125;
-&#125;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Graphics</span>:</span>
+<span class="hljs-meta">    @classmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resize_by_height</span>(<span class="hljs-params">cls, height</span>):</span>
+        <span class="hljs-string">&quot;&quot;&quot;按照高度进行所需比例缩放&quot;&quot;&quot;</span>
+        im = Image.<span class="hljs-built_in">open</span>(infile)
+        (x, y) = im.size
+        x_s = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">float</span>(x)/<span class="hljs-built_in">float</span>(y) * height)
+        y_s = height
+        out = im.resize((x_s, y_s), Image.ANTIALIAS)
+        out.save(outfile, quality=<span class="hljs-number">0.7</span>)
+        print(<span class="hljs-string">&quot;完成&quot;</span>)
 
-<span class="hljs-selector-class">.code-wrapper</span> &gt; pre &#123;
-	<span class="hljs-attribute">margin-bottom</span> <span class="hljs-number">0</span>
-&#125;</code></pre></div>
+<span class="hljs-meta">    @classmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resize_by_size</span>(<span class="hljs-params">cls, size</span>):</span>
+        <span class="hljs-string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span>
+        size *= <span class="hljs-number">1024</span>
+        im = Image.<span class="hljs-built_in">open</span>(infile)
+        size_tmp = os.path.getsize(infile)
+        q = <span class="hljs-number">100</span>
+        <span class="hljs-keyword">while</span> size_tmp &gt; size <span class="hljs-keyword">and</span> q &gt; <span class="hljs-number">0</span>:
+            print(q)
+            out = im.resize(im.size, Image.ANTIALIAS)
+            out.save(outfile, quality=q)
+            size_tmp = os.path.getsize(outfile)
+            q -= <span class="hljs-number">5</span>
+        <span class="hljs-keyword">if</span> q == <span class="hljs-number">100</span>:
+            shutil.copy(infile, outfile)
+        print(<span class="hljs-string">&quot;完成&quot;</span>)
 
-<p>可能我还动了一些地方的css样式，但是大概都是调位置之类的<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="你真的理解浏览器盒模型吗
-">[2]</span></a></sup>，掌握沙盒模型然后调节rewrite和自定义的macpanel两个样式文件就可以了。效果就是你们看到的这样啦~</p>
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        infile = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请输入你的图片路径: &gt;&gt;&quot;</span>)
+        <span class="hljs-keyword">if</span> infile == <span class="hljs-string">&quot;exit&quot;</span>:
+            <span class="hljs-keyword">break</span>
+        dir_path = os.path.dirname(infile)
+        base_name = os.path.basename(infile)
+        tmp_path = os.path.join(dir_path, <span class="hljs-string">&#x27;tmp&#x27;</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isdir(tmp_path):
+            os.mkdir(tmp_path)
+        outfile = os.path.join(tmp_path, base_name)
+        mode = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请输入你要进行的模式(1、按高160等比缩小到指定尺寸；2、压缩图片size到300KB)&quot;</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(mode) == <span class="hljs-number">1</span>:
+            Graphics.resize_by_height(<span class="hljs-number">160</span>)
+        <span class="hljs-keyword">else</span>:
+            Graphics.resize_by_size(<span class="hljs-number">300</span>)</code></pre></div>
+
+<p>测试了一波，还没有人家提到的站点做的一半好，承让了，直接使用<a target="_blank" rel="noopener" href="https://tinypng.com/">TinyPNG</a>来压缩图片。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>不折腾不痛快，所以需要一颗爱折腾的心……</p>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="http://oltremare.cc/2019092030716/">私人订制 为Yilia主题代码块添加Mac Panel效果</a>
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/FrankKai/FrankKai.github.io/issues/38">你真的理解浏览器盒模型吗</a>
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<p>其实很多人已经在你前边走了一条路，但是你不走过去，你怎么知道沿途的风景呢？</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1367881">绑定Github上的个人博客到Godaddy域名</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://kaitohh.com/tweak-hexo/">优化 Hexo 博客的访问速度</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/ln152315/article/details/42777149">Python 图片尺寸缩放的4种方式</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -428,11 +389,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-                    
                       <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BE%8E%E5%8C%96/">美化</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+                    
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
                     
                   </div>
                 
@@ -477,9 +438,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/ckmgbiu2e0000dsag6mnaf7y7/">
+                      <a href="/Hexo%E6%90%AD%E5%BB%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%AE%9E%E7%8E%B0%E8%B0%B7%E6%AD%8C%E7%99%BE%E5%BA%A6%E6%94%B6%E5%BD%95/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Github+Hexo绑定到Godaddy域名</span>
+                        <span class="hidden-mobile">Hexo搭建的个人博客实现谷歌百度收录</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -487,8 +448,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/ckmf3rc7n000f6oag2b2g8tvx/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（四）</span>
+                      <a href="/Hexo-Fluid%E5%AE%9E%E7%8E%B0mac-panel%E9%A3%8E%E6%A0%BC%E4%BB%A3%E7%A0%81%E5%9D%97/">
+                        <span class="hidden-mobile">Hexo-Fluid实现mac panel风格代码块</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
