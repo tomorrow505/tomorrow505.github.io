@@ -196,7 +196,13 @@
   <div class="row mx-auto index-card">
     
     
-    <article class="col-12 col-md-12 mx-auto index-info">
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/Pythonh%E7%88%AC%E5%8F%96%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E4%BF%A1%E6%81%AF/" target="_self">
+          <img src="/post/douban.jpg" srcset="/img/loading.gif" lazyload alt="Pythonh爬取豆瓣电影信息">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
         <a href="/Pythonh%E7%88%AC%E5%8F%96%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1%E4%BF%A1%E6%81%AF/">Pythonh爬取豆瓣电影信息</a>
@@ -208,7 +214,17 @@
           
             
           
-          
+          前言
+前人如R酱很多都有开发豆瓣获取的API，但是可能不知道哪天就用不上了，所以自己写一个python版本留存好了。
+代码
+需要一点bs4的基础，request及json的基本使用，话不多说，上代码：
+import requests
+from bs4 import BeautifulSoup
+import json
+
+
+def get_douban_info(url):
+    # 自定义一个请求
         </a>
       </p>
 
@@ -225,7 +241,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
             
           </div>
         
