@@ -19,9 +19,25 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>标签 - Tomorrow&#39;s blog</title>
+  <title>Pythonh爬取豆瓣电影信息 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/hopscotch.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -53,7 +69,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -159,22 +175,63 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/tags.jpg') no-repeat center center;
+         style="background: url('/img/post.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="标签">
+            <span class="h2" id="subtitle" title="Pythonh爬取豆瓣电影信息">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-03-21 15:33" pubdate>
+        2021年3月21日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      0 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -183,24 +240,188 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Pythonh爬取豆瓣电影信息</h1>
+            
+              <p class="note note-info">
                 
-
-<div class="text-center tagcloud">
-  <a href="/tags/Fluid/" style="font-size: 24px; color: #6994cd">Fluid</a> <a href="/tags/Linux/" style="font-size: 15px; color: #bbe">Linux</a> <a href="/tags/PT/" style="font-size: 21px; color: #85a1d8">PT</a> <a href="/tags/Python/" style="font-size: 27px; color: #4e87c2">Python</a> <a href="/tags/python/" style="font-size: 15px; color: #bbe">python</a> <a href="/tags/qbittorrent/" style="font-size: 18px; color: #a0aee3">qbittorrent</a> <a href="/tags/shell/" style="font-size: 15px; color: #bbe">shell</a> <a href="/tags/%E5%8D%9A%E5%AE%A2/" style="font-size: 21px; color: #85a1d8">博客</a> <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 24px; color: #6994cd">图床</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 15px; color: #bbe">生活</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 30px; color: #337ab7">编程</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 18px; color: #a0aee3">美化</a>
-</div>
-
-              </div>
+                  本文最后更新于：29 分钟前
+                
+              </p>
+            
+            <div class="markdown-body">
+              
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
+                    
+                  </div>
+                
+              </div>
+			  
+			  
+				<div class="bdsharebuttonbox">
+  <a href="#" class="bds_more" data-cmd="more"></a>
+  <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+  <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+  <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+  <a href="#" class="bds_baidu" data-cmd="baidu" title="分享到百度"></a>
+  <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+  <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"></a>
+  <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+  <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣"></a>
+</div>
+<script>
+  window._bd_share_config = {
+    "common": {
+      "bdSnsKey": {},
+      "bdText": "",
+      "bdMini": "2",
+      "bdMiniList": false,
+      "bdPic": "",
+      "bdStyle": "1",
+      "bdSize": "24"
+    },
+    "share": {},
+	"slide": {
+		"type": "slide",
+		"bdImg": "1",
+		"bdPos": "right",
+		"bdTop": "151.5"
+	},
+  };
+  with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~ ( - new Date() / 36e5)];
+ </script>
+			  
+			  <hr>
+			  
+			  
+				<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <span class="donate_txt">
+		   坚持技术分享，你的支持将鼓励我继续创作！
+        </span>
+		<input type="button" id="btn_donate" style="background-color: red; color: white; border: none; height=35; width=80" value="打赏"/>
+        <br>
+      </div>  
+	<div id="donate_guide" class="donate_bar center" style="display: none">
+		<!-- 支付宝打赏图案 -->
+		<img src="/img/ali_pay.png" srcset="/img/loading.gif" lazyload alt="支付宝打赏"> 
+		<!-- 微信打赏图案 -->
+		<img src="/img/wechat_pay.png" srcset="/img/loading.gif" lazyload alt="微信打赏">  
+    </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			var qr=document.getElementById("donate_guide");
+			"none"===qr.style.display?qr.style.display="block":qr.style.display="none"
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+			  
+              
+			  
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Hexo-Fluid%E5%AE%9E%E7%8E%B0%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E5%88%86%E4%BA%AB%E6%8C%89%E9%92%AE/">
+                        <span class="hidden-mobile">Hexo+Fluid实现添加百度分享按钮</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.lazyComments('valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "HlBkB9z8NsBQl5OymmrkK6qm-gzGzoHsz",
+          app_key: "30XfVcujY9je2cwoCu1NwYEG",
+          placeholder: "欢迎留下您的宝贵意见~",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+			
+          </article>
         </div>
       </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -318,7 +539,11 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
 
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 
