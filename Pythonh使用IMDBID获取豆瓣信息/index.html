@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      677 字
+      955 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      13
        分钟
     </span>
   
@@ -254,7 +254,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 小时前
+                  本文最后更新于：8 小时前
                 
               </p>
             
@@ -308,6 +308,31 @@
 &#125;</code></pre></div>
 
 <p>感谢那些无私奉献弄出这些API服务器的人~~~</p>
+<h3 id="2021-03-22：补充"><a href="#2021-03-22：补充" class="headerlink" title="2021.03.22：补充"></a>2021.03.22：补充</h3><hr>
+<p>还有一个API，据说都是豆瓣官方的API，可以直接转换imdbid到豆瓣id，算是一个补充吧。</p>
+<p>废话不多说，上代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_douban_id_from_imdb_id</span>(<span class="hljs-params">url</span>):</span>
+    headers = &#123;
+        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/&#x27;</span>
+                      <span class="hljs-string">&#x27;537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36&#x27;</span>
+    &#125;
+    api_url = <span class="hljs-string">&quot;https://movie.douban.com/j/subject_suggest?q=&quot;</span>
+    imdb_id = re.search(<span class="hljs-string">r&quot;tt(\d+)&quot;</span>, url).group()
+    req_url = api_url + imdb_id
+    data = requests.get(req_url, headers=headers).json()[<span class="hljs-number">0</span>] <span class="hljs-comment"># 这里得加上headers模拟浏览器，否则没结果，然后返回的是一个列表</span>
+    print(data)
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    imdb_url = <span class="hljs-string">&#x27;https://www.imdb.com/title/tt5109280/&#x27;</span>
+    get_douban_id_from_imdb_id(imdb_url)</code></pre></div>
+
+<div class="hljs code-wrapper"><pre><code class="hljs python">[&#123;<span class="hljs-string">&quot;episode&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;img&quot;</span>:<span class="hljs-string">&quot;https://img9.doubanio.com\/view\/photo\/s_ratio_poster\/public\/p2633531206.jpg&quot;</span>,<span class="hljs-string">&quot;title&quot;</span>:<span class="hljs-string">&quot;寻龙传说&quot;</span>,<span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;https:\/\/movie.douban.com\/subject\/34804147\/?suggest=tt5109280&quot;</span>,<span class="hljs-string">&quot;type&quot;</span>:<span class="hljs-string">&quot;movie&quot;</span>,<span class="hljs-string">&quot;year&quot;</span>:<span class="hljs-string">&quot;2021&quot;</span>,<span class="hljs-string">&quot;sub_title&quot;</span>:<span class="hljs-string">&quot;Raya and The Last Dragon&quot;</span>,<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-string">&quot;34804147&quot;</span>&#125;]</code></pre></div>
+
+<p>可以看到id字段就是豆瓣id了，还有豆瓣的海报图片，那么就可以根据豆瓣id做一些抓取的工作了，好了，就到这里吧。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 <p>没有什么好总结了，再见！！</p>
 
