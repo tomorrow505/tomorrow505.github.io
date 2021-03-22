@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Github+Hexo绑定到Godaddy域名 - Tomorrow&#39;s blog</title>
+  <title>Python自动上传图片到路过图床 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Github+Hexo绑定到Godaddy域名">
+            <span class="h2" id="subtitle" title="Python自动上传图片到路过图床">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-19 19:52" pubdate>
-        2021年3月19日 晚上
+      <time datetime="2021-03-22 19:41" pubdate>
+        2021年3月22日 晚上
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      1.4k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12
+      22
        分钟
     </span>
   
@@ -250,129 +250,188 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Github+Hexo绑定到Godaddy域名</h1>
+            <h1 style="display: none">Python自动上传图片到路过图床</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>本着不折腾浑身难受的理念，按照教程<strong>绑定GitHub上的个人博客到Godaddy域名</strong><sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="绑定Github上的个人博客到Godaddy域名
-">[1]</span></a></sup>做了一次域名解析，发现难倒是不难，就是访问速度变慢了很多。后边再想想要不要CDN加速吧，反正现在先用着。哈哈~将流程记录下来。</p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><hr>
-<h3 id="1-首先在Godaddy官网购买域名"><a href="#1-首先在Godaddy官网购买域名" class="headerlink" title="1. 首先在Godaddy官网购买域名"></a>1. 首先在<a target="_blank" rel="noopener" href="https://sg.godaddy.com/zh/">Godaddy官网</a>购买域名</h3><h3 id="2-配置GitHub"><a href="#2-配置GitHub" class="headerlink" title="2. 配置GitHub"></a>2. 配置GitHub</h3><p>在Hexo的source目录下创建CNAME文件将域名写进去。之后部署项目。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">hexo g
-hexo d</code></pre></div>
-
-<blockquote>
-<p>如果你是用 hexo 框架搭建博客并部署到 Github Pages 上: 每次hexo g hexo d 后会把你的博客所在目录下 public 文件夹里的东西都推到 Github Pages 仓库上，并且把 CNAME 文件覆盖掉，解决这个问题可以直接<strong>把CNAME文件添加到source文件夹里</strong>，这样每次推的时候就不用担心仓库里的 CNAME 文件被覆盖掉了。</p>
-</blockquote>
-<p>折腾的时候放在主目录提交一次删一次。。坑~~</p>
-<blockquote>
-<p><em>还有一种方式是：在网站的Github项目上，点击设置Settings，找到Custom domain，填入申请的域名，并保存。这样也会在Github项目的根目录看到这个文件，但是当你在每次部署项目之后，这个CNAME文件都会消失，本质上相当于你新建的CNAME放在了本地Github项目的根目录了，而不是在source文件夹下。</em></p>
-</blockquote>
-<h3 id="3-向你的-DNS-配置中添加-3-条记录（在域名解析提供商，下面以dnspod为例）"><a href="#3-向你的-DNS-配置中添加-3-条记录（在域名解析提供商，下面以dnspod为例）" class="headerlink" title="3. 向你的 DNS 配置中添加 3 条记录（在域名解析提供商，下面以dnspod为例）"></a>3. 向你的 DNS 配置中添加 3 条记录（在<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cns?from=10680">域名解析</a>提供商，下面以dnspod为例）</h3><table>
-<thead>
-<tr>
-<th>Host(主机记录)</th>
-<th>记录类型</th>
-<th>Points To(记录值)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>@</td>
-<td>A</td>
-<td>192.30.252.153</td>
-</tr>
-<tr>
-<td>@</td>
-<td>A</td>
-<td>192.30.252.154</td>
-</tr>
-<tr>
-<td>www</td>
-<td>CNAME</td>
-<td>username.github.io</td>
-</tr>
-</tbody></table>
-<h3 id="4-去-GoDaddy-修改-DNS-地址"><a href="#4-去-GoDaddy-修改-DNS-地址" class="headerlink" title="4. 去 GoDaddy 修改 DNS 地址"></a>4. 去 GoDaddy 修改 DNS 地址</h3><p>具体过程去看源帖吧。在更改域名服务器的时候我用的是DNSPod提供的，一开始不会生效，等一会儿就好了。最后就能打开了。</p>
-<h3 id="5-优化参考性及可行性"><a href="#5-优化参考性及可行性" class="headerlink" title="5. 优化参考性及可行性"></a>5. 优化参考性及可行性</h3><p>在帖子<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="优化 Hexo 博客的访问速度
-">[2]</span></a></sup>发现博客部署在GitHub Pages上，从国内打开访问速度很慢，我第一感觉就是图片加载很慢了。</p>
-<blockquote>
-<p>过慢的访问速度会使得用户在访问网站的时候失去耐心，导致有些用户可能会直接关闭你的网站</p>
-</blockquote>
-<p>我十分认同这样的理念，但是CDN一开始我就没考虑，因为博客刚刚起步，本来就没有什么访客，所以我着眼于图片压缩。</p>
-<ul>
-<li><p>一是压缩图片的尺寸。</p>
-</li>
-<li><p>二是压缩图片的分辨率。</p>
-</li>
-</ul>
-<h3 id="6-不怂就是干，用python来实现一波。"><a href="#6-不怂就是干，用python来实现一波。" class="headerlink" title="6. 不怂就是干，用python来实现一波。"></a>6. 不怂就是干，用python来实现一波。</h3><p>因为这种脚本网上肯定多得很，直接参考了一下这个帖子<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="Python 图片尺寸缩放的4种方式
-">[3]</span></a></sup>写了一下。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
-<span class="hljs-keyword">import</span> shutil
-<span class="hljs-keyword">import</span> os
+<p>之前介绍了上传图片到imgbox，使用了第三方模块，那么我们现在用requests实现怎么上传图片到路过图床。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><hr>
+<p>首先我们先访问<a target="_blank" rel="noopener" href="https://imgtu.com/">路过网站</a>注册一个新的账号，然后登陆。F12获取登陆的cookie，用于填充在以下的代码中：</p>
+<p>至于要提交什么数据其实使用Fiddler就可以了，但是这个不是我们今天讨论的重点。我们先来看看python是怎么实现的。</p>
+<p>废话不多说，上代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> re
 
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Graphics</span>:</span>
-<span class="hljs-meta">    @classmethod</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resize_by_height</span>(<span class="hljs-params">cls, height</span>):</span>
-        <span class="hljs-string">&quot;&quot;&quot;按照高度进行所需比例缩放&quot;&quot;&quot;</span>
-        im = Image.<span class="hljs-built_in">open</span>(infile)
-        (x, y) = im.size
-        x_s = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">float</span>(x)/<span class="hljs-built_in">float</span>(y) * height)
-        y_s = height
-        out = im.resize((x_s, y_s), Image.ANTIALIAS)
-        out.save(outfile, quality=<span class="hljs-number">0.7</span>)
-        print(<span class="hljs-string">&quot;完成&quot;</span>)
+<span class="hljs-comment"># 上传图片到路过图床</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">send_luguo</span>(<span class="hljs-params">img_loc=<span class="hljs-literal">None</span></span>):</span>
+    <span class="hljs-comment"># 提交的数据为multi-part,一部分是文件，一部分是数据</span>
+    
+    <span class="hljs-comment">## 打开文件二进制流，命名为source，抓取到的，类型为image/jpeg</span>
+    img = <span class="hljs-built_in">open</span>(img_loc, <span class="hljs-string">&quot;rb&quot;</span>)
+    files = [(<span class="hljs-string">&#x27;source&#x27;</span>, (img_loc.split(<span class="hljs-string">&#x27;\\&#x27;</span>)[-<span class="hljs-number">1</span>], img, <span class="hljs-string">&#x27;image/jpeg&#x27;</span>))]
+    
+    <span class="hljs-comment">## 提交的数据中有一个重要的字符串为auth_token，基本上会定时变，所以在上传之前我们先访问一次页面获取一下 </span>
+    auth_token = get_auth_token()
+    data = &#123;
+        <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;file&#x27;</span>,
+        <span class="hljs-string">&#x27;action&#x27;</span>: <span class="hljs-string">&#x27;upload&#x27;</span>,
+        <span class="hljs-string">&#x27;timestamp&#x27;</span>: <span class="hljs-built_in">int</span>(time.time()) * <span class="hljs-number">1000</span>,
+        <span class="hljs-string">&#x27;auth_token&#x27;</span>: auth_token,
+        <span class="hljs-string">&#x27;nsfw&#x27;</span>: <span class="hljs-string">&quot;0&quot;</span>
+    &#125;
+	
+    <span class="hljs-comment">## 请求的地址</span>
+    des_url = <span class="hljs-string">&#x27;https://imgtu.com/json&#x27;</span>
+    
+    <span class="hljs-comment">## 提交数据和文件，cookies也是转换好的</span>
+    <span class="hljs-keyword">try</span>:
+        des_post = requests.post(
+            url=des_url,
+            data=data,
+            files=files,
+            cookies=luguo_cookies)
+        response = des_post.content.decode()
+        data = json.loads(response)
+        print(data)
+        <span class="hljs-keyword">return</span> data[<span class="hljs-string">&#x27;image&#x27;</span>][<span class="hljs-string">&#x27;url&#x27;</span>]
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
+        print(<span class="hljs-string">&#x27;截图上传失败……%s&#x27;</span> % exc)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
 
-<span class="hljs-meta">    @classmethod</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">resize_by_size</span>(<span class="hljs-params">cls, size</span>):</span>
-        <span class="hljs-string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span>
-        size *= <span class="hljs-number">1024</span>
-        im = Image.<span class="hljs-built_in">open</span>(infile)
-        size_tmp = os.path.getsize(infile)
-        q = <span class="hljs-number">100</span>
-        <span class="hljs-keyword">while</span> size_tmp &gt; size <span class="hljs-keyword">and</span> q &gt; <span class="hljs-number">0</span>:
-            print(q)
-            out = im.resize(im.size, Image.ANTIALIAS)
-            out.save(outfile, quality=q)
-            size_tmp = os.path.getsize(outfile)
-            q -= <span class="hljs-number">5</span>
-        <span class="hljs-keyword">if</span> q == <span class="hljs-number">100</span>:
-            shutil.copy(infile, outfile)
-        print(<span class="hljs-string">&quot;完成&quot;</span>)
 
+<span class="hljs-comment"># 上传之前先访问一次页面获取auth_token</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_auth_token</span>():</span>
+    url = <span class="hljs-string">&#x27;https://imgtu.com/&#x27;</span>
+    response = requests.get(url, cookies=luguo_cookies)
+    html = response.content.decode()
+    token = re.search(<span class="hljs-string">&#x27;auth_token=[a-z0-9]*&#x27;</span>, html).group()
+    token = token.split(<span class="hljs-string">&#x27;=&#x27;</span>)[-<span class="hljs-number">1</span>].strip()
+    <span class="hljs-keyword">return</span> token
+
+
+<span class="hljs-comment">## 将cookie字符串转换成字典的形式</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cookies_raw2jar</span>(<span class="hljs-params">raw: <span class="hljs-built_in">str</span></span>) -&gt; dict:</span>
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    Arrange Cookies from raw using SimpleCookies</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> raw:
+        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;The Cookies is not allowed to be empty.&quot;</span>)
+
+    <span class="hljs-keyword">from</span> http.cookies <span class="hljs-keyword">import</span> SimpleCookie
+    cookie = SimpleCookie(raw)
+    <span class="hljs-keyword">return</span> &#123;key: morsel.value <span class="hljs-keyword">for</span> key, morsel <span class="hljs-keyword">in</span> cookie.items()&#125;
 
 
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
-    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
-        infile = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请输入你的图片路径: &gt;&gt;&quot;</span>)
-        <span class="hljs-keyword">if</span> infile == <span class="hljs-string">&quot;exit&quot;</span>:
-            <span class="hljs-keyword">break</span>
-        dir_path = os.path.dirname(infile)
-        base_name = os.path.basename(infile)
-        tmp_path = os.path.join(dir_path, <span class="hljs-string">&#x27;tmp&#x27;</span>)
-        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isdir(tmp_path):
-            os.mkdir(tmp_path)
-        outfile = os.path.join(tmp_path, base_name)
-        mode = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请输入你要进行的模式(1、按高160等比缩小到指定尺寸；2、压缩图片size到300KB)&quot;</span>)
-        <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(mode) == <span class="hljs-number">1</span>:
-            Graphics.resize_by_height(<span class="hljs-number">160</span>)
-        <span class="hljs-keyword">else</span>:
-            Graphics.resize_by_size(<span class="hljs-number">300</span>)</code></pre></div>
+    luguo_cookie_raw = <span class="hljs-string">&quot;&quot;</span> <span class="hljs-comment"># 登录后获取到的cookie字符串</span>
+    luguo_cookies = cookies_raw2jar(luguo_cookie_raw) <span class="hljs-comment"># 转换成字典</span>
+    img_path = <span class="hljs-string">r&quot;E:\HUDBT\imgs\Blood.of.Zeus.S01E08.War.for.Olympus.1080p.NF.WEB-DL.DDP5.1.x264-MZABI.mkv.jpg&quot;</span> <span class="hljs-comment"># 测试的图片链接</span>
+    send_luguo(img_path, auth_token) <span class="hljs-comment"># 上传返回的是图片的地址</span></code></pre></div>
 
-<p>测试了一波，还没有人家提到的站点做的一半好，承让了，直接使用<a target="_blank" rel="noopener" href="https://tinypng.com/">TinyPNG</a>来压缩图片。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>其实很多人已经在你前边走了一条路，但是你不走过去，你怎么知道沿途的风景呢？</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1367881">绑定Github上的个人博客到Godaddy域名</a>
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://kaitohh.com/tweak-hexo/">优化 Hexo 博客的访问速度</a>
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/ln152315/article/details/42777149">Python 图片尺寸缩放的4种方式</a>
-<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<p>输出结果(隐去了一部分不重要的个人信息)：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python">&#123;
+  <span class="hljs-string">&#x27;status_code&#x27;</span>: <span class="hljs-number">200</span>,
+  <span class="hljs-string">&#x27;success&#x27;</span>: &#123;
+    <span class="hljs-string">&#x27;message&#x27;</span>: <span class="hljs-string">&#x27;image uploaded&#x27;</span>,
+    <span class="hljs-string">&#x27;code&#x27;</span>: <span class="hljs-number">200</span>
+  &#125;,
+  <span class="hljs-string">&#x27;image&#x27;</span>: &#123;
+    <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;6oOpND&#x27;</span>,
+    <span class="hljs-string">&#x27;extension&#x27;</span>: <span class="hljs-string">&#x27;jpg&#x27;</span>,
+    <span class="hljs-string">&#x27;size&#x27;</span>: <span class="hljs-number">195587</span>,
+    <span class="hljs-string">&#x27;width&#x27;</span>: <span class="hljs-string">&#x27;1216&#x27;</span>,
+    <span class="hljs-string">&#x27;height&#x27;</span>: <span class="hljs-string">&#x27;1055&#x27;</span>,
+    <span class="hljs-string">&#x27;date&#x27;</span>: <span class="hljs-string">&#x27;2021-03-22 19:57:12&#x27;</span>,
+    <span class="hljs-string">&#x27;date_gmt&#x27;</span>: <span class="hljs-string">&#x27;2021-03-22 11:57:12&#x27;</span>,
+    <span class="hljs-string">&#x27;title&#x27;</span>: <span class="hljs-string">&#x27;Blood.of.Zeus.S01E08.War.for.Olympus.1080p.NF.WEB DL.DDP5.1.x264 MZABI.mkv&#x27;</span>,
+    <span class="hljs-string">&#x27;description&#x27;</span>: <span class="hljs-literal">None</span>,
+    <span class="hljs-string">&#x27;nsfw&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,
+    <span class="hljs-string">&#x27;storage_mode&#x27;</span>: <span class="hljs-string">&#x27;datefolder&#x27;</span>,
+    <span class="hljs-string">&#x27;md5&#x27;</span>: <span class="hljs-string">&#x27;7cf830075aff82dd6a8bb32d5ad565d7&#x27;</span>,
+    <span class="hljs-string">&#x27;original_filename&#x27;</span>: <span class="hljs-string">&#x27;Blood.of.Zeus.S01E08.War.for.Olympus.1080p.NF.WEB-DL.DDP5.1.x264-MZABI.mkv.jpg&#x27;</span>,
+    <span class="hljs-string">&#x27;original_exifdata&#x27;</span>: <span class="hljs-string">&#x27;&#123;&quot;FileName&quot;:&quot;Blood.of.Zeus.S01E08.War.for.Olympus.1080p.NF.WEB-DL.DDP5.1.x264-MZABI.mkv.jpg&quot;,&quot;FileDateTime&quot;:&quot;1616414232&quot;,&quot;FileSize&quot;:&quot;195587&quot;,&quot;FileType&quot;:&quot;2&quot;,&quot;MimeType&quot;:&quot;image\\/jpeg&quot;,&quot;SectionsFound&quot;:&quot;&quot;,&quot;COMPUTED&quot;:&#123;&quot;html&quot;:&quot;width=\\&quot;1216\\&quot; height=\\&quot;1055\\&quot;&quot;,&quot;Height&quot;:&quot;1055&quot;,&quot;Width&quot;:&quot;1216&quot;,&quot;IsColor&quot;:&quot;1&quot;&#125;&#125;&#x27;</span>,
+    <span class="hljs-string">&#x27;views&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,
+    <span class="hljs-string">&#x27;category_id&#x27;</span>: <span class="hljs-literal">None</span>,
+    <span class="hljs-string">&#x27;chain&#x27;</span>: <span class="hljs-string">&#x27;7&#x27;</span>,
+    <span class="hljs-string">&#x27;thumb_size&#x27;</span>: <span class="hljs-string">&#x27;12273&#x27;</span>,
+    <span class="hljs-string">&#x27;medium_size&#x27;</span>: <span class="hljs-string">&#x27;118214&#x27;</span>,
+    <span class="hljs-string">&#x27;expiration_date_gmt&#x27;</span>: <span class="hljs-literal">None</span>,
+    <span class="hljs-string">&#x27;likes&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,
+    <span class="hljs-string">&#x27;is_animated&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,
+    <span class="hljs-string">&#x27;source_md5&#x27;</span>: <span class="hljs-literal">None</span>,
+    <span class="hljs-string">&#x27;is_approved&#x27;</span>: <span class="hljs-string">&#x27;1&#x27;</span>,
+    <span class="hljs-string">&#x27;file&#x27;</span>: &#123;
+      <span class="hljs-string">&#x27;resource&#x27;</span>: &#123;
+        <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;url&#x27;</span>
+      &#125;
+    &#125;,
+    <span class="hljs-string">&#x27;id_encoded&#x27;</span>: <span class="hljs-string">&#x27;6oOpND&#x27;</span>,
+    <span class="hljs-string">&#x27;filename&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.jpg&#x27;</span>,
+    <span class="hljs-string">&#x27;mime&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span>,
+    <span class="hljs-string">&#x27;url&#x27;</span>: <span class="hljs-string">&#x27;https://z3.ax1x.com/2021/03/22/6oOpND.jpg&#x27;</span>,
+    <span class="hljs-string">&#x27;ratio&#x27;</span>: <span class="hljs-number">1.15260663507109</span>,
+    <span class="hljs-string">&#x27;size_formatted&#x27;</span>: <span class="hljs-string">&#x27;195.6 KB&#x27;</span>,
+    <span class="hljs-string">&#x27;url_viewer&#x27;</span>: <span class="hljs-string">&#x27;https://imgtu.com/i/6oOpND&#x27;</span>,
+    <span class="hljs-string">&#x27;url_short&#x27;</span>: <span class="hljs-string">&#x27;https://imgtu.com/i/6oOpND&#x27;</span>,
+    <span class="hljs-string">&#x27;image&#x27;</span>: &#123;
+      <span class="hljs-string">&#x27;filename&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;6oOpND&#x27;</span>,
+      <span class="hljs-string">&#x27;mime&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span>,
+      <span class="hljs-string">&#x27;extension&#x27;</span>: <span class="hljs-string">&#x27;jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;url&#x27;</span>: <span class="hljs-string">&#x27;https://z3.ax1x.com/2021/03/22/6oOpND.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;size&#x27;</span>: <span class="hljs-number">195587</span>
+    &#125;,
+    <span class="hljs-string">&#x27;thumb&#x27;</span>: &#123;
+      <span class="hljs-string">&#x27;filename&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.th.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.th&#x27;</span>,
+      <span class="hljs-string">&#x27;mime&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span>,
+      <span class="hljs-string">&#x27;extension&#x27;</span>: <span class="hljs-string">&#x27;jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;url&#x27;</span>: <span class="hljs-string">&#x27;https://z3.ax1x.com/2021/03/22/6oOpND.th.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;size&#x27;</span>: <span class="hljs-string">&#x27;12273&#x27;</span>
+    &#125;,
+    <span class="hljs-string">&#x27;medium&#x27;</span>: &#123;
+      <span class="hljs-string">&#x27;filename&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.md.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;6oOpND.md&#x27;</span>,
+      <span class="hljs-string">&#x27;mime&#x27;</span>: <span class="hljs-string">&#x27;image/jpeg&#x27;</span>,
+      <span class="hljs-string">&#x27;extension&#x27;</span>: <span class="hljs-string">&#x27;jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;url&#x27;</span>: <span class="hljs-string">&#x27;https://z3.ax1x.com/2021/03/22/6oOpND.md.jpg&#x27;</span>,
+      <span class="hljs-string">&#x27;size&#x27;</span>: <span class="hljs-string">&#x27;118214&#x27;</span>
+    &#125;,
+    <span class="hljs-string">&#x27;display_url&#x27;</span>: <span class="hljs-string">&#x27;https://z3.ax1x.com/2021/03/22/6oOpND.md.jpg&#x27;</span>,
+    <span class="hljs-string">&#x27;display_width&#x27;</span>: <span class="hljs-string">&#x27;680&#x27;</span>,
+    <span class="hljs-string">&#x27;display_height&#x27;</span>: <span class="hljs-number">590</span>,
+    <span class="hljs-string">&#x27;views_label&#x27;</span>: <span class="hljs-string">&#x27;次浏览&#x27;</span>,
+    <span class="hljs-string">&#x27;likes_label&#x27;</span>: <span class="hljs-string">&#x27;喜欢&#x27;</span>,
+    <span class="hljs-string">&#x27;how_long_ago&#x27;</span>: <span class="hljs-string">&#x27;2 秒 前&#x27;</span>,
+    <span class="hljs-string">&#x27;date_fixed_peer&#x27;</span>: <span class="hljs-string">&#x27;2021-03-22 19:57:12&#x27;</span>,
+    <span class="hljs-string">&#x27;title_truncated&#x27;</span>: <span class="hljs-string">&#x27;Blood.of.Zeus.S01E08.War....&#x27;</span>,
+    <span class="hljs-string">&#x27;title_truncated_html&#x27;</span>: <span class="hljs-string">&#x27;Blood.of.Zeus.S01E08.War....&#x27;</span>,
+    <span class="hljs-string">&#x27;is_use_loader&#x27;</span>: <span class="hljs-literal">False</span>
+  &#125;,
+  <span class="hljs-string">&#x27;request&#x27;</span>: &#123;
+    <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;file&#x27;</span>,
+    <span class="hljs-string">&#x27;action&#x27;</span>: <span class="hljs-string">&#x27;upload&#x27;</span>,
+    <span class="hljs-string">&#x27;timestamp&#x27;</span>: <span class="hljs-string">&#x27;1616414181000&#x27;</span>,
+    <span class="hljs-string">&#x27;auth_token&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-string">&#x27;nsfw&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>
+  &#125;,
+  <span class="hljs-string">&#x27;status_txt&#x27;</span>: <span class="hljs-string">&#x27;OK&#x27;</span>
+&#125;</code></pre></div>
+
+<p>测试图片：</p>
+<p><img src="https://z3.ax1x.com/2021/03/22/6oOpND.jpg" srcset="/img/loading.gif" lazyload alt="测试图片"></p>
+<p>其实发现提供的数据还是挺多的，不仅包括图片链接，还有缩略小图和中等大小的图片。国内很多图床都是这种架构，那么只需要更改部分代码就可以实现上传图片到其他图床了，但是——请不要滥用。</p>
+<p>本文只做技术探讨，不鼓励存放过多无意义的图片。本文属于原创作品，如果你喜欢这篇文章请收藏转发，或者给作者一定的打赏支持吧。</p>
+
             </div>
             <hr>
             <div>
@@ -381,7 +440,7 @@ hexo d</code></pre></div>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
                     
                   </div>
                 
@@ -389,11 +448,13 @@ hexo d</code></pre></div>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
                     
                       <a class="hover-with-bg" href="/tags/python/">python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
                     
                   </div>
                 
@@ -473,18 +534,12 @@ hexo d</code></pre></div>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Hexo%E6%90%AD%E5%BB%BA%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%AE%9E%E7%8E%B0%E8%B0%B7%E6%AD%8C%E7%99%BE%E5%BA%A6%E6%94%B6%E5%BD%95/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hexo搭建的个人博客实现谷歌百度收录</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E5%9B%9B%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（四）</span>
+                      <a href="/Python%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E4%B8%80%E7%82%B9%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">Python装饰器的一点总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
