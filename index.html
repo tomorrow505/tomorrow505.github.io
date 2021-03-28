@@ -197,6 +197,74 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/python%E6%93%8D%E4%BD%9C%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E5%BF%83%E5%BE%97/" target="_self">
+          <img src="/post/python.jpg" srcset="/img/loading.gif" lazyload alt="python操作种子文件的几点心得">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/python%E6%93%8D%E4%BD%9C%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E5%BF%83%E5%BE%97/">python操作种子文件的几点心得</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/python%E6%93%8D%E4%BD%9C%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E5%BF%83%E5%BE%97/">
+          
+          
+            
+          
+          前言
+之前在写种鸡的时候，免不了要对种子进行操作，python相对第三方库比较完备，所以整理一篇看看我们能够用python实现哪些功能，也欢迎大家补充。
+实现功能
+
+获取种子hash值
+
+一般来说，我们需要根据hash值获取客户端内的种子信息，或者在做备份或者更换种子路径的时候就需要比对。
+import hashlib
+import bencode  # 注意安装的模块名叫bencode.py
+
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-28 10:15" pubdate>
+              2021-03-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+              <a href="/tags/PT/">PT</a>
+            
+              <a href="/tags/python/">python</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" target="_self">
           <img src="/post/qbittorrent.jpg" srcset="/img/loading.gif" lazyload alt="PT发布之一键转载脚本使用指南">
         </a>
@@ -764,72 +832,6 @@ hexo d
               <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
               <a href="/tags/qbittorrent/">qbittorrent</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/" target="_self">
-          <img src="/post/ffmpeg_index.png" srcset="/img/loading.gif" lazyload alt="Python基于FFMPEG自动截图上传至imgbox（三）">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">Python基于FFMPEG自动截图上传至imgbox（三）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
-          
-          
-            
-          
-          前言
-话接上回，我们能够通过传递过来的视频文件路径截图图片存放到指定路径，并且返回了一个列表，那么我们怎么上传到指定图床？
-核心代码及思想
-我们在这个环节用到了一个imgbox的相关模块——pyimgbox。使用到了协程相关知识，类似于老王泡茶那个故事话不多说，上代码：
-import asyncio
-import pyimgbox
-
-# 将之前获取到的图片的路径列表传入
-async def up_
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-18 19:51" pubdate>
-              2021-03-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
-              <a href="/tags/Python/">Python</a>
-            
-              <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
           </div>
         

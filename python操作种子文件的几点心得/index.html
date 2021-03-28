@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Hexo搭建的个人博客实现谷歌百度收录 - Tomorrow&#39;s blog</title>
+  <title>python操作种子文件的几点心得 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hexo搭建的个人博客实现谷歌百度收录">
+            <span class="h2" id="subtitle" title="python操作种子文件的几点心得">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-20 11:09" pubdate>
-        2021年3月20日 上午
+      <time datetime="2021-03-28 10:15" pubdate>
+        2021年3月28日 上午
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      874 字
+      1.4k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      21
        分钟
     </span>
   
@@ -250,97 +250,195 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo搭建的个人博客实现谷歌百度收录</h1>
+            <h1 style="display: none">python操作种子文件的几点心得</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：8 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>兴致冲冲的搜索自己发布的文章发现根本没有，也就是说只能自己输入网址才能够看到，别人根本搜不到，气急败坏。整！</p>
-<p>如何能够辨别自己的站点被收录了呢？输入site:tomorrow505.xyz，有相关结果就成功了。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>生成sitemap</p>
-<blockquote>
-<p>我们需要使用npm自动生成网站的sitemap，然后将生成的sitemap提交到百度和其他搜索引擎。sitemap是一种文件，您可以通过该文件列出您网站上的网页，从而将您网站内容的组织架构告知Google和其他搜索引擎。Googlebot等搜索引擎网页抓取工具会读取此文件，以便更加智能地抓取您的网站。</p>
-</blockquote>
-<p>安装插件走一波：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">$ npm install hexo-generator-sitemap --save
-$ npm install hexo-generator-baidu-sitemap –-save</code></pre></div>
-
-<p>编辑博客配置文件：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">$</span> <span class="hljs-string">vim</span> <span class="hljs-string">_config.yml</span>
-<span class="hljs-comment"># 自动生成sitemap</span>
-<span class="hljs-attr">sitemap:</span>
-  <span class="hljs-attr">path:</span> <span class="hljs-string">sitemap.xml</span>
-<span class="hljs-attr">baidusitemap:</span>
-  <span class="hljs-attr">path:</span> <span class="hljs-string">baidusitemap.xml</span></code></pre></div>
-
-<p>用于在generate的时候生成这两个文件，然后可以通过域名+名称的方式打开，如：<a href="http://tomorrow505.xyz/sitemap.xml%E5%B1%95%E7%A4%BA%E4%BA%86%E7%AB%99%E7%82%B9%E7%9A%84%E6%89%80%E6%9C%89%E9%93%BE%E6%8E%A5%E4%BF%A1%E6%81%AF%E3%80%82">http://tomorrow505.xyz/sitemap.xml展示了站点的所有链接信息。</a></p>
-<p>接下来就是谷歌和百度收录的工作了。</p>
-<h3 id="谷歌收录"><a href="#谷歌收录" class="headerlink" title="谷歌收录"></a>谷歌收录</h3><hr>
-<p>算是比较简单的了。根据帖子Hexo+github搭建个人博客（五）<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="Hexo+github搭建个人博客（五）：百度和谷歌收录博客
-">[1]</span></a></sup>的步骤登录<a target="_blank" rel="noopener" href="https://www.google.com/webmasters/">google search console</a>，添加自己的博客网站，google同样有多种方法。我选择CNAME方式验证，然后提交sitemap过去就好了。搜索site:tomorrow505.xyz，google已经能够搜索到博客，即google收录成功。</p>
-<h3 id="百度收录"><a href="#百度收录" class="headerlink" title="百度收录"></a>百度收录</h3><hr>
-<p>参考了第二篇文章，说的会比较详细，我也简单总结一下：</p>
+<p>之前在写种鸡的时候，免不了要对种子进行操作，python相对第三方库比较完备，所以整理一篇看看我们能够用python实现哪些功能，也欢迎大家补充。</p>
+<h3 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h3><hr>
 <ol>
-<li>站点URL优化所能够用到的插件或思想：(因为博客还在一步步搭建过程中，所以暂时先不考虑)</li>
+<li>获取种子hash值</li>
 </ol>
-<ul>
-<li><p>hexo-abbrlink</p>
-</li>
-<li><p>设计urlname</p>
-</li>
-<li><p>中文链接转拼音方式( hexo-permalink-pinyin插件 ）</p>
-</li>
-</ul>
+<p>一般来说，我们需要根据hash值获取客户端内的种子信息，或者在做备份或者更换种子路径的时候就需要比对。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib
+<span class="hljs-keyword">import</span> bencode  <span class="hljs-comment"># 注意安装的模块名叫bencode.py</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_hash</span>(<span class="hljs-params">filename</span>):</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:
+        torrent_data = f.read()
+        metainfo = bencode.bdecode(torrent_data)
+        info = metainfo[<span class="hljs-string">&#x27;info&#x27;</span>]
+        <span class="hljs-keyword">return</span> hashlib.sha1(bencode.bencode(info)).hexdigest()
+
+<span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:
+    print(get_hash(<span class="hljs-string">r&quot;J:\PTP种子\[OpenCD].蔡琴 - 常青树 (2008) FLAC.torrent&quot;</span>))</code></pre></div>
+
 <ol start="2">
-<li><p>查询站点是否被收录，与谷歌一样，不再描述。</p>
-</li>
-<li><p>添加站点至谷歌搜索平台（SEO）第一步</p>
-</li>
+<li>解析种子内部</li>
 </ol>
-<p>我也是根据文章做的提交成功了，然后选择了主动推送的方案。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">npm install hexo-baidu-url-submit --save</code></pre></div>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tp
 
-<p>配置根目录_config.yml写入以下配置：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">baidu_url_submit:</span>
-  <span class="hljs-attr">count:</span> <span class="hljs-number">10</span>                           <span class="hljs-comment"># 提交最新的多少个链接</span>
-  <span class="hljs-attr">host:</span> <span class="hljs-string">https://yourname.gitee.io/</span>    <span class="hljs-comment"># 在百度站长平台中添加的域名</span>
-  <span class="hljs-attr">token:</span> <span class="hljs-string">your_token</span>             	  <span class="hljs-comment"># 秘钥</span>
-  <span class="hljs-attr">path:</span> <span class="hljs-string">baidu_urls.txt</span>                <span class="hljs-comment"># 文本文档的地址,新链接会保存在此文本文档里</span></code></pre></div>
+torrent_path = <span class="hljs-string">r&quot;E:\PTP种子\[NPUBits].Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv.torrent&quot;</span>
+data = tp.parse_torrent_file(torrent_path)
+print(data)</code></pre></div>
 
-<p>修改站点url为自己购买的域名，最后获取token配置提交方案：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># Deployment</span>
-<span class="hljs-comment">## Docs: https://hexo.io/docs/deployment.html</span>
-<span class="hljs-attr">deploy:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">git</span> 					<span class="hljs-comment">## 这是原来的deployer</span>
-  <span class="hljs-attr">repo:</span>
-  <span class="hljs-attr">branch:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">baidu_url_submitter</span> 	<span class="hljs-comment">## 在这里添加新内容即可</span></code></pre></div>
+<p>输出结果（单文件）：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs prolog">&#123;
+  <span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;http://6.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>,
+  <span class="hljs-string">&#x27;announce-list&#x27;</span>: [
+    [
+      <span class="hljs-string">&#x27;http://6.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>
+    ],
+    [
+      <span class="hljs-string">&#x27;http://4.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>
+    ]
+  ],
+  <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;http://passthepopcorn.me/torrents.php?id=207584&amp;torrentid=734627&#x27;</span>,
+  <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;qBittorrent v4.1.9.1&#x27;</span>,
+  <span class="hljs-string">&#x27;creation date&#x27;</span>: <span class="hljs-number">1576502187</span>,
+  <span class="hljs-string">&#x27;info&#x27;</span>: &#123;
+    <span class="hljs-string">&#x27;length&#x27;</span>: <span class="hljs-number">19108558519</span>,
+    <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv&#x27;</span>,
+    <span class="hljs-string">&#x27;piece length&#x27;</span>: <span class="hljs-number">8388608</span>,
+    <span class="hljs-string">&#x27;pieces&#x27;</span>: [],
+    <span class="hljs-string">&#x27;private&#x27;</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">&#x27;source&#x27;</span>: <span class="hljs-string">&#x27;[npupt.com] 蒲公英PT站&#x27;</span>
+  &#125;
+&#125;</code></pre></div>
 
-<p>可以看出是增加了一个提交的type，然后执行部署提交的时候就可以实现主动推送了</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">http://tomorrow505.xyz/2021/ckmgbiu2e0000dsag6mnaf7y7/
-http://tomorrow505.xyz/2021/ckmfpryfc0000u0ag5e79dw4i/
-http://tomorrow505.xyz/2021/ckmf3rc7n000f6oag2b2g8tvx/
-http://tomorrow505.xyz/2021/ckmf3rc7l000a6oaghxm57hgy/
-http://tomorrow505.xyz/2021/ckmf3rc7l000b6oag1bymbixh/
-http://tomorrow505.xyz/2021/ckmf3rc7800016oag0x7k0s36/
-http://tomorrow505.xyz/2021/ckmf3rc7m000d6oag1ycr0oww/
-http://tomorrow505.xyz/2021/ckmf3rc7q000k6oag3wolcl8n/
-&#123;<span class="hljs-string">&quot;remain&quot;</span>:2992,<span class="hljs-string">&quot;success&quot;</span>:8&#125;
-INFO  Deploy <span class="hljs-keyword">done</span>: baidu_url_submitter</code></pre></div>
+<p>多文件的其实也差不多，我们可以解析出来的东西包括tracker，种子制作时间，制作工具，文件大小，块的数量，以及source和comment字段。同时还可以解析出文件的结构。</p>
+<ol start="3">
+<li>清洗种子</li>
+</ol>
+<p>其实也是使用上边的torrent_parse模块，比如我们需要更换trcker。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tp
 
-<p><strong>同时在<code>hexo\.deploy_git\</code>路径下会生成一个<code>baidu_urls.txt</code>文件，其中包含了你站点中的URL链接。</strong></p>
-<p>至于手动或者sitemap怎么推送就看教程就好了，这里只是一个记录。</p>
+torrent_path = <span class="hljs-string">r&quot;E:\PTP种子\[NPUBits].Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv.torrent&quot;</span>
+data = tp.parse_torrent_file(torrent_path)
+data[<span class="hljs-string">&#x27;announce&#x27;</span>] = <span class="hljs-string">&#x27;what you want here&#x27;</span>
+new_torrent_path = <span class="hljs-string">&#x27;./test.torrent&#x27;</span>
+tp.create_torrent_file(new_torrent_path, data)</code></pre></div>
+
+<p>这样就把tracker换了，友情提示，貌似换了tracker也不能改变种子的hash，可以尝试改改source字段或者新增字段等等。</p>
+<ol start="4">
+<li>制作种子</li>
+</ol>
+<p>有的时候源种子文件有一些图片，字幕，我们不想要，由于pieces字段极长，我们也不太清楚其内部生成机理，所以还是重新制作种子比较方便。比如种鸡在遇到FileList内部含有字幕文件的时候就得重新制作了：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> torrentool.torrent <span class="hljs-keyword">import</span> Torrent
+<span class="hljs-keyword">import</span> os
+
+target_path = <span class="hljs-string">&quot;the dir you want to bencode&quot;</span>
+<span class="hljs-keyword">if</span> os.path.isdir(target_path): <span class="hljs-comment"># 判断是不是目录</span>
+    files = os.listdir(target_path)
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>([item.endswith(<span class="hljs-string">&#x27;.srt&#x27;</span>) <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> files]): <span class="hljs-comment"># 目录中有字幕文件就重新制作，当然也可以解析种子源文件</span>
+        <span class="hljs-comment"># 进行重新制作，一般还比较花时间的~</span>
+        file_data = Torrent.create_from(target_path) 
+        file_data.announce_urls = [<span class="hljs-string">b&#x27;https://hudbt.hust.edu.cn/announce.php&#x27;</span>] <span class="hljs-comment"># 写入你自己想要填写的tracer</span>
+        file_data.to_file(origin_torrent_path)
+
+</code></pre></div>
+
+<p>由于Torrent制作的时候如果碰到是文件夹，不会判断里边是不是有字幕文件等等，所以我们修改一下Torrent.py的源代码</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-meta">@classmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_target_files_info</span>(<span class="hljs-params">cls, src_path: Path</span>) -&gt; Tuple[List[Tuple[str, int, List[str]]], int]:</span>
+        is_dir = src_path.is_dir()
+
+        src_path = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;src_path&#125;</span>&#x27;</span>  <span class="hljs-comment"># Force walk() to return unicode names.</span>
+        target_files = []
+
+        <span class="hljs-keyword">if</span> is_dir:
+            <span class="hljs-keyword">for</span> base, _, files <span class="hljs-keyword">in</span> walk(src_path):
+                <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+                    <span class="hljs-keyword">if</span> file.endswith((<span class="hljs-string">&#x27;srt&#x27;</span>, <span class="hljs-string">&#x27;ass&#x27;</span>, <span class="hljs-string">&#x27;ssa&#x27;</span>)):  <span class="hljs-comment"># 这里我们把字幕文件移除了，当然也可以自己设定，或者改写函数传递一个filter更加合理</span>
+                        files.remove(file)
+                target_files.extend([join(base, fname) <span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> <span class="hljs-built_in">sorted</span>(files)])
+
+        <span class="hljs-keyword">else</span>:
+            target_files.append(src_path)
+
+        target_files_ = []
+        total_size = <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">for</span> fpath <span class="hljs-keyword">in</span> target_files:
+            file_size = getsize(fpath)
+
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> file_size:
+                <span class="hljs-keyword">continue</span>
+
+            target_files_.append((fpath, file_size, normpath(fpath.replace(src_path, <span class="hljs-string">&#x27;&#x27;</span>)).strip(sep).split(sep)))
+            total_size += file_size
+
+        <span class="hljs-keyword">return</span> target_files_, total_size</code></pre></div>
+
+<ol start="5">
+<li>顺带说一下qb下的fastresume文件解析</li>
+</ol>
+<p>经常qb会突然崩溃，然后种子文件啥的都还在就是需要重新校验。我们可以找到Back_Up下的种子和fastresume，解析fastresume找到保存路径，直接用qbittorrent-api重新加载种子并且跳过校验。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> bencoder
+path = <span class="hljs-string">r&quot;J:\BT_backup\000e17466dc95393df0dd92193955310597ac8db.fastresume&quot;</span>
+f = <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&quot;rb&quot;</span>)
+d = bencoder.decode(f.read())
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> d.items():
+    print(item)</code></pre></div>
+
+<p>输出结果为：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python">(<span class="hljs-string">b&#x27;active_time&#x27;</span>, <span class="hljs-number">1135879</span>)
+(<span class="hljs-string">b&#x27;added_time&#x27;</span>, <span class="hljs-number">1599093382</span>)
+(<span class="hljs-string">b&#x27;allocation&#x27;</span>, <span class="hljs-string">b&#x27;sparse&#x27;</span>)
+(<span class="hljs-string">b&#x27;auto_managed&#x27;</span>, <span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;completed_time&#x27;</span>, <span class="hljs-number">1599093382</span>)
+(<span class="hljs-string">b&#x27;download_rate_limit&#x27;</span>, -<span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;file-format&#x27;</span>, <span class="hljs-string">b&#x27;libtorrent resume file&#x27;</span>)
+(<span class="hljs-string">b&#x27;file-version&#x27;</span>, <span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;finished_time&#x27;</span>, <span class="hljs-number">1135879</span>)
+(<span class="hljs-string">b&#x27;httpseeds&#x27;</span>, [])
+(<span class="hljs-string">b&#x27;info-hash&#x27;</span>, <span class="hljs-string">b&#x27;\x00\x0e\x17Fm\xc9S\x93\xdf\r\xd9!\x93\x95S\x10Yz\xc8\xdb&#x27;</span>)
+(<span class="hljs-string">b&#x27;last_download&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;last_seen_complete&#x27;</span>, <span class="hljs-number">1599205887</span>)
+(<span class="hljs-string">b&#x27;last_upload&#x27;</span>, <span class="hljs-number">1793133</span>)
+(<span class="hljs-string">b&#x27;libtorrent-version&#x27;</span>, <span class="hljs-string">b&#x27;1.2.6.0&#x27;</span>)
+(<span class="hljs-string">b&#x27;max_connections&#x27;</span>, <span class="hljs-number">100</span>)
+(<span class="hljs-string">b&#x27;max_uploads&#x27;</span>, -<span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;num_complete&#x27;</span>, <span class="hljs-number">4</span>)
+(<span class="hljs-string">b&#x27;num_downloaded&#x27;</span>, <span class="hljs-number">16777215</span>)
+(<span class="hljs-string">b&#x27;num_incomplete&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;paused&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;peers&#x27;</span>, <span class="hljs-string">b&#x27;\xb7\xb2\xc5g\x86\x88p0F\\\xc78\xdd\xe8\xba\x1cA\xf2&#x27;</span>)
+(<span class="hljs-string">b&#x27;peers6&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
+(<span class="hljs-string">b&#x27;pieces&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
+(<span class="hljs-string">b&#x27;qBt-category&#x27;</span>, <span class="hljs-string">b&#x27;\xe7\x94\xb5\xe5\xbd\xb1&#x27;</span>)
+(<span class="hljs-string">b&#x27;qBt-hasRootFolder&#x27;</span>, <span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;qBt-name&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
+(<span class="hljs-string">b&#x27;qBt-queuePosition&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;qBt-ratioLimit&#x27;</span>, -<span class="hljs-number">2000</span>)
+(<span class="hljs-string">b&#x27;qBt-savePath&#x27;</span>, <span class="hljs-string">b&#x27;W:\\HUDBT-2019-06-09\\&#x27;</span>)
+(<span class="hljs-string">b&#x27;qBt-seedStatus&#x27;</span>, <span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;qBt-seedingTimeLimit&#x27;</span>, -<span class="hljs-number">2</span>)
+(<span class="hljs-string">b&#x27;qBt-tags&#x27;</span>, [])
+(<span class="hljs-string">b&#x27;qBt-tempPathDisabled&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;save_path&#x27;</span>, <span class="hljs-string">b&#x27;W:\\HUDBT-2019-06-09\\&#x27;</span>)
+(<span class="hljs-string">b&#x27;seed_mode&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;seeding_time&#x27;</span>, <span class="hljs-number">1135879</span>)
+(<span class="hljs-string">b&#x27;sequential_download&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;stop_when_ready&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;super_seeding&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;total_downloaded&#x27;</span>, <span class="hljs-number">0</span>)
+(<span class="hljs-string">b&#x27;total_uploaded&#x27;</span>, <span class="hljs-number">15383212222</span>)
+(<span class="hljs-string">b&#x27;trackers&#x27;</span>, [[<span class="hljs-string">b&#x27;https://www.hddolby.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>]])
+(<span class="hljs-string">b&#x27;upload_rate_limit&#x27;</span>, -<span class="hljs-number">1</span>)
+(<span class="hljs-string">b&#x27;url-list&#x27;</span>, [])</code></pre></div>
+
+<p>好吧，今天的内容就到这里结束了。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>活到老，学到老，以后就专心写博客了。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><hr>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="http://duansm.top/2018/08/08/hexo-sitemap/">Hexo+github搭建个人博客（五）：百度和谷歌收录博客</a>
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/liangllhahaha/article/details/105343008">站点（e.g. Hexo Blog）提交百度搜索引擎收录实现SEO</a>
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<p>都是第三方包的应用，只要善于搜索尝试总结，就可以掌握了。</p>
+
             </div>
             <hr>
             <div>
@@ -349,7 +447,7 @@ INFO  Deploy <span class="hljs-keyword">done</span>: baidu_url_submitter</code><
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
                     
                   </div>
                 
@@ -357,9 +455,11 @@ INFO  Deploy <span class="hljs-keyword">done</span>: baidu_url_submitter</code><
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
+                    
+                      <a class="hover-with-bg" href="/tags/python/">python</a>
                     
                   </div>
                 
@@ -439,18 +539,12 @@ INFO  Deploy <span class="hljs-keyword">done</span>: baidu_url_submitter</code><
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Hexo-Fluid%E5%AE%9E%E7%8E%B0%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E5%88%86%E4%BA%AB%E6%8C%89%E9%92%AE/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hexo+Fluid实现添加百度分享按钮</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Github-Hexo%E7%BB%91%E5%AE%9A%E5%88%B0Godaddy%E5%9F%9F%E5%90%8D/">
-                        <span class="hidden-mobile">Github+Hexo绑定到Godaddy域名</span>
+                      <a href="/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+                        <span class="hidden-mobile">PT发布之一键转载脚本使用指南</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
