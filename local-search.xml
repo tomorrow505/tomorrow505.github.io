@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Sublime Text3 激活过程（2021）</title>
+    <link href="/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/"/>
+    <url>/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>一直都在用 sublime text3 编写js代码，这几天一直说注册码invalid，然后删除掉之后显示未注册，未注册也能用，但是经常会弹窗叫购买。。</p><p>所以在网上找了一番：</p><div class="hljs code-wrapper"><pre><code class="hljs dns">----- BEGIN LICENSE -----Member J2TeaMSingle User LicenseEA7E-<span class="hljs-number">1011316</span>D7DA350E <span class="hljs-number">1B8B0760</span> <span class="hljs-number">972F8B60</span> F<span class="hljs-number">3E64036</span>B<span class="hljs-number">9B4E234</span> F356F38F <span class="hljs-number">0</span>AD1E3B7 <span class="hljs-number">0</span>E9C5FADFA0A2ABE <span class="hljs-number">25</span>F65BD8 D<span class="hljs-number">51458E5</span> <span class="hljs-number">3923</span>CE80<span class="hljs-number">87428428</span> <span class="hljs-number">79079A01</span> AA69F319 A1AF29A4A684C2DC <span class="hljs-number">0B1583D4</span> <span class="hljs-number">19</span>CBD290 <span class="hljs-number">217618</span>CD<span class="hljs-number">5653E0A0</span> BACE3948 BB2EE45E <span class="hljs-number">422D2C87</span>DD9AF44B <span class="hljs-number">99C49590</span> D2DBDEE1 <span class="hljs-number">75860</span>FD2<span class="hljs-number">8</span>C8BB2AD B2ECE5A4 EFC08AF2 <span class="hljs-number">25A9B864</span>------ END LICENSE ------</code></pre></div><p>搞不好哪天又用不了了，哭~~</p><h3 id="修改host"><a href="#修改host" class="headerlink" title="修改host"></a>修改host</h3><hr><p>即使注册码能用，也一会就失效了，所以还是为了万全改一个host：</p><div class="hljs code-wrapper"><pre><code class="hljs accesslog"># sublimetext<span class="hljs-number">0.0.0.0</span> license.sublimehq.com<span class="hljs-number">0.0.0.0</span> <span class="hljs-number">45</span>.<span class="hljs-number">55</span>.<span class="hljs-number">255</span>.<span class="hljs-number">55</span><span class="hljs-number">0.0.0.0</span> <span class="hljs-number">45</span>.<span class="hljs-number">55</span>.<span class="hljs-number">41</span>.<span class="hljs-number">223</span><span class="hljs-number">127.0.0.1</span> www.sublimetext.com<span class="hljs-number">127.0.0.1</span> sublimetext.com<span class="hljs-number">127.0.0.1</span> sublimehq.com<span class="hljs-number">127.0.0.1</span> telemetry.sublimehq.com</code></pre></div><p>用了一阵子了，没有移除注册码了，应该是已经成功了。</p><p><a href="https://imgtu.com/i/c92pY6"><img src="https://z3.ax1x.com/2021/03/29/c92pY6.png" alt="c92pY6.png"></a></p><p>记录一下。后期看看还有没有有用的注册码。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>编程学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>编程</tag>
+      
+      <tag>学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>python操作种子文件的几点心得</title>
     <link href="/python%E6%93%8D%E4%BD%9C%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E5%BF%83%E5%BE%97/"/>
     <url>/python%E6%93%8D%E4%BD%9C%E7%A7%8D%E5%AD%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%82%B9%E5%BF%83%E5%BE%97/</url>
