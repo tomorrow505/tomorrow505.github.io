@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>python操作种子文件的几点心得 - Tomorrow&#39;s blog</title>
+  <title>PT发布之一键转载脚本使用指南(2) - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="python操作种子文件的几点心得">
+            <span class="h2" id="subtitle" title="PT发布之一键转载脚本使用指南(2)">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-28 10:15" pubdate>
-        2021年3月28日 上午
+      <time datetime="2021-04-02 20:04" pubdate>
+        2021年4月2日 晚上
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1.7k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21
+      17
        分钟
     </span>
   
@@ -250,194 +250,83 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">python操作种子文件的几点心得</h1>
+            <h1 style="display: none">PT发布之一键转载脚本使用指南(2)</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>之前在写种鸡的时候，免不了要对种子进行操作，python相对第三方库比较完备，所以整理一篇看看我们能够用python实现哪些功能，也欢迎大家补充。</p>
-<h3 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h3><hr>
+<p>之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
+<p>手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
+<ul>
+<li>PTPIMG：需要皮或者红的账号绑定，脚本需要用到API-KEY，直接打开图床首页就可以看到了，但是没有缩略图</li>
+<li>IMGbb：注册就可以打开其API页面获取key值和API的使用流程</li>
+<li>Gifyu：这个API-KEY好像不太好找，是由猫站一个大佬提供的，缺点就是不存在你的账号里，后续使用或者管理不是很方便</li>
+<li>Freeimg：这个在以前就留意过有开放API，不过一直没有收到验证邮件，可是竟然能够直接使用，注册打开API页面获取key</li>
+<li>PIXhost：这个很强大的一个图床，可以一次上传多次图片，脚本主要设定为批量转存防盗链的几个站点的特定图床</li>
+<li>Pstorage：也是开放注册登录即可获取API-KEY值的一个图床</li>
+</ul>
+<p>最后我的设定是PTPIMG用来转存海报之类的大图；PIXhost转存多张防盗链图，其他的都可以使用，但是一次只能一张，好在提供了大图小图之类的。</p>
+<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><hr>
+<p>说到使用流程，不得不说这次脚本的一个比较大的更新，就是设计了一个<strong>设置页面</strong>，这个页面不单独存在于某一个页面，而是依托NP架构的个人设定页面，目前为了广泛性，支持了：<strong>猫站、柠檬、杜比、春天、铂金、我堡、他吹风、北洋园以及天空。默认使用猫站页面~</strong></p>
 <ol>
-<li>获取种子hash值</li>
+<li>我们先打开看一下初始化的界面，所有支持的脚本都在，自定义的快速搜索也都在~</li>
 </ol>
-<p>一般来说，我们需要根据hash值获取客户端内的种子信息，或者在做备份或者更换种子路径的时候就需要比对。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib
-<span class="hljs-keyword">import</span> bencode  <span class="hljs-comment"># 注意安装的模块名叫bencode.py</span>
-
-
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_hash</span>(<span class="hljs-params">filename</span>):</span>
-    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:
-        torrent_data = f.read()
-        metainfo = bencode.bdecode(torrent_data)
-        info = metainfo[<span class="hljs-string">&#x27;info&#x27;</span>]
-        <span class="hljs-keyword">return</span> hashlib.sha1(bencode.bencode(info)).hexdigest()
-
-<span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:
-    print(get_hash(<span class="hljs-string">r&quot;J:\PTP种子\[OpenCD].蔡琴 - 常青树 (2008) FLAC.torrent&quot;</span>))</code></pre></div>
-
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkPMf"><img src="https://www.z4a.net/images/2021/04/02/1fb29928a83adb456.png" srcset="/img/loading.gif" lazyload alt="1fb29928a83adb456.png"></a></p>
 <ol start="2">
-<li>解析种子内部</li>
+<li>我们需要精简一下，脚本设置页面点进去，跳转到猫站的个人设定页面，多了一些元素</li>
 </ol>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tp
-
-torrent_path = <span class="hljs-string">r&quot;E:\PTP种子\[NPUBits].Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv.torrent&quot;</span>
-data = tp.parse_torrent_file(torrent_path)
-print(data)</code></pre></div>
-
-<p>输出结果（单文件）：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs prolog">&#123;
-  <span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;http://6.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>,
-  <span class="hljs-string">&#x27;announce-list&#x27;</span>: [
-    [
-      <span class="hljs-string">&#x27;http://6.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>
-    ],
-    [
-      <span class="hljs-string">&#x27;http://4.npupt.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>
-    ]
-  ],
-  <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;http://passthepopcorn.me/torrents.php?id=207584&amp;torrentid=734627&#x27;</span>,
-  <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;qBittorrent v4.1.9.1&#x27;</span>,
-  <span class="hljs-string">&#x27;creation date&#x27;</span>: <span class="hljs-number">1576502187</span>,
-  <span class="hljs-string">&#x27;info&#x27;</span>: &#123;
-    <span class="hljs-string">&#x27;length&#x27;</span>: <span class="hljs-number">19108558519</span>,
-    <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv&#x27;</span>,
-    <span class="hljs-string">&#x27;piece length&#x27;</span>: <span class="hljs-number">8388608</span>,
-    <span class="hljs-string">&#x27;pieces&#x27;</span>: [],
-    <span class="hljs-string">&#x27;private&#x27;</span>: <span class="hljs-number">1</span>,
-    <span class="hljs-string">&#x27;source&#x27;</span>: <span class="hljs-string">&#x27;[npupt.com] 蒲公英PT站&#x27;</span>
-  &#125;
-&#125;</code></pre></div>
-
-<p>多文件的其实也差不多，我们可以解析出来的东西包括tracker，种子制作时间，制作工具，文件大小，块的数量，以及source和comment字段。同时还可以解析出文件的结构。</p>
-<ol start="3">
-<li>清洗种子</li>
-</ol>
-<p>其实也是使用上边的torrent_parse模块，比如我们需要更换trcker。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tp
-
-torrent_path = <span class="hljs-string">r&quot;E:\PTP种子\[NPUBits].Ad.Astra.2019.1080p.BluRay.DDP.7.1.x264-Geek.mkv.torrent&quot;</span>
-data = tp.parse_torrent_file(torrent_path)
-data[<span class="hljs-string">&#x27;announce&#x27;</span>] = <span class="hljs-string">&#x27;what you want here&#x27;</span>
-new_torrent_path = <span class="hljs-string">&#x27;./test.torrent&#x27;</span>
-tp.create_torrent_file(new_torrent_path, data)</code></pre></div>
-
-<p>这样就把tracker换了，友情提示，貌似换了tracker也不能改变种子的hash，可以尝试改改source字段或者新增字段等等。</p>
-<ol start="4">
-<li>制作种子</li>
-</ol>
-<p>有的时候源种子文件有一些图片，字幕，我们不想要，由于pieces字段极长，我们也不太清楚其内部生成机理，所以还是重新制作种子比较方便。比如种鸡在遇到FileList内部含有字幕文件的时候就得重新制作了：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> torrentool.torrent <span class="hljs-keyword">import</span> Torrent
-<span class="hljs-keyword">import</span> os
-
-target_path = <span class="hljs-string">&quot;the dir you want to bencode&quot;</span>
-<span class="hljs-keyword">if</span> os.path.isdir(target_path): <span class="hljs-comment"># 判断是不是目录</span>
-    files = os.listdir(target_path)
-    <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>([item.endswith(<span class="hljs-string">&#x27;.srt&#x27;</span>) <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> files]): <span class="hljs-comment"># 目录中有字幕文件就重新制作，当然也可以解析种子源文件</span>
-        <span class="hljs-comment"># 进行重新制作，一般还比较花时间的~</span>
-        file_data = Torrent.create_from(target_path) 
-        file_data.announce_urls = [<span class="hljs-string">b&#x27;https://hudbt.hust.edu.cn/announce.php&#x27;</span>] <span class="hljs-comment"># 写入你自己想要填写的tracer</span>
-        file_data.to_file(origin_torrent_path)
-
-</code></pre></div>
-
-<p>由于Torrent制作的时候如果碰到是文件夹，不会判断里边是不是有字幕文件等等，所以我们修改一下Torrent.py的源代码</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-meta">@classmethod</span>
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_target_files_info</span>(<span class="hljs-params">cls, src_path: Path</span>) -&gt; Tuple[List[Tuple[str, int, List[str]]], int]:</span>
-        is_dir = src_path.is_dir()
-
-        src_path = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;src_path&#125;</span>&#x27;</span>  <span class="hljs-comment"># Force walk() to return unicode names.</span>
-        target_files = []
-
-        <span class="hljs-keyword">if</span> is_dir:
-            <span class="hljs-keyword">for</span> base, _, files <span class="hljs-keyword">in</span> walk(src_path):
-                <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
-                    <span class="hljs-keyword">if</span> file.endswith((<span class="hljs-string">&#x27;srt&#x27;</span>, <span class="hljs-string">&#x27;ass&#x27;</span>, <span class="hljs-string">&#x27;ssa&#x27;</span>)):  <span class="hljs-comment"># 这里我们把字幕文件移除了，当然也可以自己设定，或者改写函数传递一个filter更加合理</span>
-                        files.remove(file)
-                target_files.extend([join(base, fname) <span class="hljs-keyword">for</span> fname <span class="hljs-keyword">in</span> <span class="hljs-built_in">sorted</span>(files)])
-
-        <span class="hljs-keyword">else</span>:
-            target_files.append(src_path)
-
-        target_files_ = []
-        total_size = <span class="hljs-number">0</span>
-
-        <span class="hljs-keyword">for</span> fpath <span class="hljs-keyword">in</span> target_files:
-            file_size = getsize(fpath)
-
-            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> file_size:
-                <span class="hljs-keyword">continue</span>
-
-            target_files_.append((fpath, file_size, normpath(fpath.replace(src_path, <span class="hljs-string">&#x27;&#x27;</span>)).strip(sep).split(sep)))
-            total_size += file_size
-
-        <span class="hljs-keyword">return</span> target_files_, total_size</code></pre></div>
-
-<ol start="5">
-<li>顺带说一下qb下的fastresume文件解析</li>
-</ol>
-<p>经常qb会突然崩溃，然后种子文件啥的都还在就是需要重新校验。我们可以找到Back_Up下的种子和fastresume，解析fastresume找到保存路径，直接用qbittorrent-api重新加载种子并且跳过校验。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> bencoder
-path = <span class="hljs-string">r&quot;J:\BT_backup\000e17466dc95393df0dd92193955310597ac8db.fastresume&quot;</span>
-f = <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&quot;rb&quot;</span>)
-d = bencoder.decode(f.read())
-<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> d.items():
-    print(item)</code></pre></div>
-
-<p>输出结果为：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python">(<span class="hljs-string">b&#x27;active_time&#x27;</span>, <span class="hljs-number">1135879</span>)
-(<span class="hljs-string">b&#x27;added_time&#x27;</span>, <span class="hljs-number">1599093382</span>)
-(<span class="hljs-string">b&#x27;allocation&#x27;</span>, <span class="hljs-string">b&#x27;sparse&#x27;</span>)
-(<span class="hljs-string">b&#x27;auto_managed&#x27;</span>, <span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;completed_time&#x27;</span>, <span class="hljs-number">1599093382</span>)
-(<span class="hljs-string">b&#x27;download_rate_limit&#x27;</span>, -<span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;file-format&#x27;</span>, <span class="hljs-string">b&#x27;libtorrent resume file&#x27;</span>)
-(<span class="hljs-string">b&#x27;file-version&#x27;</span>, <span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;finished_time&#x27;</span>, <span class="hljs-number">1135879</span>)
-(<span class="hljs-string">b&#x27;httpseeds&#x27;</span>, [])
-(<span class="hljs-string">b&#x27;info-hash&#x27;</span>, <span class="hljs-string">b&#x27;\x00\x0e\x17Fm\xc9S\x93\xdf\r\xd9!\x93\x95S\x10Yz\xc8\xdb&#x27;</span>)
-(<span class="hljs-string">b&#x27;last_download&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;last_seen_complete&#x27;</span>, <span class="hljs-number">1599205887</span>)
-(<span class="hljs-string">b&#x27;last_upload&#x27;</span>, <span class="hljs-number">1793133</span>)
-(<span class="hljs-string">b&#x27;libtorrent-version&#x27;</span>, <span class="hljs-string">b&#x27;1.2.6.0&#x27;</span>)
-(<span class="hljs-string">b&#x27;max_connections&#x27;</span>, <span class="hljs-number">100</span>)
-(<span class="hljs-string">b&#x27;max_uploads&#x27;</span>, -<span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;num_complete&#x27;</span>, <span class="hljs-number">4</span>)
-(<span class="hljs-string">b&#x27;num_downloaded&#x27;</span>, <span class="hljs-number">16777215</span>)
-(<span class="hljs-string">b&#x27;num_incomplete&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;paused&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;peers&#x27;</span>, <span class="hljs-string">b&#x27;\xb7\xb2\xc5g\x86\x88p0F\\\xc78\xdd\xe8\xba\x1cA\xf2&#x27;</span>)
-(<span class="hljs-string">b&#x27;peers6&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
-(<span class="hljs-string">b&#x27;pieces&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
-(<span class="hljs-string">b&#x27;qBt-category&#x27;</span>, <span class="hljs-string">b&#x27;\xe7\x94\xb5\xe5\xbd\xb1&#x27;</span>)
-(<span class="hljs-string">b&#x27;qBt-hasRootFolder&#x27;</span>, <span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;qBt-name&#x27;</span>, <span class="hljs-string">b&#x27;&#x27;</span>)
-(<span class="hljs-string">b&#x27;qBt-queuePosition&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;qBt-ratioLimit&#x27;</span>, -<span class="hljs-number">2000</span>)
-(<span class="hljs-string">b&#x27;qBt-savePath&#x27;</span>, <span class="hljs-string">b&#x27;W:\\HUDBT-2019-06-09\\&#x27;</span>)
-(<span class="hljs-string">b&#x27;qBt-seedStatus&#x27;</span>, <span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;qBt-seedingTimeLimit&#x27;</span>, -<span class="hljs-number">2</span>)
-(<span class="hljs-string">b&#x27;qBt-tags&#x27;</span>, [])
-(<span class="hljs-string">b&#x27;qBt-tempPathDisabled&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;save_path&#x27;</span>, <span class="hljs-string">b&#x27;W:\\HUDBT-2019-06-09\\&#x27;</span>)
-(<span class="hljs-string">b&#x27;seed_mode&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;seeding_time&#x27;</span>, <span class="hljs-number">1135879</span>)
-(<span class="hljs-string">b&#x27;sequential_download&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;stop_when_ready&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;super_seeding&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;total_downloaded&#x27;</span>, <span class="hljs-number">0</span>)
-(<span class="hljs-string">b&#x27;total_uploaded&#x27;</span>, <span class="hljs-number">15383212222</span>)
-(<span class="hljs-string">b&#x27;trackers&#x27;</span>, [[<span class="hljs-string">b&#x27;https://www.hddolby.com/announce.php?passkey=xxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>]])
-(<span class="hljs-string">b&#x27;upload_rate_limit&#x27;</span>, -<span class="hljs-number">1</span>)
-(<span class="hljs-string">b&#x27;url-list&#x27;</span>, [])</code></pre></div>
-
-<p>好吧，今天的内容就到这里结束了。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkXvE"><img src="https://www.z4a.net/images/2021/04/02/24b21f4de1b1f1fa3.png" srcset="/img/loading.gif" lazyload alt="24b21f4de1b1f1fa3.png"></a></p>
+<p><strong>转发站点设置</strong>：支持了如上一些站点，但是有一些我们肯定用不到，我们可以取消勾选，然后点击保存。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk9rr"><img src="https://www.z4a.net/images/2021/04/02/32776ac0a79cc2f2f.png" srcset="/img/loading.gif" lazyload alt="32776ac0a79cc2f2f.png"></a></p>
+<p><strong>常用站点设置</strong>：这时候常用站点设置以及缩小为上边选择的站点了，常用站点适用于一次性打开多个站点发布页面的，这里举例选了6个。每一个站点第一次点击常用都会出现一个拦截窗口，点击始终允许就可以一次性打开多个发布页了。</p>
+<p><strong>脚本设置站点</strong>：这个就看每个人喜欢用哪个站点来跳转了，NP架构下大同小异，为了能够覆盖多数人选择，这里支持了好几个站点。</p>
+<p><strong>快速搜索站点</strong>：这个还是跟之前一样，能够快速搜索查询其他站点是否有对应的资源，我们用{}中间插入变量名用于后续替换搜索，如{imdbid}后期替换为imdb的编号tt1234567之类的，{search_name}替换为影视名称用于搜索。按照格式一行一个即可~也可以进行删除。</p>
+<p><strong>是否匿名</strong>：很简单了，就是想不想匿名发布资源。</p>
+<hr>
+<p>上述是基本上都会用到的功能，下边几个key值简单介绍一下：</p>
+<blockquote>
+<p>PTPimg的key值输入保存以后种子页面会多一个转存PTP选项，就是将海报等之类的大图转存PTPIMG</p>
+<p>TMDB的key值用于需要输入TMDB的编号的站点使用，可以自己网上搜索或者注册一个</p>
+<p>四个图床的API-KEY值，基本上都需要注册之后获取，用于单张图片转存，不方便的就是说要一张一张进行</p>
+</blockquote>
+<p><strong>单图转存</strong>：配置好上述几个key之后就可以点击种子页面的单图转存进入同一个页面进行操作，好处是不用管到底是什么架构可以依托于国内NP页面进行操作。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkJQJ"><img src="https://www.z4a.net/images/2021/04/02/4.png" srcset="/img/loading.gif" lazyload alt="4.png"></a></p>
+<h3 id="示范一例（单图到PTP）"><a href="#示范一例（单图到PTP）" class="headerlink" title="示范一例（单图到PTP）"></a>示范一例（单图到PTP）</h3><hr>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk19O"><img src="https://www.z4a.net/images/2021/04/02/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></a></p>
+<p>我自己配置好的一个示范，转存PTP就是用于将一些不需要缩略图的图片转存到PTPIMG。由于点击之后会要求我们输入图片地址，所以我们先复制一个图片地址再进行点击：<a target="_blank" rel="noopener" href="http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg">http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkiV0"><img src="https://www.z4a.net/images/2021/04/02/6.png" srcset="/img/loading.gif" lazyload alt="6.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk8Pj"><img src="https://www.z4a.net/images/2021/04/02/7.png" srcset="/img/loading.gif" lazyload alt="7.png"></a></p>
+<p>粘贴得到如下代码：<code>[img]https://ptpimg.me/9l89dg.jpg[/img]</code>, 然后我们看看图片是什么样的：</p>
+<p><img src="https://ptpimg.me/9l89dg.jpg" srcset="/img/loading.gif" lazyload alt="ptpimg"></p>
+<p>没错，就是想要转存的那张图片了……</p>
+<h3 id="示范一例（多图到PIXhost）"><a href="#示范一例（多图到PIXhost）" class="headerlink" title="示范一例（多图到PIXhost）"></a>示范一例（多图到PIXhost）</h3><hr>
+<p>前边已经讲解了，是为了防盗链的多图一起转，所以现在使用还是有一点局限性。<strong>只适用于FL/TTG/HDC/LemonHD/AVZ/PHD的部分图床的图片。</strong></p>
+<p>我们仅仅以AVZ的图片作为讲解：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkf7P"><img src="https://www.z4a.net/images/2021/04/02/8.png" srcset="/img/loading.gif" lazyload alt="8.png"></a></p>
+<p>比以往多了一个转存截图，然后我们给截图加了一个可以选择的属性，选中截图之后点击转存截图就会有信息显示到下边的框框里。AVZ截图很多我们不需要那么多，所以依次选择自己想要的截图：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkviv"><img src="https://www.z4a.net/images/2021/04/02/9.png" srcset="/img/loading.gif" lazyload alt="9.png"></a></p>
+<p>依上图，我们选择了6张，然后点击转存截图：稍等片刻，正在处理……然后处理成功！！为了支持外站，大小设置成了350px…</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkKPL"><img src="https://www.z4a.net/images/2021/04/02/10.png" srcset="/img/loading.gif" lazyload alt="10.png"></a></p>
+<p>有可能转载之前会用到获取豆瓣的功能，所以我在这里留了一个空行。</p>
+<p>放到种子描述里看看效果：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkNz5"><img src="https://www.z4a.net/images/2021/04/02/14.png" srcset="/img/loading.gif" lazyload alt="14.png"></a></p>
+<h3 id="示范一例（单图转载）"><a href="#示范一例（单图转载）" class="headerlink" title="示范一例（单图转载）"></a>示范一例（单图转载）</h3><hr>
+<p>这次我们以Filelis的一张防盗图作为示例：<a target="_blank" rel="noopener" href="https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png">https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png</a></p>
+<p>如果没搞错的话，应该是防盗的，哈哈~~~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkR3k"><img src="https://www.z4a.net/images/2021/04/02/11.png" srcset="/img/loading.gif" lazyload alt="11.png"></a></p>
+<p>让子弹飞一会儿~~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkl7b"><img src="https://www.z4a.net/images/2021/04/02/12.png" srcset="/img/loading.gif" lazyload alt="12.png"></a></p>
+<p>我们将bbcode防盗一个种子描述里看看效果：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkz8H"><img src="https://www.z4a.net/images/2021/04/02/13.png" srcset="/img/loading.gif" lazyload alt="13.png"></a></p>
+<p>这里我们选择的bbcode是中等大小图或者是原图，我觉得可以加一个缩略的bbcode代码。当你使用的时候我大概已经加上了，哈哈~~</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>都是第三方包的应用，只要善于搜索尝试总结，就可以掌握了。</p>
+<p>折腾不易，总算是弄好了，哈哈~~</p>
 
             </div>
             <hr>
@@ -455,11 +344,11 @@ d = bencoder.decode(f.read())
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
-                    
                       <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
                       <a class="hover-with-bg" href="/tags/PT/">PT</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
                     
                   </div>
                 
@@ -539,18 +428,12 @@ d = bencoder.decode(f.read())
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Sublime Text3 激活过程（2021）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
-                        <span class="hidden-mobile">PT发布之一键转载脚本使用指南</span>
+                      <a href="/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/">
+                        <span class="hidden-mobile">Sublime Text3 激活过程（2021）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
