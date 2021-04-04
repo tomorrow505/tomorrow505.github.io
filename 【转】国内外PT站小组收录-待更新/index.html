@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>PT发布之一键转载脚本使用指南(2) - Tomorrow&#39;s blog</title>
+  <title>【转】国内外PT站小组收录--待更新 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="PT发布之一键转载脚本使用指南(2)">
+            <span class="h2" id="subtitle" title="【转】国内外PT站小组收录--待更新">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-02 20:04" pubdate>
-        2021年4月2日 晚上
+      <time datetime="2021-04-04 11:35" pubdate>
+        2021年4月4日 中午
       </time>
     </span>
   
@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      1k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      22
+      19
        分钟
     </span>
   
@@ -250,99 +250,598 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PT发布之一键转载脚本使用指南(2)</h1>
+            <h1 style="display: none">【转】国内外PT站小组收录--待更新</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 小时前
+                  本文最后更新于：3 分钟前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>接<a href="http://tomorrow505.xyz/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">上一篇教程</a>，之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
-<p>同时，有人在上一篇教程中说设置能不能保存不要每次更新都需要替换，这个以前也想做，但是自己很懒，就拖着了……在这个版本的实现过程中，借用了NP的个人设置版块把这两个功能实现了一下。</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
-<p><font color=Blue><strong>图片转存</strong></font>：手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
-<ul>
-<li>PTPIMG：需要皮或者红的账号绑定，脚本需要用到API-KEY，直接打开图床首页就可以看到了，但是没有缩略图</li>
-<li>IMGbb：注册就可以打开其API页面获取key值和API的使用流程</li>
-<li>Gifyu：这个API-KEY好像不太好找，是由猫站一个大佬提供的，缺点就是不存在你的账号里，后续使用或者管理不是很方便</li>
-<li>Freeimg：这个在以前就留意过有开放API，不过一直没有收到验证邮件，可是竟然能够直接使用，注册打开API页面获取key</li>
-<li>PIXhost：这个很强大的一个图床，可以一次上传多次图片，脚本主要设定为批量转存防盗链的几个站点的特定图床</li>
-<li>Pstorage：也是开放注册登录即可获取API-KEY值的一个图床</li>
-</ul>
-<p><strong>最后我的设定是PTPIMG用来转存海报之类的大图；PIXhost转存多张防盗链图，其他的都可以使用，但是一次只能一张，好在提供了大图小图之类的。</strong></p>
-<p><font color=Blue><strong>脚本设置</strong></font>：这一块其实没什么好说的了，主要是根据GM_getvalue和GM_setvalue结合一些点击事件来进行的。</p>
-<h3 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h3><hr>
-<p>首先说一下<strong>设置页面</strong>，这个页面不单独存在于某一个页面，而是依托NP架构的个人设定页面，目前为了广泛性，支持了：**猫站、柠檬、杜比、春天、铂金、我堡、他吹风、北洋园以及天空。默认使用猫站页面~**设定成功以后，就不用每次更新都要更改了。</p>
-<ol>
-<li>我们先打开看一下初始化的界面，所有支持的脚本都在，自定义的快速搜索也都在~</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkPMf"><img src="https://www.z4a.net/images/2021/04/02/1fb29928a83adb456.png" srcset="/img/loading.gif" lazyload alt="1fb29928a83adb456.png"></a></p>
-<ol start="2">
-<li>我们需要精简一下，脚本设置页面点进去，跳转到猫站的个人设定页面，多了一些元素</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkXvE"><img src="https://www.z4a.net/images/2021/04/02/24b21f4de1b1f1fa3.png" srcset="/img/loading.gif" lazyload alt="24b21f4de1b1f1fa3.png"></a></p>
-<p><strong>转发站点设置</strong>：支持了如上一些站点，但是有一些我们肯定用不到，我们可以取消勾选，然后点击保存。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk9rr"><img src="https://www.z4a.net/images/2021/04/02/32776ac0a79cc2f2f.png" srcset="/img/loading.gif" lazyload alt="32776ac0a79cc2f2f.png"></a></p>
-<p><strong>常用站点设置</strong>：这时候常用站点设置以及缩小为上边选择的站点了，常用站点适用于一次性打开多个站点发布页面的，这里举例选了6个。每一个站点第一次点击常用都会出现一个拦截窗口，点击始终允许就可以一次性打开多个发布页了。下边放一个三个站的动图效果（可能需要右键新标签页中打开）：</p>
-<p><img src="https://i.ibb.co/T1xLMGG/123.gif" srcset="/img/loading.gif" lazyload alt="动图说明"></p>
-<p><font color=red>注意：如果没有出现动图里的标记，看解释说明直接设置试试。<a target="_blank" rel="noopener" href="https://support.google.com/chrome/answer/95472?co=GENIE.Platform=Desktop&hl=zh-Hans">阻止或允许在 Chrome 中显示弹出式窗口</a>。</font></p>
-<p><strong>脚本设置站点</strong>：这个就看每个人喜欢用哪个站点来跳转了，NP架构下大同小异，为了能够覆盖多数人选择，这里支持了好几个站点。<strong>如果没有猫站可以在脚本最开始改default_setting_host这一个值，具体操作看脚本说明</strong>。</p>
-<p><strong>是否在种子页面开启快捷搜索功能：</strong>主要是之前为了方便查询是否重复，支持了几个外站直接搜索的功能，如下图，在有IMDB的前提下可以直接搜索：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmIeX5"><img src="https://www.z4a.net/images/2021/04/04/18.png" srcset="/img/loading.gif" lazyload alt="18.png"></a></p>
-<p><strong>快速搜索站点</strong>：这个还是跟之前一样，能够快速搜索查询其他站点是否有对应的资源，我们用{}中间插入变量名用于后续替换搜索，如{imdbid}后期替换为imdb的编号tt1234567之类的，{search_name}替换为影视名称用于搜索。按照格式一行一个即可~也可以进行删除。</p>
-<p>另外脚本默认开启了豆瓣搜索的小功能，搜索的站点是上面设置的一些站点：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmITGh"><img src="https://www.z4a.net/images/2021/04/04/19.png" srcset="/img/loading.gif" lazyload alt="19.png"></a></p>
-<p><strong>是否匿名</strong>：很简单了，就是想不想匿名发布资源。</p>
-<hr>
-<p>上述是基本上都会用到的功能，下边几个key值简单介绍一下：</p>
-<blockquote>
-<p>PTPimg的key值输入保存以后种子页面会多一个转存PTP选项，就是将海报等之类的大图转存PTPIMG</p>
-<p>TMDB的key值用于需要输入TMDB的编号的站点使用，可以自己网上搜索或者注册一个</p>
-<p>四个图床的API-KEY值，基本上都需要注册之后获取，用于单张图片转存，不方便的就是说要一张一张进行</p>
-</blockquote>
-<p><strong>单图转存</strong>：配置好上述几个key之后就可以点击种子页面的单图转存进入同一个页面进行操作，好处是不用管到底是什么架构可以依托于国内NP页面进行操作，可以移植到国内大部分NP站点不用更新代码，也可以覆盖大多数人群。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkJQJ"><img src="https://www.z4a.net/images/2021/04/02/4.png" srcset="/img/loading.gif" lazyload alt="4.png"></a></p>
-<h3 id="示范一例（单图到PTP）"><a href="#示范一例（单图到PTP）" class="headerlink" title="示范一例（单图到PTP）"></a>示范一例（单图到PTP）</h3><hr>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk19O"><img src="https://www.z4a.net/images/2021/04/02/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></a></p>
-<p>我自己配置好的一个示范，转存PTP就是用于将一些不需要缩略图的图片转存到PTPIMG。由于点击之后会要求我们输入图片地址，所以我们先复制一个图片地址再进行点击：<a target="_blank" rel="noopener" href="http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg">http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkiV0"><img src="https://www.z4a.net/images/2021/04/02/6.png" srcset="/img/loading.gif" lazyload alt="6.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk8Pj"><img src="https://www.z4a.net/images/2021/04/02/7.png" srcset="/img/loading.gif" lazyload alt="7.png"></a></p>
-<p>粘贴得到如下代码：<code>[img]https://ptpimg.me/9l89dg.jpg[/img]</code>, 然后我们看看图片是什么样的：</p>
-<p><img src="https://ptpimg.me/9l89dg.jpg" srcset="/img/loading.gif" lazyload alt="ptpimg"></p>
-<p>没错，就是想要转存的那张图片了……</p>
-<h3 id="示范一例（多图到PIXhost）"><a href="#示范一例（多图到PIXhost）" class="headerlink" title="示范一例（多图到PIXhost）"></a>示范一例（多图到PIXhost）</h3><hr>
-<p>前边已经讲解了，是为了防盗链的多图一起转，所以现在使用还是有一点局限性。<strong>只适用于FL/TTG/HDC/LemonHD/AVZ/PHD的部分图床的图片。</strong></p>
-<p>我们仅仅以AVZ的图片作为讲解：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkf7P"><img src="https://www.z4a.net/images/2021/04/02/8.png" srcset="/img/loading.gif" lazyload alt="8.png"></a></p>
-<p>比以往多了一个转存截图，然后我们给截图加了一个可以选择的属性，选中截图之后点击转存截图就会有信息显示到下边的框框里。AVZ截图很多我们不需要那么多，所以依次选择自己想要的截图：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkviv"><img src="https://www.z4a.net/images/2021/04/02/9.png" srcset="/img/loading.gif" lazyload alt="9.png"></a></p>
-<p>依上图，我们选择了6张，然后点击转存截图：稍等片刻，正在处理……然后处理成功！！为了支持外站，大小设置成了350px…</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkKPL"><img src="https://www.z4a.net/images/2021/04/02/10.png" srcset="/img/loading.gif" lazyload alt="10.png"></a></p>
-<p>有可能转载之前会用到获取豆瓣的功能，所以我在这里留了一个空行。</p>
-<p>放到种子描述里看看效果：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkNz5"><img src="https://www.z4a.net/images/2021/04/02/14.png" srcset="/img/loading.gif" lazyload alt="14.png"></a></p>
-<h3 id="示范一例（单图转载）"><a href="#示范一例（单图转载）" class="headerlink" title="示范一例（单图转载）"></a>示范一例（单图转载）</h3><hr>
-<p>这次我们以Filelis的一张防盗图作为示例：<a target="_blank" rel="noopener" href="https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png">https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png</a></p>
-<p>如果没搞错的话，应该是防盗的，哈哈~~~</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkR3k"><img src="https://www.z4a.net/images/2021/04/02/11.png" srcset="/img/loading.gif" lazyload alt="11.png"></a></p>
-<p>让子弹飞一会儿~~</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkl7b"><img src="https://www.z4a.net/images/2021/04/02/12.png" srcset="/img/loading.gif" lazyload alt="12.png"></a></p>
-<p>我们将bbcode防盗一个种子描述里看看效果：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkz8H"><img src="https://www.z4a.net/images/2021/04/02/13.png" srcset="/img/loading.gif" lazyload alt="13.png"></a></p>
-<p>这里我们选择的bbcode是中等大小图或者是原图，我觉得可以加一个缩略的bbcode代码。当你使用的时候我大概已经加上了，哈哈~~</p>
-<h3 id="补充-如何转移配置呢"><a href="#补充-如何转移配置呢" class="headerlink" title="补充(如何转移配置呢)"></a>补充(如何转移配置呢)</h3><hr>
-<p>有时候可能需要备份和转移，那么我们的配置到底存在哪里呢？</p>
-<p>打开油猴，由于备份存储数据需要打开一个高级面板，我们设置通用配置模式为高级：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu1YH"><img src="https://www.z4a.net/images/2021/04/03/15.png" srcset="/img/loading.gif" lazyload alt="15.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu3ef"><img src="https://www.z4a.net/images/2021/04/03/16.png" srcset="/img/loading.gif" lazyload alt="16.png"></a></p>
-<p>然后发现脚本编辑页面多了一个存储选项，我们需要做的就是把里边的东西拷贝出来，用作备份，想要还原就覆盖好了。</p>
+<p>初接触PT都会觉得迷惑，那些资源怎么甄别或者那些个小组的作品有什么差别呢？后来在一个站点看到了一些总结，可能很久没有更新了，这里放出来，国内国外的都有。</p>
+<table>
+    <tr>
+        <td>站点名称</td>
+        <td>小组名称</td>
+        <td>备注</td>
+    </tr>
+    <tr>
+        <td>Awesome-HD</td>
+        <td>BMF, decibeL, D-Z0N3, HiFi, NCmt, TDD, TeeHee</td>
+        <td>已关站</td>
+    </tr>
+    <tr>
+        <td>ArabicSource</td>
+        <td>Taxfour, Titanic, Rosum, Zezoo, HunterX, Barcelona, Zorro, Thering</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>AsianCinema</td>
+        <td>ARiN, KAWAiREMUX, iZON3</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>AvistaZ</td>
+        <td>AppleTor</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Asgaard</td>
+        <td>QUARK, PANDEMONiUM, Xor06</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ArabScene</td>
+        <td>HDMOVIE, Rosum ,monsifdx, Khaled94, OSN Team, ABOURINED, BRANCO, djomati, HaGraS, IICaeSarII, KimoHD, klashinkov, MR.KEY.HD, SALAHHD, scoot , ShimalHD, YosefJoo, BoOoOoDa , Gad, JamesBond, MiDo007</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Arab-Torrents</td>
+        <td>Excellence, yasser540, YasTon, clouds, cdhaty, EMPEROR, JaGUaR, HighQuality
+ModyAdmin, Miro, WamaEgypT, djomati, Monster, BAFADEM, JamesBond, SaSa, comanda, GHELBO, marotheking</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>AfrBits</td>
+        <td>Prodji RG</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BeyondHD</td>
+        <td>BHDStudio, BeyondHD, FraMeSToR, iFT, iROBOT, Legacy, MKVULTRA, RPG, ZR, BMF, decibeL, D-Z0N3, HiFi, NCmt, TDD, TeeHee</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Bit-HDTV</td>
+        <td>BitHD, LoRD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BlueTigers</td>
+        <td>ASPHiXiAS, TeamSuW</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Blu-bits</td>
+        <td>BluHD, 3DNORD, PrimeHD, RealHD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Blu-Evolution</td>
+        <td>BluEvo, Jack, Ruxi, Jem</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BTgigs (TorrentGigs)</td>
+        <td>inTGrity, TVM4iN</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BTN</td>
+        <td>NTb, HiSD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Bithorlo</td>
+        <td>BHO</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BitHumen</td>
+        <td>No1, TRiNiTY</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BalkanElite</td>
+        <td>CROwn</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Blu-Torrents</td>
+        <td>BluRG</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BluTopia</td>
+        <td>BLURANiUM, BLUTONiUM, WiLDCAT, CultFilms™, ReCult</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BwTracker</td>
+        <td>IcTv, DUS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>CHDBits</td>
+        <td>CHDBits, SGNB, CHDTV, CHPAD, CHWEB, CHDHKTV, StBOX, OneHD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>CN</td>
+        <td>TBH</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>CZteamTtracker</td>
+        <td>CzT</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>d4ever.cc</td>
+        <td>d4EUTeAm,GMT4U Team,Silver Bullet Upload Team (S.B.U.T)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Desi-Torrents</td>
+        <td>DDR, DrC, DUS, ExDR, IcTv, M2Tv, TmG, TeamTolly, TDBB, xDM</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>DanishBits</td>
+        <td>UNiTY, UNiTYSERiER</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Elite-pirates</td>
+        <td>AQOS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>eStone</td>
+        <td>eStone</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Filelist</td>
+        <td>playHD, playTV, playMUSIC, playON, playMB, playSD, playBD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Feedurneed</td>
+        <td>FooKaS, ACAB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Grtorrentt</td>
+        <td>Show Addicts Team</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Greekleech.info</td>
+        <td>GLTeam,Unique Team,NetCrawlers</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Greek-Team.cc</td>
+        <td>GrLTv, GLM, MyToG, GTRD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Bits.com</td>
+        <td>PLRVRTX, HDBriSe, BobOki</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Space</td>
+        <td>RightSiZE ,SpaceHD, Boss, BluPanther, CRiSPY, HDSpace, HDCLUB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Torrents</td>
+        <td>557953 (inactive), BaggerInc, BiZKiT, BluDragon, DopeHD (inactive), DownRev (inactive), E.N.D, gc04 (inactive), HB (inactive), HDBS (inactive), HiDt (inactive), HDMaNiAcS (inactive), HDVN, JM, JustHD, KRaLiMaRKo, LoRD, POH, SD (inactive), Slbenfica, StillChoosing (inactive) ,SumVision, uRaMeSHi (inactive), ViSTA (inactive) and ViSUALHD (inactive).</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDAhoy</td>
+        <td>YoHo</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDArea</td>
+        <td>HDArea, EPiC, HDApad, HDATV</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDCN</td>
+        <td>HDCN</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDBiger</td>
+        <td>HDBiger, HDBigerTV</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDBits.org</td>
+        <td>(C)Z, AE, AJ8, AJP, Arucard, AtZLIT, AW, Azul, BBW, BG,  BoK, Cache, Chotab, CJ, CRiSC, Cristi, Crow, CtrlHD, CyCR0, D4,  DChighdef, DeblocKING, DiGG, DiR, DiRTY, disc, DBO, DON, DoNOLi, EA,  EbP, Eby, ESiR, ETH, EucHD, ExY, FANDANGO, fLAMEhd, FSK, Ft4U, fty, Funner,  GMoRK, GoLDSToNE, Green, greenHD, H2, h264iRMU, HALYNA, HDB,  HDC, HDBiRD, HDL, HDxT, H@M, hymen, HZ, IDE , iCO, iLL, IMDTHS, iNFLiKTED, iNK, iOZO, J4F, JAVLiU, JCH, jTV, k2, KASHMiR , KolHD, Krispy, KTN, KweeK,  Lesnick, LiNG, LolHD, lulz, M794, madoff, MAGiC, martic, McFly, MCR,  MdM, MDR, MeDDlER, MiBr, MMI, Moshy, Mojo, NaRB, NiP, NiX, nmd, NorTV, NTb,  NWO, OAS, ONYX, pB, PerfectionHD,  PHiN, PiNG, PiMP, PiPicK, Positive, Prestige, Prime, PXE, QDP, quaz,  QXE, RDK123, Redµx, REPTiLE, RightSiZE, RuDE, RZF, S26, SbR, SG, sJR,  SK, Skazhutin, SLO, SMoKeR, somedouches, SbY, SrS, SSG, SuBHD, TayTO,  tBit, ThD, THORA, tK, TM, toho, Tree, TrollHD, tRuAVC, tRuEHD, TSE, TsH, UioP, UxO, V, VanRay, VietHD, ViNYL, WESTSiDE, WiHD, XSHD, yadong1985, YanY, Z, Zim'D , ZQ ,</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDCenter</td>
+        <td>HDC, NERDS, Tvr</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDChina (HDWinG)</td>
+        <td>HDWinG, HDWTV, HDCTV, iHD, HDChina, KiSHD, OpenMV, HDC, CrsS, LU9998, NGB, CMCT, JOMA, beAst, KHQ, DIY, TAiCHi</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDCity</td>
+        <td>NoVA, NoPA, TLF</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDME</td>
+        <td>HDme, INTL, iCandy, FourGHD, Ruxi</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDLeech</td>
+        <td>MeRCuRY, DGN, HDL</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDQueen</td>
+        <td>PHD, HDQueen</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDRoad</td>
+        <td>MySilu, HDROAD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDStar</td>
+        <td>HDS, HDSTAR, HDSPAD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Only</td>
+        <td>Only, 4HDO, MLN, PHOENiX, DBHD, KiKi, ONLY, PEWE</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Spain</td>
+        <td>GrupoHDS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDPter</td>
+        <td>EPiC, HDPter, Pbk, HDPad, HDPTV, HDPterOST</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD4Free</td>
+        <td>LEGi0N, MarGe, GF44</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD4FANS</td>
+        <td>beAst</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-Unit3d</td>
+        <td>GHiA, Archmage, HDU, DeamoN, JoN, Soltu</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Hon3yHD</td>
+        <td>Hon3y</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HQMusic</td>
+        <td>HQM, MRHQ, OwL</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDBytes</td>
+        <td>all encodes are internal</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDtime</td>
+        <td>HDTime</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HQSource</td>
+        <td>ELiTE, R2D2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDSky</td>
+        <td>HDS, HDSPad, HDSTV, HDSWEB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HD-SportBits</td>
+        <td>Reborn4HD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>HDRush</td>
+        <td>PSYPHER, PHDR, HDRush, TheVortex , JsR, BluPanther, MZ0N3</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Hyperay</td>
+        <td>Geek, Tron Hyper, PureTV, TronTV, iMusic, Neon, Original, Classic HyPad</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Kapaki.info</td>
+        <td>VisualArt Team, IMT Team, Xtreme Team, Kefalos Team, Ft4U Team</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>LinkToTheInter.net</td>
+        <td>LTTi, Vendetta, Kuryu, QalesYa</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>inTheShadow</td>
+        <td>QOS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>IceTorrents</td>
+        <td>SubZero, iREAL</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>JoyHD</td>
+        <td>JoyHD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>LeechTurk</td>
+        <td>LTRG</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>LeechAccess</td>
+        <td>LCC</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Majomparade</td>
+        <td>Gepont</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>M-Team.cc</td>
+        <td>M-Team, KiSHD, BMDru, HDStar, HDTime, Pack, CNHK, KiSHD (inactive), MPAD, MTeamTV, OneHD, R2HD (inactive), StBOX and TnP (inactive).</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Morethan.tv</td>
+        <td>Dracula, VLAD, TEPES, SOIL</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Movie-Torrentz</td>
+        <td>ViP3R, m2g</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>OurBits</td>
+        <td>OurBits, OurTV, OurPad, PbK, HosT,</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>OpenCD</td>
+        <td>OpenCD, LLM, KHQ</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PixelHD</td>
+        <td>PxHD, PxEHD, Px3D, PxHD-Mobies</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PolishTracker</td>
+        <td>PTRG,PT, d00mEr, WPRF, NiNa, KiKO, VV, NTK,</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PolishSource</td>
+        <td>PSiG, AtM, presa, FARNA, pawel2006, DeiX, FGHJ, SliMDiCK, iNTERnet</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PrivateHD</td>
+        <td>Epsilon, UTR-HD, HDBEE, SiGMA, Absinth</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PTN</td>
+        <td>SKALiWAGZ , TTO</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>PTP</td>
+        <td>TBB, HANDJOB, HRiP</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Ransackedcrew.info</td>
+        <td>CrEwSaDe</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ReleaseZone</td>
+        <td>RZ-RG</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>redemption</td>
+        <td>RESEVIL</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>RGU.life</td>
+        <td>Regents</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>RipThe.net</td>
+        <td>menace II Society</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Scene-Rush</td>
+        <td>NextForce Team (NFT), PTpOWeR.TEAM (PTP)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>SceneHD</td>
+        <td>None!</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>SDbits</td>
+        <td>CtrlSD, RR, MMI, HYPE</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ScienceHD</td>
+        <td>CalibeR , hPLuS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>SpeedApp</td>
+        <td>FZHD , FZBD , FZ4K , NViDiON , EShare ,PiPS , CRC , 41RGB , iREAL , MOO , SubZero , HDMAN , ANDRONIKA , FZWEB , FZSD , SPBD , SPHD , SPSD , SPWEB , SPDVD , SPTV , SP4K</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ScanBytes</td>
+        <td>ScanExclusive</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>SceneXpress</td>
+        <td>CiNEMANiA, GENESIS , CONFiDENT, XPRESS</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Simpledevelopment</td>
+        <td>SiMPLE</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Speed.cd</td>
+        <td>diversity, scott24</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TTG</td>
+        <td>WiKi, NGB, DoA, BDClub, OoKU</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>The1st.be</td>
+        <td>1st Release Team</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Torviet</td>
+        <td>VietHD, KiD , EPiK , EbP</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TeamTPTB</td>
+        <td>TPTB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TeraCod</td>
+        <td>BaKeR, YRP, NoGrp, TERACOD, KuKaS, Yoshi, HuN-vetike, Hun-Gege</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TNTracker</td>
+        <td>DEFUSED,Mayday,POE , LoC</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TorrentLand</td>
+        <td>EmlHDTeam,Eml Team , Castellano</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TrackerHD</td>
+        <td>TRCKHD</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>TehConnection</td>
+        <td>HaB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>UHDBits</td>
+        <td>DON, ExREN, HaB, HDVN, iFT, JM, LoRD, KASHMiR, LEGi0N, MKVTeamZQ, PIS, POH, PRiMaLHD, TayTO, UHDRemux (DKT, EEEEE, GoNeHD, KHu, LDX, LHD, LiquidHD, $a!nt, TCO, VoLT</td>
+        <td>越南堡, 可入</td>
+    </tr>
+    <tr>
+        <td>World-In-HD</td>
+        <td>PULSE, TMB, GAIA, WiHD, FURAX, LFN, HGR</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>x264</td>
+        <td>XTSF, DiRTY, ViKAT, Bunny, Chotab, VaAr3, Soul, Nero9, Green, JENC, tRuEHD, IJR, LSHD, JeM, RedJohn, kkp, incarnation, GreyWolf</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>xThor</td>
+        <td>JUSTFORFUN, CARPEDiEM, A3L, BlackFlag, BOUQUINE, Giorgy, NLX5, LiBE RTAD, Poney, ReBot, ViKINGS, FRATERNiTY, WEEDS, GHZ, NEO, SCiTiS, BSD, MYSTERiON, NLX5, ReBoT, RiPiT, DELiCiOUS, CherryCoke, DEMON, iXTHOR, QWERTZ, LOOKSMAX, SpiriTus, A3L, DZ, DavidGoodenough (inactive), Tokuchi, (inactive), Yn1D (inactive), QUALiTY (inactive), LEGi (inactive)</td>
+        <td>法国站, 保种即可</td>
+    </tr>
+    <tr>
+        <td>XtremeZone</td>
+        <td>XtremeHD &amp;  Werip</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>BroadCity</td>
+        <td>BDC</td>
+        <td>更新很快, 猫可入</td>
+    </tr>
+    <tr>
+        <td>Turktorrent</td>
+        <td>TURG</td>
+        <td></td>
+    </tr>
+</table>
+
+
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>折腾不易，总算是弄好了，哈哈~~</p>
-<p>如果你有什么好的建议，欢迎留言~</p>
-<p>如果你有什么bug反馈，欢迎留言~</p>
 
             </div>
             <hr>
@@ -444,18 +943,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E3%80%90%E8%BD%AC%E3%80%91%E5%9B%BD%E5%86%85%E5%A4%96PT%E7%AB%99%E5%B0%8F%E7%BB%84%E6%94%B6%E5%BD%95-%E5%BE%85%E6%9B%B4%E6%96%B0/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【转】国内外PT站小组收录--待更新</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/">
-                        <span class="hidden-mobile">Sublime Text3 激活过程（2021）</span>
+                      <a href="/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-2/">
+                        <span class="hidden-mobile">PT发布之一键转载脚本使用指南(2)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
