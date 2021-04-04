@@ -202,7 +202,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      2.2k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19
+      22
        分钟
     </span>
   
@@ -254,15 +254,16 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
+<p>接<a href="http://tomorrow505.xyz/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">上一篇教程</a>，之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
+<p>同时，有人在上一篇教程中说设置能不能保存不要每次更新都需要替换，这个以前也想做，但是自己很懒，就拖着了……在这个版本的实现过程中，借用了NP的个人设置版块把这两个功能实现了一下。</p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
-<p>手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
+<p><font color=Blue><strong>图片转存</strong></font>：手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
 <ul>
 <li>PTPIMG：需要皮或者红的账号绑定，脚本需要用到API-KEY，直接打开图床首页就可以看到了，但是没有缩略图</li>
 <li>IMGbb：注册就可以打开其API页面获取key值和API的使用流程</li>
@@ -271,9 +272,10 @@
 <li>PIXhost：这个很强大的一个图床，可以一次上传多次图片，脚本主要设定为批量转存防盗链的几个站点的特定图床</li>
 <li>Pstorage：也是开放注册登录即可获取API-KEY值的一个图床</li>
 </ul>
-<p>最后我的设定是PTPIMG用来转存海报之类的大图；PIXhost转存多张防盗链图，其他的都可以使用，但是一次只能一张，好在提供了大图小图之类的。</p>
-<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><hr>
-<p>说到使用流程，不得不说这次脚本的一个比较大的更新，就是设计了一个<strong>设置页面</strong>，这个页面不单独存在于某一个页面，而是依托NP架构的个人设定页面，目前为了广泛性，支持了：**猫站、柠檬、杜比、春天、铂金、我堡、他吹风、北洋园以及天空。默认使用猫站页面~**设定成功以后，就不用每次更新都要更改了。</p>
+<p><strong>最后我的设定是PTPIMG用来转存海报之类的大图；PIXhost转存多张防盗链图，其他的都可以使用，但是一次只能一张，好在提供了大图小图之类的。</strong></p>
+<p><font color=Blue><strong>脚本设置</strong></font>：这一块其实没什么好说的了，主要是根据GM_getvalue和GM_setvalue结合一些点击事件来进行的。</p>
+<h3 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h3><hr>
+<p>首先说一下<strong>设置页面</strong>，这个页面不单独存在于某一个页面，而是依托NP架构的个人设定页面，目前为了广泛性，支持了：**猫站、柠檬、杜比、春天、铂金、我堡、他吹风、北洋园以及天空。默认使用猫站页面~**设定成功以后，就不用每次更新都要更改了。</p>
 <ol>
 <li>我们先打开看一下初始化的界面，所有支持的脚本都在，自定义的快速搜索也都在~</li>
 </ol>
@@ -284,11 +286,15 @@
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkXvE"><img src="https://www.z4a.net/images/2021/04/02/24b21f4de1b1f1fa3.png" srcset="/img/loading.gif" lazyload alt="24b21f4de1b1f1fa3.png"></a></p>
 <p><strong>转发站点设置</strong>：支持了如上一些站点，但是有一些我们肯定用不到，我们可以取消勾选，然后点击保存。</p>
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk9rr"><img src="https://www.z4a.net/images/2021/04/02/32776ac0a79cc2f2f.png" srcset="/img/loading.gif" lazyload alt="32776ac0a79cc2f2f.png"></a></p>
-<p><strong>常用站点设置</strong>：这时候常用站点设置以及缩小为上边选择的站点了，常用站点适用于一次性打开多个站点发布页面的，这里举例选了6个。每一个站点第一次点击常用都会出现一个拦截窗口，点击始终允许就可以一次性打开多个发布页了。下边放一个三个站的动图效果：</p>
+<p><strong>常用站点设置</strong>：这时候常用站点设置以及缩小为上边选择的站点了，常用站点适用于一次性打开多个站点发布页面的，这里举例选了6个。每一个站点第一次点击常用都会出现一个拦截窗口，点击始终允许就可以一次性打开多个发布页了。下边放一个三个站的动图效果（可能需要右键新标签页中打开）：</p>
 <p><img src="https://i.ibb.co/T1xLMGG/123.gif" srcset="/img/loading.gif" lazyload alt="动图说明"></p>
-<p>如果没有出现，看解释说明直接设置试试。<a target="_blank" rel="noopener" href="https://support.google.com/chrome/answer/95472?co=GENIE.Platform=Desktop&hl=zh-Hans">阻止或允许在 Chrome 中显示弹出式窗口</a>。</p>
-<p><strong>脚本设置站点</strong>：这个就看每个人喜欢用哪个站点来跳转了，NP架构下大同小异，为了能够覆盖多数人选择，这里支持了好几个站点。</p>
+<p><font color=red>注意：如果没有出现动图里的标记，看解释说明直接设置试试。<a target="_blank" rel="noopener" href="https://support.google.com/chrome/answer/95472?co=GENIE.Platform=Desktop&hl=zh-Hans">阻止或允许在 Chrome 中显示弹出式窗口</a>。</font></p>
+<p><strong>脚本设置站点</strong>：这个就看每个人喜欢用哪个站点来跳转了，NP架构下大同小异，为了能够覆盖多数人选择，这里支持了好几个站点。<strong>如果没有猫站可以在脚本最开始改default_setting_host这一个值，具体操作看脚本说明</strong>。</p>
+<p><strong>是否在种子页面开启快捷搜索功能：</strong>主要是之前为了方便查询是否重复，支持了几个外站直接搜索的功能，如下图，在有IMDB的前提下可以直接搜索：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmIeX5"><img src="https://www.z4a.net/images/2021/04/04/18.png" srcset="/img/loading.gif" lazyload alt="18.png"></a></p>
 <p><strong>快速搜索站点</strong>：这个还是跟之前一样，能够快速搜索查询其他站点是否有对应的资源，我们用{}中间插入变量名用于后续替换搜索，如{imdbid}后期替换为imdb的编号tt1234567之类的，{search_name}替换为影视名称用于搜索。按照格式一行一个即可~也可以进行删除。</p>
+<p>另外脚本默认开启了豆瓣搜索的小功能，搜索的站点是上面设置的一些站点：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmITGh"><img src="https://www.z4a.net/images/2021/04/04/19.png" srcset="/img/loading.gif" lazyload alt="19.png"></a></p>
 <p><strong>是否匿名</strong>：很简单了，就是想不想匿名发布资源。</p>
 <hr>
 <p>上述是基本上都会用到的功能，下边几个key值简单介绍一下：</p>
@@ -297,7 +303,7 @@
 <p>TMDB的key值用于需要输入TMDB的编号的站点使用，可以自己网上搜索或者注册一个</p>
 <p>四个图床的API-KEY值，基本上都需要注册之后获取，用于单张图片转存，不方便的就是说要一张一张进行</p>
 </blockquote>
-<p><strong>单图转存</strong>：配置好上述几个key之后就可以点击种子页面的单图转存进入同一个页面进行操作，好处是不用管到底是什么架构可以依托于国内NP页面进行操作。</p>
+<p><strong>单图转存</strong>：配置好上述几个key之后就可以点击种子页面的单图转存进入同一个页面进行操作，好处是不用管到底是什么架构可以依托于国内NP页面进行操作，可以移植到国内大部分NP站点不用更新代码，也可以覆盖大多数人群。</p>
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkJQJ"><img src="https://www.z4a.net/images/2021/04/02/4.png" srcset="/img/loading.gif" lazyload alt="4.png"></a></p>
 <h3 id="示范一例（单图到PTP）"><a href="#示范一例（单图到PTP）" class="headerlink" title="示范一例（单图到PTP）"></a>示范一例（单图到PTP）</h3><hr>
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk19O"><img src="https://www.z4a.net/images/2021/04/02/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></a></p>
@@ -335,6 +341,8 @@
 <p>然后发现脚本编辑页面多了一个存储选项，我们需要做的就是把里边的东西拷贝出来，用作备份，想要还原就覆盖好了。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 <p>折腾不易，总算是弄好了，哈哈~~</p>
+<p>如果你有什么好的建议，欢迎留言~</p>
+<p>如果你有什么bug反馈，欢迎留言~</p>
 
             </div>
             <hr>
