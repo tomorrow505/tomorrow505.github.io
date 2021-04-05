@@ -201,7 +201,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      2.3k 字
     </span>
   
 
@@ -253,7 +253,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -261,6 +261,10 @@
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
 <p>接<a href="https://tomorrow505.xyz/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">上一篇教程</a>，之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
 <p>同时，有人在上一篇教程中说设置能不能保存不要每次更新都需要替换，这个以前也想做，但是自己很懒，就拖着了……在这个版本的实现过程中，借用了NP的个人设置版块把这两个功能实现了一下。</p>
+<div class="note note-primary">
+            <p><font size="4px">项目托管在Github上，欢迎Star：</font><iframe src="https://ghbtns.com/github-btn.html?user=tomorrow505&amp;repo=auto_feed_js&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub" style="vertical-align: bottom"></iframe></p>
+          </div>
+
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
 <p><font color=Blue><strong>图片转存</strong></font>：手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
 <ul>
