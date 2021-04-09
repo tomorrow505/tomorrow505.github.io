@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（一） - Tomorrow&#39;s blog</title>
+  <title>Hexo+Fluid博客添加网易云背景音乐 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（一）">
+            <span class="h2" id="subtitle" title="Hexo+Fluid博客添加网易云背景音乐">
               
             </span>
 
@@ -188,8 +188,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 13:46" pubdate>
-        2021年3月18日 下午
+      <time datetime="2021-04-09 13:42" pubdate>
+        2021年4月9日 下午
       </time>
     </span>
   
@@ -200,7 +200,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      832 字
+      507 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      6
        分钟
     </span>
   
@@ -248,84 +248,57 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（一）</h1>
+            <h1 style="display: none">Hexo+Fluid博客添加网易云背景音乐</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：11 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>玩PT的大概都知道发布的时候要上传mediainfo和截图，无论内外站都支持的图床之一就是imgbox。而无论是盒子还是本地，mediainfo或者截图上传都是比较繁琐枯燥的一件事情。那么，基于此，工具就来了。</p>
-<p>这是一个比较系统的工具了，会用到一系列基础知识，所以打算做成一个系列。</p>
-<p>本篇文章为第一篇：如何自动截取视频截图？</p>
-<h3 id="FFMPEG"><a href="#FFMPEG" class="headerlink" title="FFMPEG"></a>FFMPEG</h3><hr>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.ffmpeg.org/">FFMPEG</a>是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。</p>
-</li>
-<li><p>FFMPEG在windows下安装教程链接。<a target="_blank" rel="noopener" href="https://blog.csdn.net/Fish_cyy/article/details/105797337">https://blog.csdn.net/Fish_cyy/article/details/105797337</a></p>
-</li>
-</ul>
-<p>总之FFMPEG的功能十分强大，无论是windows还是linux都可以使用。而今天我们主要说明如何使用该工具进行截图。废话不多说，直接上代码。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">ffmpeg -ss &#123;timestring&#125; -y -i <span class="hljs-string">&quot;&#123;file&#125;&quot;</span> <span class="hljs-string">&quot;-f&quot;</span> <span class="hljs-string">&quot;image2&quot;</span> <span class="hljs-string">&quot;-frames:v&quot;</span> <span class="hljs-string">&quot;1&quot;</span> <span class="hljs-string">&quot;-c:v&quot;</span> <span class="hljs-string">&quot;png&quot;</span> <span class="hljs-string">&quot;-loglevel&quot;</span> <span class="hljs-string">&quot;8&quot;</span> <span class="hljs-string">&quot;&#123;img_path&#125;&quot;</span>
+<p>看到别人的博客都有音乐插件，我也想要，结果这个主题下好像没有，需要自己折腾一下子。我就做个最简单的好了~</p>
+<h3 id="修改记录"><a href="#修改记录" class="headerlink" title="修改记录"></a>修改记录</h3><hr>
+<p>首先就是网易云比较简单，只要生成一首歌或者是歌单的外链就可以了。将下述的代码添加到footer对应的content里，因为想要把它的位置固定在左下角。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;music_div&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: fixed; bottom: 0px; left: 30px;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">frameborder</span>=<span class="hljs-string">&quot;no&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginwidth</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginheight</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">330</span> <span class="hljs-attr">height</span>=<span class="hljs-string">110</span> </span>
+<span class="hljs-tag">    	<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//music.163.com/outchain/player?type=0&amp;id=919444742&amp;auto=1&amp;height=90&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/js/musicshow.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
 
-<span class="hljs-comment"># 参数说明</span>
-<span class="hljs-comment"># -ss................指定视频文件中截图的时间，01:00：00表示从视频文件的第一个小时截图</span>
-<span class="hljs-comment"># -y.................表示覆盖，如果存在同名文件直接覆盖</span>
-<span class="hljs-comment"># -i.................指定输入文件，使用双引号避免文件路径存在空格</span>
-<span class="hljs-comment"># -f.................指定输出格式，image2表示输出图片</span>
-<span class="hljs-comment"># -frames............指定截取几帧，这里指定为1</span>
-<span class="hljs-comment"># -c.................编码格式，指定输出为png</span>
-<span class="hljs-comment"># -loglevel..........日志等级相关参数，这里设置为8</span>
-<span class="hljs-comment"># 最后img_path代表输出文件路径，包含文件名。</span>
-<span class="hljs-comment"># 更多细节可以直接调用&quot;ffmpeg -h&quot;进行学习。</span></code></pre></div>
+<p>然后引入了jQuery，hexo g之后这样就可以看到左下角有一个音乐框，我们可以使用iframe参数控制其显示大小。</p>
+<p>但是当首页的时候会比较违和，所以我们引入一个musicshow.js控制一下，如果页面是首页的话下拉多少的时候音乐框显示，小于多少就隐藏。</p>
+<p>在主题的source目录js目录里边新建一个musicshow.js文件：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs javascript">!(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params"></span>) </span>&#123;
+     <span class="hljs-comment">//简单判断首页，因为我的域名是tomorrow50.xyz，所以首页就会触发</span>
+	<span class="hljs-keyword">if</span> (location.href.match(<span class="hljs-regexp">/xyz.&#123;0,1&#125;$/</span>))&#123;
+         <span class="hljs-comment">//直接把音乐框隐藏</span>
+		$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:none;&quot;</span>);
+         <span class="hljs-comment">//滚动条事件</span>
+		$(<span class="hljs-built_in">window</span>).scroll(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+			<span class="hljs-comment">//获取滚动条的滑动距离</span>
+			<span class="hljs-keyword">var</span> scroH = $(<span class="hljs-built_in">this</span>).scrollTop();
+			<span class="hljs-comment">//滚动条的滑动距离大于120，就显示，反之就隐藏</span>
+			<span class="hljs-keyword">if</span>(scroH &gt;= <span class="hljs-number">120</span>)&#123;
+				$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:block;position:fixed;bottom:0px;left:30px;&quot;</span>);
+			&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(scroH &lt; <span class="hljs-number">120</span>)&#123;
+				$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:none;&quot;</span>);
+			&#125;
+		 &#125;)
+	&#125;
 
-<p>很显然的一个问题，ffmpeg需要指定截图时间，那么视频有多长，什么时候开始截取呢？我们需要知道这个视频的长度。mediainfo便是一个很好的工具，而且ffmpeg直接就封装了mediainfo，可以直接使用指令获取视频信息：</p>
-<p><code>ffmpeg -i test.mkv</code></p>
-<p><img src="/post/ffmpeg.png" srcset="/img/loading.gif" lazyload alt="ffmpeg"></p>
-<p>忽略中文乱码我们其实可以获取到视频得长度的。其实我们还有一个python模块可以干这件事。<a target="_blank" rel="noopener" href="https://pymediainfo.readthedocs.io/en/stable/">pymediainfo</a>使用代码示范：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pprint <span class="hljs-keyword">import</span> pprint
-<span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> MediaInfo
+  &#125;
+  show();
+&#125;)();</code></pre></div>
 
-media_info = MediaInfo.parse(<span class="hljs-string">&quot;my_video_file.mp4&quot;</span>)
-<span class="hljs-keyword">for</span> track <span class="hljs-keyword">in</span> media_info.tracks:
-    <span class="hljs-keyword">if</span> track.track_type == <span class="hljs-string">&quot;Video&quot;</span>:
-        print(<span class="hljs-string">&quot;Bit rate: &#123;t.bit_rate&#125;, Frame rate: &#123;t.frame_rate&#125;, &quot;</span>
-              <span class="hljs-string">&quot;Format: &#123;t.format&#125;&quot;</span>.<span class="hljs-built_in">format</span>(t=track)
-        )
-        print(<span class="hljs-string">&quot;Duration (raw value):&quot;</span>, track.duration)
-        print(<span class="hljs-string">&quot;Duration (other values:&quot;</span>)
-        pprint(track.other_duration)
-    <span class="hljs-keyword">elif</span> track.track_type == <span class="hljs-string">&quot;Audio&quot;</span>:
-        print(<span class="hljs-string">&quot;Track data:&quot;</span>)
-        pprint(track.to_data())</code></pre></div>
-
-<p>得到的结果如下：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python">Bit rate: <span class="hljs-number">3117597</span>, Frame rate: <span class="hljs-number">23.976</span>, Format: AVC
-Duration (raw value): <span class="hljs-number">958</span>
-Duration (other values):
-[<span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;958 ms&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00.958&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00;23&#x27;</span>,
- <span class="hljs-string">&#x27;00:00:00.958 (00:00:00;23)&#x27;</span>]
-Track data:
-&#123;<span class="hljs-string">&#x27;bit_rate&#x27;</span>: <span class="hljs-number">236392</span>,
- <span class="hljs-string">&#x27;bit_rate_mode&#x27;</span>: <span class="hljs-string">&#x27;VBR&#x27;</span>,
- <span class="hljs-string">&#x27;channel_layout&#x27;</span>: <span class="hljs-string">&#x27;L R&#x27;</span>,
- <span class="hljs-string">&#x27;channel_positions&#x27;</span>: <span class="hljs-string">&#x27;Front: L R&#x27;</span>,
- <span class="hljs-string">&#x27;channel_s&#x27;</span>: <span class="hljs-number">2</span>,
- <span class="hljs-string">&#x27;codec_id&#x27;</span>: <span class="hljs-string">&#x27;mp4a-40-2&#x27;</span>,
- <span class="hljs-string">&#x27;commercial_name&#x27;</span>: <span class="hljs-string">&#x27;AAC&#x27;</span>,
- <span class="hljs-string">&#x27;compression_mode&#x27;</span>: <span class="hljs-string">&#x27;Lossy&#x27;</span>,
- …
-&#125;</code></pre></div>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>我们现在知道了ffmpeg的截图命令，也知道了怎么获取一个视频文件的时长，可能形式需要转换一下。那么在已知视频文件路径的前提下，如何用python进行截图操作呢？预知后事，请听下回分解。</p>
+<p>这样的话就大功告成了~~看看效果：</p>
+<p><img src="https://www.z4a.net/images/2021/04/09/f872b5a47c9ee5daf6fe7da5810d6853.png" srcset="/img/loading.gif" lazyload alt="f872b5a47c9ee5daf6fe7da5810d6853.png"></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><hr>
+<p>无非就是自己想要做的事，折腾一下总是能够有办法的！！</p>
 
             </div>
             <hr>
@@ -335,7 +308,7 @@ Track data:
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -343,11 +316,11 @@ Track data:
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
+                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
+                    
                       <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
                     
                   </div>
                 
@@ -427,18 +400,12 @@ Track data:
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%BA%8C%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（二）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Ubuntu%E6%88%96%E8%80%85Debian%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%BC%96%E8%AF%91qbittorrent4-3-3/">
-                        <span class="hidden-mobile">Ubuntu或者Debian环境下编译qbittorrent4.3.3</span>
+                      <a href="/%E8%BD%AC%E8%BD%BD--%E5%9B%BD%E5%86%85%E5%A4%96PT%E7%AB%99%E5%B0%8F%E7%BB%84%E6%94%B6%E5%BD%95%E3%80%90%E5%BE%85%E6%9B%B4%E6%96%B0%E3%80%91/">
+                        <span class="hidden-mobile">转载--国内外PT站小组收录【待更新】</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
