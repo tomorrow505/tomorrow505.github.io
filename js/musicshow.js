@@ -10,11 +10,10 @@
 			// console.log(scroH);
 			//滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定
 			if(scroH >= 120){
-				$("#music_div").attr("style","display:block;");
-				$("#music_div").css({"position": "fixed", "bottom": "0px", "left": "30px"});
+				$("#music_div").attr("style","display:block;position:fixed;bottom:0px;left:30px;");
+				$("#music_div").css({});
 			}else if(scroH < 120){
-				$("#music_div").attr("style","display:none;");
-				$("#music_div").css({"position": "fixed", "bottom": "0px", "left": "30px"});
+				$("#music_div").attr("style","display:none;position:fixed;bottom:0px;left:30px;");
 			}
 		 })
 	}
