@@ -13,7 +13,7 @@
 				$("#music_div").attr("style","display:block;position:fixed;bottom:0px;left:30px;");
 				$("#music_div").css({});
 			}else if(scroH < 120){
-				$("#music_div").attr("style","display:none;position:fixed;bottom:0px;left:30px;");
+				$("#music_div").attr("style","display:none;");
 			}
 		 })
 	}
