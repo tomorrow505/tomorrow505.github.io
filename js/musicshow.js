@@ -1,5 +1,6 @@
 !(function() {
   function show() {
+	alert(location.href)
 	if (location.href === "https://tomorrow505.xyz/"){
 		//滚动条事件
 		$("#music_div").attr("style","display:none;");

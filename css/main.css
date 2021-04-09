@@ -1984,11 +1984,6 @@ note-default {
   height: 180px;
   height: 180px;
 }
-#music_div {
-  position: fixed;
-  bottom: 40px;
-  left: 100px;
-}
 .code-wrapper {
   position: relative;
   overflow: hidden;
