@@ -1,7 +1,7 @@
 !(function() {
   function show() {
      //简单判断首页，因为我的域名是tomorrow50.xyz，所以首页就会触发
-	if (location.href.match(/(xyz|4000).{0,1}$/)){
+	if (location.href.match(/(xyz|4000|board).{0,1}$/)){
          //直接把音乐框隐藏
 		$("#music_div").attr("style","display:none;");
          //滚动条事件
