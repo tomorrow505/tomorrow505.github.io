@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.4k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      23
+      25
        分钟
     </span>
   
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -257,7 +257,7 @@
 <p>接<a href="https://tomorrow505.xyz/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">上一篇教程</a>，之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
 <p>同时，有人在上一篇教程中说设置能不能保存不要每次更新都需要替换，这个以前也想做，但是自己很懒，就拖着了……在这个版本的实现过程中，借用了NP的个人设置版块把这两个功能实现了一下。</p>
 <div class="note note-primary">
-            <p><font size="4px">项目托管在Github上，欢迎Star：</font><iframe src="https://ghbtns.com/github-btn.html?user=tomorrow505&amp;repo=auto_feed_js&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub" style="vertical-align: bottom"></iframe></p>
+            <p><font size="3px">项目托管在Github上，欢迎Star：</font><iframe src="https://ghbtns.com/github-btn.html?user=tomorrow505&amp;repo=auto_feed_js&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub" style="vertical-align: bottom"></iframe></p>
           </div>
 
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
@@ -339,6 +339,12 @@
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu1YH"><img src="https://www.z4a.net/images/2021/04/03/15.png" srcset="/img/loading.gif" lazyload alt="15.png"></a></p>
 <p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu3ef"><img src="https://www.z4a.net/images/2021/04/03/16.png" srcset="/img/loading.gif" lazyload alt="16.png"></a></p>
 <p>然后发现脚本编辑页面多了一个存储选项，我们需要做的就是把里边的东西拷贝出来，用作备份，想要还原就覆盖好了。</p>
+<h3 id="禁转提示2021-04-10"><a href="#禁转提示2021-04-10" class="headerlink" title="禁转提示2021.04.10"></a>禁转提示2021.04.10</h3><hr>
+<p>贴吧有人说禁转加个提示什么的，想想也是，之前有次从别的站搜索到岛的资源，还得退出去搜一些是否独占。。。这可就不妥了~</p>
+<p>开整（动了一部分代码，可能伴随部分bug，欢迎反馈），看图：</p>
+<p><img src="https://www.z4a.net/images/2021/04/11/20.png" srcset="/img/loading.gif" lazyload alt="20.png"><br><img src="https://www.z4a.net/images/2021/04/11/21.png" srcset="/img/loading.gif" lazyload alt="21.png"><br><img src="https://www.z4a.net/images/2021/04/11/22.png" srcset="/img/loading.gif" lazyload alt="22.png"></p>
+<p>分成了三类资源，独占-限转-一般。限转的话看一下日期是否达到7天，是的话就可以点击确定了~</p>
+<p>其他站的一些禁转也加了判断，但是我一个人测试或者站点不全什么的，有什么要增加的可以留言。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 <p>折腾不易，总算是弄好了，哈哈~~</p>
 <p>如果你有什么好的建议，欢迎留言~</p>
