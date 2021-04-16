@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>不借助第三方自己实现cookie备份恢复登录</title>
+    <link href="/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/"/>
+    <url>/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>经常会有备份cookie的需求，第三方软件什么的很多了，这里仅仅演示如何使用js脚本实现简单的cookie备份和转移。</p><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><hr><p>首先得知道怎么查看一个站点的cookie，F12或者开发者工具查看network，这个网上有就不提了。废话不多说，上代码：</p><div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> get_cookie = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cookie</span>)</span>&#123;    cookie = cookie.split(<span class="hljs-string">&#x27;;&#x27;</span>);    <span class="hljs-keyword">var</span> info = <span class="hljs-string">``</span>;    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookie.length; i++)&#123;        <span class="hljs-keyword">var</span> key = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">0</span>].trim();        <span class="hljs-keyword">var</span> value = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">1</span>].trim();        info += <span class="hljs-string">`document.cookie=&quot;<span class="hljs-subst">$&#123;key&#125;</span>=<span class="hljs-subst">$&#123;value&#125;</span>&quot;\n`</span>;    &#125;    <span class="hljs-built_in">console</span>.log(info);&#125;cookie=<span class="hljs-built_in">document</span>.cookie;get_cookie(cookie);</code></pre></div><p>接着说一个怎么快速进控制台的快捷键：ctrl+shift+i</p><p>我们拿猫站试验一下：首先拿已经登录的猫站（谷歌浏览器）在console里输入上边的代码，下方输出一堆东西</p><p><a href="https://www.z4a.net/image/gxeNCC"><img src="https://www.z4a.net/images/2021/04/16/28fde1cb1c6988343.png" alt="28fde1cb1c6988343.png"></a></p><p>接着我们打开一个火狐（未登录过的）：输入<code>https://pterclub.com/</code>自动跳转到登录页面，然鹅就出现下面的页面：</p><p><a href="https://www.z4a.net/image/gxequN"><img src="https://www.z4a.net/images/2021/04/16/3593be8d2b0f93e46.png" alt="3593be8d2b0f93e46.png"></a></p><p>我们ctrl+shift+i进入控制台，输入刚才获取的那一段(这里使用到了cookie信息，所以做了处理，请自我备份这里的代码)：</p><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_uid=NDU3Nxxxxxxxxxx&quot;</span><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_pass=0d50bf1xxxxxxxxxxx937c3681a19b94&quot;</span><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_ssl=eWVhxxxxxxx3D%3D&quot;</span><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_tracker_ssl=eWVhxxxxxxxD%3D&quot;</span><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_login=bm9wZxxxxxxx%3D&quot;</span><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;PHPSESSID=0g97l21913vi7xxxxxxxxxh3272&quot;</span></code></pre></div><p><a href="https://www.z4a.net/image/gxTjnh"><img src="https://www.z4a.net/images/2021/04/16/4154ec70860649fbb.png" alt="4154ec70860649fbb.png"></a></p><p>接着再次输入<code>https://pterclub.com/</code>，就已经是登录状态了。</p><p><a href="https://www.z4a.net/image/gxTyS2"><img src="https://www.z4a.net/images/2021/04/16/57f3e31f88a6ccb55.png" alt="57f3e31f88a6ccb55.png"></a></p><p>是不是还挺简单呢？</p><h3 id="馒头"><a href="#馒头" class="headerlink" title="馒头"></a>馒头</h3><hr><p>测试了馒头，貌似直接用document.cookie不太好使。那就得自己找到之后再稍微改一改代码：</p><div class="hljs code-wrapper"><pre><code class="hljs typescript"><span class="hljs-keyword">var</span> get_cookie = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cookie</span>)</span>&#123;    cookie = cookie.split(<span class="hljs-string">&#x27;;&#x27;</span>);    <span class="hljs-keyword">var</span> info = <span class="hljs-string">``</span>;    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookie.length; i++)&#123;        <span class="hljs-keyword">var</span> key = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">0</span>].trim();        <span class="hljs-keyword">var</span> value = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">1</span>].trim();        info += <span class="hljs-string">`document.cookie=&quot;<span class="hljs-subst">$&#123;key&#125;</span>=<span class="hljs-subst">$&#123;value&#125;</span>&quot;\n`</span>;    &#125;    <span class="hljs-built_in">console</span>.log(info);&#125;cookie=<span class="hljs-built_in">document</span>.cookie; <span class="hljs-comment">//这里的document.cookie也可以直接写一个自己获取的字符串的。</span>get_cookie(cookie);</code></pre></div><p><a href="https://www.z4a.net/image/gxTQ1U"><img src="https://www.z4a.net/images/2021/04/16/65ab837af275def07.png" alt="65ab837af275def07.png"></a></p><p><a href="https://www.z4a.net/image/gxTkRf"><img src="https://www.z4a.net/images/2021/04/16/7bfa88451f7ade524.png" alt="7bfa88451f7ade524.png"></a></p><p>馒头不存在什么游客访问啥的，这里仅仅做一个演示。。cookie输入进去直接就可以登录了。。</p><p><a href="https://www.z4a.net/image/gxTAHE"><img src="https://www.z4a.net/images/2021/04/16/88dbdb7cf5b2001ca.png" alt="88dbdb7cf5b2001ca.png"></a></p><h3 id="瓷器"><a href="#瓷器" class="headerlink" title="瓷器"></a>瓷器</h3><hr><p>看见吧友说瓷器阻断，及时备份很有必要：</p><p><a href="https://www.z4a.net/image/gxTtpO"><img src="https://www.z4a.net/images/2021/04/16/9a0dc1a83a22b8a8b.png" alt="9a0dc1a83a22b8a8b.png"></a></p><p>冰冷无情的阻断页面–&gt;又回来了~~~</p><p><a href="https://www.z4a.net/image/gxTP10"><img src="https://www.z4a.net/images/2021/04/16/10c8cbbf7de5793c4d.png" alt="10c8cbbf7de5793c4d.png"></a></p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr><p>总有很多不适用的情况，这里做了一些测试而已，如果不适用请使用第三方的工具备份。</p><p>本脚本输出结果请自己保存，因为一旦退出了这个方案也就不适用了。</p><p>春节期间TTG阻断就是用这个方案复活的，至于cookie是自己无意间在种鸡里备份了的~</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>业余爱好</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>编程</tag>
+      
+      <tag>PT</tag>
+      
+      <tag>生活</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hexo+Fluid博客添加网易云背景音乐</title>
     <link href="/Hexo-Fluid%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%BD%91%E6%98%93%E4%BA%91%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90/"/>
     <url>/Hexo-Fluid%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%BD%91%E6%98%93%E4%BA%91%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90/</url>
@@ -20,9 +49,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>编程</tag>
       
@@ -134,9 +163,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -192,9 +221,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -223,9 +252,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -252,9 +281,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -281,9 +310,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -310,9 +339,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -337,9 +366,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -364,9 +393,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>编程</tag>
       
@@ -393,9 +422,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>Python</tag>
       
@@ -451,9 +480,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -482,9 +511,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -511,9 +540,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -540,9 +569,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
