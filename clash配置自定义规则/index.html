@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>不借助第三方自己实现cookie备份恢复登录 - Tomorrow&#39;s blog</title>
+  <title>clash配置自定义规则 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="不借助第三方自己实现cookie备份恢复登录">
+            <span class="h2" id="subtitle" title="clash配置自定义规则">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-16 09:05" pubdate>
-        2021年4月16日 上午
+      <time datetime="2021-08-11 14:46" pubdate>
+        2021年8月11日 下午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      653 字
+      535 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      6
        分钟
     </span>
   
@@ -244,79 +244,45 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">不借助第三方自己实现cookie备份恢复登录</h1>
+            <h1 style="display: none">clash配置自定义规则</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>经常会有备份cookie的需求，第三方软件什么的很多了，这里仅仅演示如何使用js脚本实现简单的cookie备份和转移。</p>
-<h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><hr>
-<p>首先得知道怎么查看一个站点的cookie，F12或者开发者工具查看network，这个网上有就不提了。废话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> get_cookie = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cookie</span>)</span>&#123;
-    cookie = cookie.split(<span class="hljs-string">&#x27;;&#x27;</span>);
-    <span class="hljs-keyword">var</span> info = <span class="hljs-string">``</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookie.length; i++)&#123;
-        <span class="hljs-keyword">var</span> key = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">0</span>].trim();
-        <span class="hljs-keyword">var</span> value = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">1</span>].trim();
-        info += <span class="hljs-string">`document.cookie=&quot;<span class="hljs-subst">$&#123;key&#125;</span>=<span class="hljs-subst">$&#123;value&#125;</span>&quot;\n`</span>;
-    &#125;
-    <span class="hljs-built_in">console</span>.log(info);
-&#125;
+<p>由于经常要科学上网，同时为了避免折腾，选择了CFW（（Clash for Windows：Clash 的 Windows 图形客户端）来进行代理。但是在进行分流的时候遇到了一些困难。之前习惯了SS或者SSR的朋友都知道，更新pac文件可以加入哪些站点使用代理之类的，哪些网站直接访问就行了。但是clash不一样，通过rule来细分，是一个节点群组织起来的。</p>
+<p>一开始自己摸索在profile的edit rule那里自己添加直连规则，可是经常过一天就被覆盖了。所以谷歌了一下才知道需要改动的地方~</p>
+<h3 id="参考流程"><a href="#参考流程" class="headerlink" title="参考流程"></a>参考流程</h3><hr>
+<p>点击软件Setting，找到Profiles（配置文件下）的Parsers。点击Edit （整个文档编写符合yaml语法规范）：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">parsers:</span> <span class="hljs-comment"># array</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://xxxxxxx.ini</span>
+    <span class="hljs-attr">yaml:</span>
+      <span class="hljs-attr">prepend-rules:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,hdbits.org,🎯</span> <span class="hljs-string">国内网络</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,xthor.tk,🎯</span> <span class="hljs-string">国内网络</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,filelist.io,🎯</span> <span class="hljs-string">国内网络</span></code></pre></div>
 
-cookie=<span class="hljs-built_in">document</span>.cookie;
-get_cookie(cookie);</code></pre></div>
+<p>对照上述模板进行修改，其中url为订阅地址，不知道的同学可以在CFW的profiles面板选择订阅点击change infomation进行查看.</p>
+<p>prepend-rules为预定义分流规则，“- DOMAIN-SUFFIX,hdbits.org,🎯 国内网络” 解释为域名匹配海德堡时，直接使用国内网络连接。</p>
+<p>还有其他的订阅规则：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">DOMAIN-SUFFIX：域名后缀匹配</span>
+<span class="hljs-string">DOMAIN：域名匹配</span>
+<span class="hljs-string">DOMAIN-KEYWORD：域名关键字匹配</span>
+<span class="hljs-string">IP-CIDR：IP段匹配</span>
+<span class="hljs-string">SRC-IP-CIDR：源IP段匹配</span>
+<span class="hljs-string">GEOIP：GEOIP数据库（国家代码）匹配</span>
+<span class="hljs-string">DST-PORT：目标端口匹配</span>
+<span class="hljs-string">SRC-PORT：源端口匹配</span>
+<span class="hljs-string">PROCESS-NAME：源进程名匹配</span>
+<span class="hljs-string">RULE-SET：Rule</span> <span class="hljs-string">Provider规则匹配</span>
+<span class="hljs-string">MATCH：全匹配</span></code></pre></div>
 
-<p>接着说一个怎么快速进控制台的快捷键：ctrl+shift+i</p>
-<p>我们拿猫站试验一下：首先拿已经登录的猫站（谷歌浏览器）在console里输入上边的代码，下方输出一堆东西</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxeNCC"><img src="https://www.z4a.net/images/2021/04/16/28fde1cb1c6988343.png" srcset="/img/loading.gif" lazyload alt="28fde1cb1c6988343.png"></a></p>
-<p>接着我们打开一个火狐（未登录过的）：输入<code>https://pterclub.com/</code>自动跳转到登录页面，然鹅就出现下面的页面：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxequN"><img src="https://www.z4a.net/images/2021/04/16/3593be8d2b0f93e46.png" srcset="/img/loading.gif" lazyload alt="3593be8d2b0f93e46.png"></a></p>
-<p>我们ctrl+shift+i进入控制台，输入刚才获取的那一段(这里使用到了cookie信息，所以做了处理，请自我备份这里的代码)：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_uid=NDU3Nxxxxxxxxxx&quot;</span>
-<span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_pass=0d50bf1xxxxxxxxxxx937c3681a19b94&quot;</span>
-<span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_ssl=eWVhxxxxxxx3D%3D&quot;</span>
-<span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_tracker_ssl=eWVhxxxxxxxD%3D&quot;</span>
-<span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;c_secure_login=bm9wZxxxxxxx%3D&quot;</span>
-<span class="hljs-attr">document.cookie</span>=<span class="hljs-string">&quot;PHPSESSID=0g97l21913vi7xxxxxxxxxh3272&quot;</span></code></pre></div>
-
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTjnh"><img src="https://www.z4a.net/images/2021/04/16/4154ec70860649fbb.png" srcset="/img/loading.gif" lazyload alt="4154ec70860649fbb.png"></a></p>
-<p>接着再次输入<code>https://pterclub.com/</code>，就已经是登录状态了。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTyS2"><img src="https://www.z4a.net/images/2021/04/16/57f3e31f88a6ccb55.png" srcset="/img/loading.gif" lazyload alt="57f3e31f88a6ccb55.png"></a></p>
-<p>是不是还挺简单呢？</p>
-<h3 id="馒头"><a href="#馒头" class="headerlink" title="馒头"></a>馒头</h3><hr>
-<p>测试了馒头，貌似直接用document.cookie不太好使。那就得自己找到之后再稍微改一改代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs typescript"><span class="hljs-keyword">var</span> get_cookie = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cookie</span>)</span>&#123;
-    cookie = cookie.split(<span class="hljs-string">&#x27;;&#x27;</span>);
-    <span class="hljs-keyword">var</span> info = <span class="hljs-string">``</span>;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; cookie.length; i++)&#123;
-        <span class="hljs-keyword">var</span> key = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">0</span>].trim();
-        <span class="hljs-keyword">var</span> value = cookie[i].split(<span class="hljs-string">&#x27;=&#x27;</span>)[<span class="hljs-number">1</span>].trim();
-        info += <span class="hljs-string">`document.cookie=&quot;<span class="hljs-subst">$&#123;key&#125;</span>=<span class="hljs-subst">$&#123;value&#125;</span>&quot;\n`</span>;
-    &#125;
-    <span class="hljs-built_in">console</span>.log(info);
-&#125;
-
-cookie=<span class="hljs-built_in">document</span>.cookie; <span class="hljs-comment">//这里的document.cookie也可以直接写一个自己获取的字符串的。</span>
-get_cookie(cookie);</code></pre></div>
-
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTQ1U"><img src="https://www.z4a.net/images/2021/04/16/65ab837af275def07.png" srcset="/img/loading.gif" lazyload alt="65ab837af275def07.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTkRf"><img src="https://www.z4a.net/images/2021/04/16/7bfa88451f7ade524.png" srcset="/img/loading.gif" lazyload alt="7bfa88451f7ade524.png"></a></p>
-<p>馒头不存在什么游客访问啥的，这里仅仅做一个演示。。cookie输入进去直接就可以登录了。。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTAHE"><img src="https://www.z4a.net/images/2021/04/16/88dbdb7cf5b2001ca.png" srcset="/img/loading.gif" lazyload alt="88dbdb7cf5b2001ca.png"></a></p>
-<h3 id="瓷器"><a href="#瓷器" class="headerlink" title="瓷器"></a>瓷器</h3><hr>
-<p>看见吧友说瓷器阻断，及时备份很有必要：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTtpO"><img src="https://www.z4a.net/images/2021/04/16/9a0dc1a83a22b8a8b.png" srcset="/img/loading.gif" lazyload alt="9a0dc1a83a22b8a8b.png"></a></p>
-<p>冰冷无情的阻断页面–&gt;又回来了~~~</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gxTP10"><img src="https://www.z4a.net/images/2021/04/16/10c8cbbf7de5793c4d.png" srcset="/img/loading.gif" lazyload alt="10c8cbbf7de5793c4d.png"></a></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>总有很多不适用的情况，这里做了一些测试而已，如果不适用请使用第三方的工具备份。</p>
-<p>本脚本输出结果请自己保存，因为一旦退出了这个方案也就不适用了。</p>
-<p>春节期间TTG阻断就是用这个方案复活的，至于cookie是自己无意间在种鸡里备份了的~</p>
+<p>自定义规则的第二部分 值根据规则类型和需求进行填写，自定义规则的第三部分就是代理策略，在这里可以填写代理节点或者策略，有哪一些代理和策略可供选择可以通过Clash进行查看，点击Profiles，选择你的订阅，点击Edit rules进入规则编辑界面，点击Add, 下拉即可看到所有的可选节点或策略。 </p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><hr>
 
             </div>
             <hr>
@@ -326,21 +292,10 @@ get_cookie(cookie);</code></pre></div>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-                    
-                      <a class="hover-with-bg" href="/tags/PT/">PT</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
-                    
-                  </div>
                 
               </div>
 			  
@@ -418,18 +373,12 @@ get_cookie(cookie);</code></pre></div>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/clash%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">clash配置自定义规则</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Hexo-Fluid%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%BD%91%E6%98%93%E4%BA%91%E8%83%8C%E6%99%AF%E9%9F%B3%E4%B9%90/">
-                        <span class="hidden-mobile">Hexo+Fluid博客添加网易云背景音乐</span>
+                      <a href="/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/">
+                        <span class="hidden-mobile">不借助第三方自己实现cookie备份恢复登录</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

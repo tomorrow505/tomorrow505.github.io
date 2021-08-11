@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>clash配置自定义规则</title>
+    <link href="/clash%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99/"/>
+    <url>/clash%E9%85%8D%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E5%88%99/</url>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>由于经常要科学上网，同时为了避免折腾，选择了CFW（（Clash for Windows：Clash 的 Windows 图形客户端）来进行代理。但是在进行分流的时候遇到了一些困难。之前习惯了SS或者SSR的朋友都知道，更新pac文件可以加入哪些站点使用代理之类的，哪些网站直接访问就行了。但是clash不一样，通过rule来细分，是一个节点群组织起来的。</p><p>一开始自己摸索在profile的edit rule那里自己添加直连规则，可是经常过一天就被覆盖了。所以谷歌了一下才知道需要改动的地方~</p><h3 id="参考流程"><a href="#参考流程" class="headerlink" title="参考流程"></a>参考流程</h3><hr><p>点击软件Setting，找到Profiles（配置文件下）的Parsers。点击Edit （整个文档编写符合yaml语法规范）：</p><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">parsers:</span> <span class="hljs-comment"># array</span>  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://xxxxxxx.ini</span>    <span class="hljs-attr">yaml:</span>      <span class="hljs-attr">prepend-rules:</span>        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,hdbits.org,🎯</span> <span class="hljs-string">国内网络</span>        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,xthor.tk,🎯</span> <span class="hljs-string">国内网络</span>        <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-SUFFIX,filelist.io,🎯</span> <span class="hljs-string">国内网络</span></code></pre></div><p>对照上述模板进行修改，其中url为订阅地址，不知道的同学可以在CFW的profiles面板选择订阅点击change infomation进行查看.</p><p>prepend-rules为预定义分流规则，“- DOMAIN-SUFFIX,hdbits.org,🎯 国内网络” 解释为域名匹配海德堡时，直接使用国内网络连接。</p><p>还有其他的订阅规则：</p><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-string">DOMAIN-SUFFIX：域名后缀匹配</span><span class="hljs-string">DOMAIN：域名匹配</span><span class="hljs-string">DOMAIN-KEYWORD：域名关键字匹配</span><span class="hljs-string">IP-CIDR：IP段匹配</span><span class="hljs-string">SRC-IP-CIDR：源IP段匹配</span><span class="hljs-string">GEOIP：GEOIP数据库（国家代码）匹配</span><span class="hljs-string">DST-PORT：目标端口匹配</span><span class="hljs-string">SRC-PORT：源端口匹配</span><span class="hljs-string">PROCESS-NAME：源进程名匹配</span><span class="hljs-string">RULE-SET：Rule</span> <span class="hljs-string">Provider规则匹配</span><span class="hljs-string">MATCH：全匹配</span></code></pre></div><p>自定义规则的第二部分 值根据规则类型和需求进行填写，自定义规则的第三部分就是代理策略，在这里可以填写代理节点或者策略，有哪一些代理和策略可供选择可以通过Clash进行查看，点击Profiles，选择你的订阅，点击Edit rules进入规则编辑界面，点击Add, 下拉即可看到所有的可选节点或策略。 </p><h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><hr>]]></content>
+    
+    
+    <categories>
+      
+      <category>折腾笔记</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>不借助第三方自己实现cookie备份恢复登录</title>
     <link href="/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/"/>
     <url>/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/</url>
