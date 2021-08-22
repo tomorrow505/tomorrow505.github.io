@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      36
+      35
        分钟
     </span>
   
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -329,7 +329,7 @@ result = requests.post(<span class="hljs-string">&#x27;https://qyapi.weixin.qq.c
                            <span class="hljs-string">&quot;msgtype&quot;</span>: <span class="hljs-string">&quot;text&quot;</span>,
                            <span class="hljs-string">&quot;agentid&quot;</span>: <span class="hljs-number">23</span>,
                            <span class="hljs-string">&quot;text&quot;</span>: &#123;
-                               <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你的快递已到，请携带工卡前往邮件中心领取。\n出发前可查看&lt;a href=\&quot;http://work.weixin.qq.com\&quot;&gt;邮件中心视频实况&lt;/a&gt;，聪明避开排队。&quot;</span>
+                               <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你的快递已到，请携带工卡前往邮件中心领取&quot;</span>
                            &#125;,
                            <span class="hljs-string">&quot;safe&quot;</span>: <span class="hljs-number">0</span>
                        &#125;
@@ -349,27 +349,27 @@ pip3 install requests</code></pre></div>
 <div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-string">&#x27;deluge-console &quot;connect 127.0.0.1:&#123;port&#125; &#123;name&#125; &#123;pwd&#125;; info -v --sort=seeding_time; exit&quot;&#x27;</span></code></pre></div>
 
 <p>我们用到的就是这样一条。然后就可以通过python调用系统命令获取输出进行正则获取种子详情。我们看看正常输出大概是什么样子：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">Name</span>: 木棘证人.The.Witness.<span class="hljs-number">2021</span>.<span class="hljs-number">4</span>K.WEB-DL.H<span class="hljs-number">265</span>.AAC-PTerWEB
-<span class="hljs-attribute">ID</span>: <span class="hljs-number">82</span>a<span class="hljs-number">6804</span>b<span class="hljs-number">1</span>e<span class="hljs-number">6</span>b<span class="hljs-number">57</span>be<span class="hljs-number">0</span>de<span class="hljs-number">56</span>fed<span class="hljs-number">5</span>c<span class="hljs-number">4</span>f<span class="hljs-number">1</span>f<span class="hljs-number">19</span>cffd<span class="hljs-number">8</span>a<span class="hljs-number">92</span>
-<span class="hljs-attribute">State</span>: Seeding Up Speed: <span class="hljs-number">0</span>.<span class="hljs-number">0</span> K/s
-<span class="hljs-attribute">Seeds</span>: <span class="hljs-number">0</span> (<span class="hljs-number">39</span>) Peers: <span class="hljs-number">0</span> (<span class="hljs-number">1</span>) Availability: <span class="hljs-number">1</span>.<span class="hljs-number">00</span> Seed Rank: <span class="hljs-number">51</span>
-<span class="hljs-attribute">Size</span>: <span class="hljs-number">34</span>.<span class="hljs-number">9</span> G Downloaded: <span class="hljs-number">0</span> B Uploaded: <span class="hljs-number">1</span>.<span class="hljs-number">1</span> T Share Ratio: <span class="hljs-number">32</span>.<span class="hljs-number">80</span>
-<span class="hljs-attribute">ETA</span>: - Seeding: <span class="hljs-number">2</span>d <span class="hljs-number">10</span>h Active: <span class="hljs-number">1</span>d <span class="hljs-number">19</span>h
-<span class="hljs-attribute">Last</span> Transfer: <span class="hljs-number">6</span>h <span class="hljs-number">29</span>m Complete Seen: <span class="hljs-number">08</span>/<span class="hljs-number">21</span>/<span class="hljs-number">2021</span>
-<span class="hljs-attribute">Tracker</span>: pterclub.com
-<span class="hljs-attribute">Tracker</span> status: Announce OK
-<span class="hljs-attribute">Download</span> Folder: /home/guai/deluge/download
+<div class="hljs code-wrapper"><pre><code class="hljs bash">Name: 木棘证人.The.Witness.2021.4K.WEB-DL.H265.AAC-PTerWEB
+ID: 82a6804b1e6b57be0de56fed5c4f1f19cffd8a92
+State: Seeding Up Speed: 0.0 K/s
+Seeds: 0 (39) Peers: 0 (1) Availability: 1.00 Seed Rank: 51
+Size: 34.9 G Downloaded: 0 B Uploaded: 1.1 T Share Ratio: 32.80
+ETA: - Seeding: 2d 10h Active: 1d 19h
+Last Transfer: 6h 29m Complete Seen: 08/21/2021
+Tracker: pterclub.com
+Tracker status: Announce OK
+Download Folder: /home/guai/deluge/download
 
-<span class="hljs-attribute">Name</span>: 机智的上半场.Ji.Zhi.De.Shang.Ban.Chang.<span class="hljs-number">2021</span>.E<span class="hljs-number">05</span>-E<span class="hljs-number">07</span>.WEB-DL.<span class="hljs-number">4</span>K.H<span class="hljs-number">265</span>.AAC-PTerWEB
-<span class="hljs-attribute">ID</span>: <span class="hljs-number">35</span>d<span class="hljs-number">93424</span>deb<span class="hljs-number">5</span>c<span class="hljs-number">52</span>da<span class="hljs-number">944839</span>f<span class="hljs-number">1</span>bb<span class="hljs-number">26</span>bba<span class="hljs-number">46</span>ca<span class="hljs-number">809</span>c
-<span class="hljs-attribute">State</span>: Seeding Up Speed: <span class="hljs-number">743</span>.<span class="hljs-number">8</span> K/s
-<span class="hljs-attribute">Seeds</span>: <span class="hljs-number">0</span> (<span class="hljs-number">59</span>) Peers: <span class="hljs-number">2</span> (<span class="hljs-number">2</span>) Availability: <span class="hljs-number">1</span>.<span class="hljs-number">94</span> Seed Rank: <span class="hljs-number">50</span>
-<span class="hljs-attribute">Size</span>: <span class="hljs-number">4</span>.<span class="hljs-number">7</span> G Downloaded: <span class="hljs-number">0</span> B Uploaded: <span class="hljs-number">84</span>.<span class="hljs-number">9</span> G Share Ratio: <span class="hljs-number">18</span>.<span class="hljs-number">05</span>
-<span class="hljs-attribute">ETA</span>: - Seeding: <span class="hljs-number">22</span>h <span class="hljs-number">31</span>m Active: <span class="hljs-number">6</span>h <span class="hljs-number">16</span>m
-<span class="hljs-attribute">Last</span> Transfer: <span class="hljs-number">1</span>s Complete Seen: <span class="hljs-number">08</span>/<span class="hljs-number">21</span>/<span class="hljs-number">2021</span>
-<span class="hljs-attribute">Tracker</span>: pterclub.com
-<span class="hljs-attribute">Tracker</span> status: Announce OK
-<span class="hljs-attribute">Download</span> Folder: /home/guai/deluge/download</code></pre></div>
+Name: 机智的上半场.Ji.Zhi.De.Shang.Ban.Chang.2021.E05-E07.WEB-DL.4K.H265.AAC-PTerWEB
+ID: 35d93424deb5c52da944839f1bb26bba46ca809c
+State: Seeding Up Speed: 743.8 K/s
+Seeds: 0 (59) Peers: 2 (2) Availability: 1.94 Seed Rank: 50
+Size: 4.7 G Downloaded: 0 B Uploaded: 84.9 G Share Ratio: 18.05
+ETA: - Seeding: 22h 31m Active: 6h 16m
+Last Transfer: 1s Complete Seen: 08/21/2021
+Tracker: pterclub.com
+Tracker status: Announce OK
+Download Folder: /home/guai/deluge/download</code></pre></div>
 
 <p>其中最重要的当属seeding_time了，原理就是每N秒看一次，如果某个种子做种时间不超过N秒，那么它就是刚刚完成的种子，当然了，也可以使用一个缓存记录hash之类的，这个可以自己去想。</p>
 <div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
@@ -479,7 +479,9 @@ pip3 install requests</code></pre></div>
 </li>
 </ol>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><hr>
-<p>国内开源即死，糟心透顶。如果想要使用，找本人获取源代码，加好友进入企业群。将代码和config.json配置好放到固定目录，crontab -e添加即可。</p>
+<p>如果想要使用，找本人获取源代码。将代码和config.json配置好放到固定目录，crontab -e添加即可。</p>
+<p>附上一个效果截图：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/goRAjj"><img src="https://www.z4a.net/images/2021/08/22/4.md.png" srcset="/img/loading.gif" lazyload alt="4.md.png"></a></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 <p>折腾不易，且行且珍惜。</p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><hr>
