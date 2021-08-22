@@ -408,7 +408,8 @@ Download Folder: /home/guai/deluge/download</code></pre></div>
                         logger.info(<span class="hljs-string">&#x27;&#123;&#125;\n已经下载完成了，请留意！！！&#x27;</span>.<span class="hljs-built_in">format</span>(infos[<span class="hljs-number">0</span>].replace(<span class="hljs-string">&#x27;Name: &#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)))
                         post_data.append(<span class="hljs-string">&#x27;&#123;&#125;\n已经下载完成了，请留意！！！&#x27;</span>.<span class="hljs-built_in">format</span>(infos[<span class="hljs-number">0</span>].replace(<span class="hljs-string">&#x27;Name: &#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)))
                 <span class="hljs-keyword">else</span>:
-                    seeding_too_long = <span class="hljs-literal">True</span>
+                    <span class="hljs-keyword">if</span> seeding_time.find(<span class="hljs-string">&#x27;-&#x27;</span>) &lt; <span class="hljs-number">0</span>:
+                    	seeding_too_long = <span class="hljs-literal">True</span>
     <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\n&#x27;</span>.join(post_data)</code></pre></div>
 
 <p>上边这个函数通过调用一次deluge-console命令获取到了做种时间在规定时间内的种子进行返回。接下来就可以进行推送了~</p>
