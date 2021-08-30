@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.7k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      25
        分钟
     </span>
   
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：3 分钟前
                 
               </p>
             
@@ -376,6 +376,77 @@ waitForKeyElements (<span class="hljs-string">&quot;#atfResults&quot;</span>, ad
         add_click_function();
     &#125;
 &#125;, <span class="hljs-literal">false</span>);</code></pre></div>
+
+
+
+<h3 id="衍生需求"><a href="#衍生需求" class="headerlink" title="衍生需求"></a>衍生需求</h3><hr>
+<p>一次性点击一个删除仿佛不太够，那么我们需要增加批量删除按钮。往上再写一个版本：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-comment">// ==UserScript==</span>
+<span class="hljs-comment">// @name         hudbt-delete</span>
+<span class="hljs-comment">// @namespace    http://tampermonkey.net/</span>
+<span class="hljs-comment">// @version      0.3</span>
+<span class="hljs-comment">// @description  try to take over the world!</span>
+<span class="hljs-comment">// @author       tomorrow505</span>
+<span class="hljs-comment">// @match        https://hudbt.hust.edu.cn/torrents.php*</span>
+<span class="hljs-comment">// @icon         https://www.google.com/s2/favicons?domain=hust.edu.cn</span>
+<span class="hljs-comment">// @grant        GM_xmlhttpRequest</span>
+<span class="hljs-comment">// ==/UserScript==</span>
+
+(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    
+    <span class="hljs-comment">// 页面增加一列，列首删除按钮可以点击进行删种</span>
+    $(<span class="hljs-string">&#x27;#torrents&#x27;</span>).find(<span class="hljs-string">&#x27;thead&#x27;</span>).find(<span class="hljs-string">&#x27;tr:first&#x27;</span>).append(<span class="hljs-string">`&lt;th class=&quot;unsortable&quot;&gt;&lt;a id=&quot;delete_torrents&quot;&gt;删种&lt;/a&gt;&lt;/th&gt;`</span>);
+
+    <span class="hljs-comment">// 封装删种操作，传入参数为种子id</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delete_torrent</span>(<span class="hljs-params">torrent_id</span>) </span>&#123;
+        <span class="hljs-keyword">var</span> url = <span class="hljs-string">`https://hudbt.hust.edu.cn/cake/torrents/delete/<span class="hljs-subst">$&#123;torrent_id&#125;</span>.json`</span>;
+        GM_xmlhttpRequest(&#123;
+            <span class="hljs-string">&quot;method&quot;</span>: <span class="hljs-string">&quot;POST&quot;</span>,
+            <span class="hljs-string">&quot;url&quot;</span>: url,
+            <span class="hljs-string">&quot;data&quot;</span>: <span class="hljs-built_in">encodeURI</span>(<span class="hljs-string">&#x27;_method=DELETE&amp;data%5BreasonType%5D=0&amp;data%5BreasonDetail%5D=&#x27;</span>),
+            <span class="hljs-string">&#x27;headers&#x27;</span>:&#123;
+                <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&#x27;application/x-www-form-urlencoded; charset=UTF-8&#x27;</span>,
+                <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36&quot;</span>
+            &#125;,
+            <span class="hljs-string">&quot;onload&quot;</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res</span>) </span>&#123;
+                <span class="hljs-keyword">var</span> result = <span class="hljs-built_in">JSON</span>.parse(res.responseText);
+                <span class="hljs-keyword">if</span> (result.success) &#123;
+                    <span class="hljs-comment">// 执行成功之后将种子id对应的行删除掉</span>
+                    $(<span class="hljs-string">`input[title=<span class="hljs-subst">$&#123;torrent_id&#125;</span>]`</span>).parent().remove();
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`种子<span class="hljs-subst">$&#123;torrent_id&#125;</span>已经成功删除！！！`</span>);
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`种子<span class="hljs-subst">$&#123;torrent_id&#125;</span>删除失败！！！`</span>);
+                    <span class="hljs-built_in">console</span>.log(result);
+                &#125;
+            &#125;
+        &#125;);
+
+    &#125;
+    
+    <span class="hljs-comment">// 每一行的最后一列增加一个复选框，勾选之后点击删除即执行删除操作</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fireOnNewPage</span> (<span class="hljs-params"></span>) </span>&#123;
+        $(<span class="hljs-string">&#x27;#torrents&#x27;</span>).find(<span class="hljs-string">&#x27;tr:gt(0)&#x27;</span>).each(<span class="hljs-function">(<span class="hljs-params">index, e</span>)=&gt;</span>&#123;
+            <span class="hljs-keyword">var</span> id = $(e).find(<span class="hljs-string">&#x27;a.staff-quick-delete&#x27;</span>).attr(<span class="hljs-string">&#x27;href&#x27;</span>).match(<span class="hljs-regexp">/id=(\d+)/</span>)[<span class="hljs-number">1</span>];
+            $(e).append(<span class="hljs-string">`&lt;input type=&quot;checkbox&quot; title=<span class="hljs-subst">$&#123;id&#125;</span> value=&quot;yes&quot; class=&quot;select_torrent&quot; style=&quot;margin-top: 50%;&quot; &gt;`</span>)
+        &#125;);
+        $(<span class="hljs-string">&#x27;#delete_torrents&#x27;</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+            $(<span class="hljs-string">&#x27;input.select_torrent:checked&#x27;</span>).each(<span class="hljs-function">(<span class="hljs-params">index, e</span>)=&gt;</span>&#123;
+                <span class="hljs-keyword">var</span> torrent_id = $(e).attr(<span class="hljs-string">&#x27;title&#x27;</span>);
+                delete_torrent(torrent_id);
+            &#125;)
+        &#125;)
+    &#125;
+    
+    <span class="hljs-comment">// 页面监听，主要针对ajax来的</span>
+    <span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">&#x27;DOMNodeInserted&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+        <span class="hljs-keyword">if</span>($(<span class="hljs-string">&#x27;.select_torrent&#x27;</span>).length == <span class="hljs-number">0</span>)&#123;
+            fireOnNewPage();
+        &#125;
+    &#125;, <span class="hljs-literal">false</span>);
+    
+&#125;)();</code></pre></div>
+
+
 
 <h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><hr>
 <p>如此就实现了一个简单的ajax下，油猴无刷新脚本多次执行了，have fun！！！</p>
