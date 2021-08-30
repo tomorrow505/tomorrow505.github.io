@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -396,7 +396,13 @@ waitForKeyElements (<span class="hljs-string">&quot;#atfResults&quot;</span>, ad
     
     <span class="hljs-comment">// 页面增加一列，列首删除按钮可以点击进行删种</span>
     $(<span class="hljs-string">&#x27;#torrents&#x27;</span>).find(<span class="hljs-string">&#x27;thead&#x27;</span>).find(<span class="hljs-string">&#x27;tr:first&#x27;</span>).append(<span class="hljs-string">`&lt;th class=&quot;unsortable&quot;&gt;&lt;a id=&quot;delete_torrents&quot;&gt;删种&lt;/a&gt;&lt;/th&gt;`</span>);
-
+    $(<span class="hljs-string">&#x27;#delete_torrents&#x27;</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+        $(<span class="hljs-string">&#x27;input.select_torrent:checked&#x27;</span>).each(<span class="hljs-function">(<span class="hljs-params">index, e</span>)=&gt;</span>&#123;
+            <span class="hljs-keyword">var</span> torrent_id = $(e).attr(<span class="hljs-string">&#x27;title&#x27;</span>);
+            delete_torrent(torrent_id);
+        &#125;)
+    &#125;);
+    
     <span class="hljs-comment">// 封装删种操作，传入参数为种子id</span>
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delete_torrent</span>(<span class="hljs-params">torrent_id</span>) </span>&#123;
         <span class="hljs-keyword">var</span> url = <span class="hljs-string">`https://hudbt.hust.edu.cn/cake/torrents/delete/<span class="hljs-subst">$&#123;torrent_id&#125;</span>.json`</span>;
@@ -429,12 +435,6 @@ waitForKeyElements (<span class="hljs-string">&quot;#atfResults&quot;</span>, ad
             <span class="hljs-keyword">var</span> id = $(e).find(<span class="hljs-string">&#x27;a.staff-quick-delete&#x27;</span>).attr(<span class="hljs-string">&#x27;href&#x27;</span>).match(<span class="hljs-regexp">/id=(\d+)/</span>)[<span class="hljs-number">1</span>];
             $(e).append(<span class="hljs-string">`&lt;input type=&quot;checkbox&quot; title=<span class="hljs-subst">$&#123;id&#125;</span> value=&quot;yes&quot; class=&quot;select_torrent&quot; style=&quot;margin-top: 50%;&quot; &gt;`</span>)
         &#125;);
-        $(<span class="hljs-string">&#x27;#delete_torrents&#x27;</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-            $(<span class="hljs-string">&#x27;input.select_torrent:checked&#x27;</span>).each(<span class="hljs-function">(<span class="hljs-params">index, e</span>)=&gt;</span>&#123;
-                <span class="hljs-keyword">var</span> torrent_id = $(e).attr(<span class="hljs-string">&#x27;title&#x27;</span>);
-                delete_torrent(torrent_id);
-            &#125;)
-        &#125;)
     &#125;
     
     <span class="hljs-comment">// 页面监听，主要针对ajax来的</span>
