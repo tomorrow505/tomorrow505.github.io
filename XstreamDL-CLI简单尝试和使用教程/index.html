@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>PT发布之一键转载脚本使用指南(2) - Tomorrow&#39;s blog</title>
+  <title>XstreamDL-CLI简单尝试和使用教程 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="PT发布之一键转载脚本使用指南(2)">
+            <span class="h2" id="subtitle" title="XstreamDL-CLI简单尝试和使用教程">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-02 20:04" pubdate>
-        2021年4月2日 晚上
+      <time datetime="2021-09-09 10:47" pubdate>
+        2021年9月9日 上午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      1.2k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      25
+      18
        分钟
     </span>
   
@@ -244,114 +244,171 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PT发布之一键转载脚本使用指南(2)</h1>
+            <h1 style="display: none">XstreamDL-CLI简单尝试和使用教程</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>接<a href="https://tomorrow505.xyz/PT%E5%8F%91%E5%B8%83%E4%B9%8B%E4%B8%80%E9%94%AE%E8%BD%AC%E8%BD%BD%E8%84%9A%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">上一篇教程</a>，之前一直被防盗链困扰，最近也有很多豆瓣图床说看不见。由于自己时间不多发种很少了，但是还是有很多人有这样的需求，也就是图床转存。之前也一直考虑说似的脚本能够实现这样的需求。无奈精力有限，没有研究，最近铂金家一位大佬说有这样的脚本可以转存PTPIMG，那么既然已经有人造好了轮子，我就想能不能实现一下，所以就动手了~</p>
-<p>同时，有人在上一篇教程中说设置能不能保存不要每次更新都需要替换，这个以前也想做，但是自己很懒，就拖着了……在这个版本的实现过程中，借用了NP的个人设置版块把这两个功能实现了一下。</p>
-<div class="note note-primary">
-            <p><font size="3px">项目托管在Github上，欢迎Star：</font><iframe src="https://ghbtns.com/github-btn.html?user=tomorrow505&amp;repo=auto_feed_js&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub" style="vertical-align: bottom"></iframe></p>
-          </div>
-
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><hr>
-<p><font color=Blue><strong>图片转存</strong></font>：手动转存图床麻烦之处在于需要下载，那么能够通过url上传，由服务器进行下载存储岂不是很好？当然了，还得图床有提供开放的API可以使用。所以在这一周的时间里找到了以下几个图床：</p>
-<ul>
-<li>PTPIMG：需要皮或者红的账号绑定，脚本需要用到API-KEY，直接打开图床首页就可以看到了，但是没有缩略图</li>
-<li>IMGbb：注册就可以打开其API页面获取key值和API的使用流程</li>
-<li>Gifyu：这个API-KEY好像不太好找，是由猫站一个大佬提供的，缺点就是不存在你的账号里，后续使用或者管理不是很方便</li>
-<li>Freeimg：这个在以前就留意过有开放API，不过一直没有收到验证邮件，可是竟然能够直接使用，注册打开API页面获取key</li>
-<li>PIXhost：这个很强大的一个图床，可以一次上传多次图片，脚本主要设定为批量转存防盗链的几个站点的特定图床</li>
-<li>Pstorage：也是开放注册登录即可获取API-KEY值的一个图床</li>
-</ul>
-<p><strong>最后我的设定是PTPIMG用来转存海报之类的大图；PIXhost转存多张防盗链图，其他的都可以使用，但是一次只能一张，好在提供了大图小图之类的。</strong></p>
-<p><font color=Blue><strong>脚本设置</strong></font>：这一块其实没什么好说的了，主要是根据GM_getvalue和GM_setvalue结合一些点击事件来进行的。</p>
-<h3 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h3><hr>
-<p>首先说一下<strong>设置页面</strong>，这个页面不单独存在于某一个页面，而是依托NP架构的个人设定页面，目前为了广泛性，支持了：**猫站、柠檬、杜比、春天、铂金、我堡、他吹风、北洋园以及天空。默认使用猫站页面~**设定成功以后，就不用每次更新都要更改了。</p>
-<p><strong>由于个人失误，导致脚本设置页面404，建议清除一下后边提到的数据，保留一对花括号{}即可。然后更新脚本。或者直接打开 <a target="_blank" rel="noopener" href="https://pterclub.com/usercp.php?action=personal#setting">https://pterclub.com/usercp.php?action=personal#setting</a></strong></p>
-<p><strong>然后设置【选择脚本设置站点(默认猫站)】为其他站点。</strong></p>
+<p>群内成员有会抓web-dl的，工具也挺多了，就是下载器如何用盒子下载，有人找了个GitHub地址丢给我，折腾了一晚上，虽说不是很懂，但是环境之类的总算弄好了。记录一下过程。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://github.com/xhlove/XstreamDL-CLI">https://github.com/xhlove/XstreamDL-CLI</a></p>
+<h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><hr>
 <ol>
-<li>我们先打开看一下初始化的界面，所有支持的脚本都在，自定义的快速搜索也都在~</li>
+<li>克隆项目到盒子。</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkPMf"><img src="https://www.z4a.net/images/2021/04/02/1fb29928a83adb456.png" srcset="/img/loading.gif" lazyload alt="1fb29928a83adb456.png"></a></p>
+<p><code>git clone https://github.com/xhlove/XstreamDL-CLI.git</code></p>
 <ol start="2">
-<li>我们需要精简一下，脚本设置页面点进去，跳转到猫站的个人设定页面，多了一些元素</li>
+<li>因为工具基于python3.7.4+的，所以得看看当前的python3版本</li>
 </ol>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkXvE"><img src="https://www.z4a.net/images/2021/04/02/24b21f4de1b1f1fa3.png" srcset="/img/loading.gif" lazyload alt="24b21f4de1b1f1fa3.png"></a></p>
-<p><strong>转发站点设置</strong>：支持了如上一些站点，但是有一些我们肯定用不到，我们可以取消勾选，然后点击保存。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk9rr"><img src="https://www.z4a.net/images/2021/04/02/32776ac0a79cc2f2f.png" srcset="/img/loading.gif" lazyload alt="32776ac0a79cc2f2f.png"></a></p>
-<p><strong>常用站点设置</strong>：这时候常用站点设置以及缩小为上边选择的站点了，常用站点适用于一次性打开多个站点发布页面的，这里举例选了6个。每一个站点第一次点击常用都会出现一个拦截窗口，点击始终允许就可以一次性打开多个发布页了。下边放一个三个站的动图效果（可能需要右键新标签页中打开）：</p>
-<p><a target="_blank" rel="noopener" href="https://gifyu.com/image/rOJi"><img src="https://s4.gifyu.com/images/1234ca82f4501e1c2e13.gif" srcset="/img/loading.gif" lazyload alt="1234ca82f4501e1c2e13.gif"></a></p>
-<p><font color=red>注意：如果没有出现动图里的标记，看解释说明直接设置试试。<a target="_blank" rel="noopener" href="https://support.google.com/chrome/answer/95472?co=GENIE.Platform=Desktop&hl=zh-Hans">阻止或允许在 Chrome 中显示弹出式窗口</a>。</font></p>
-<p><strong>脚本设置站点</strong>：这个就看每个人喜欢用哪个站点来跳转了，NP架构下大同小异，为了能够覆盖多数人选择，这里支持了好几个站点。<strong>如果没有猫站可以在脚本最开始改default_setting_host这一个值，具体操作看脚本说明</strong>。</p>
-<p><strong>是否在种子页面开启快捷搜索功能：</strong>主要是之前为了方便查询是否重复，支持了几个外站直接搜索的功能，如下图，在有IMDB的前提下可以直接搜索：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmIeX5"><img src="https://www.z4a.net/images/2021/04/04/18.png" srcset="/img/loading.gif" lazyload alt="18.png"></a></p>
-<p><strong>快速搜索站点</strong>：这个还是跟之前一样，能够快速搜索查询其他站点是否有对应的资源，我们用{}中间插入变量名用于后续替换搜索，如{imdbid}后期替换为imdb的编号tt1234567之类的，{search_name}替换为影视名称用于搜索。按照格式一行一个即可~也可以进行删除。</p>
-<p>另外脚本默认开启了豆瓣搜索的小功能，搜索的站点是上面设置的一些站点：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmITGh"><img src="https://www.z4a.net/images/2021/04/04/19.png" srcset="/img/loading.gif" lazyload alt="19.png"></a></p>
-<p><strong>是否匿名</strong>：很简单了，就是想不想匿名发布资源。</p>
-<hr>
-<p>上述是基本上都会用到的功能，下边几个key值简单介绍一下：</p>
-<blockquote>
-<p>PTPimg的key值输入保存以后种子页面会多一个转存PTP选项，就是将海报等之类的大图转存PTPIMG</p>
-<p>TMDB的key值用于需要输入TMDB的编号的站点使用，可以自己网上搜索或者注册一个</p>
-<p>四个图床的API-KEY值，基本上都需要注册之后获取，用于单张图片转存，不方便的就是说要一张一张进行</p>
-</blockquote>
-<p><strong>单图转存</strong>：配置好上述几个key之后就可以点击种子页面的单图转存进入同一个页面进行操作，好处是不用管到底是什么架构可以依托于国内NP页面进行操作，可以移植到国内大部分NP站点不用更新代码，也可以覆盖大多数人群。</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkJQJ"><img src="https://www.z4a.net/images/2021/04/02/4.png" srcset="/img/loading.gif" lazyload alt="4.png"></a></p>
-<h3 id="示范一例（单图到PTP）"><a href="#示范一例（单图到PTP）" class="headerlink" title="示范一例（单图到PTP）"></a>示范一例（单图到PTP）</h3><hr>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk19O"><img src="https://www.z4a.net/images/2021/04/02/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></a></p>
-<p>我自己配置好的一个示范，转存PTP就是用于将一些不需要缩略图的图片转存到PTPIMG。由于点击之后会要求我们输入图片地址，所以我们先复制一个图片地址再进行点击：<a target="_blank" rel="noopener" href="http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg">http://img.cmct.xyz/2021/03/30/.Golden.Orchestra.2016.BluRay.1080p.x264.DTS-CMCT_s.jpg</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkiV0"><img src="https://www.z4a.net/images/2021/04/02/6.png" srcset="/img/loading.gif" lazyload alt="6.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmk8Pj"><img src="https://www.z4a.net/images/2021/04/02/7.png" srcset="/img/loading.gif" lazyload alt="7.png"></a></p>
-<p>粘贴得到如下代码：<code>[img]https://ptpimg.me/9l89dg.jpg[/img]</code>, 然后我们看看图片是什么样的：</p>
-<p><img src="https://ptpimg.me/9l89dg.jpg" srcset="/img/loading.gif" lazyload alt="ptpimg"></p>
-<p>没错，就是想要转存的那张图片了……</p>
-<h3 id="示范一例（多图到PIXhost）"><a href="#示范一例（多图到PIXhost）" class="headerlink" title="示范一例（多图到PIXhost）"></a>示范一例（多图到PIXhost）</h3><hr>
-<p>前边已经讲解了，是为了防盗链的多图一起转，所以现在使用还是有一点局限性。<strong>只适用于FL/TTG/HDC/LemonHD/AVZ/PHD的部分图床的图片。</strong></p>
-<p>我们仅仅以AVZ的图片作为讲解：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkf7P"><img src="https://www.z4a.net/images/2021/04/02/8.png" srcset="/img/loading.gif" lazyload alt="8.png"></a></p>
-<p>比以往多了一个转存截图，然后我们给截图加了一个可以选择的属性，选中截图之后点击转存截图就会有信息显示到下边的框框里。AVZ截图很多我们不需要那么多，所以依次选择自己想要的截图：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkviv"><img src="https://www.z4a.net/images/2021/04/02/9.png" srcset="/img/loading.gif" lazyload alt="9.png"></a></p>
-<p>依上图，我们选择了6张，然后点击转存截图：稍等片刻，正在处理……然后处理成功！！为了支持外站，大小设置成了350px…</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkKPL"><img src="https://www.z4a.net/images/2021/04/02/10.png" srcset="/img/loading.gif" lazyload alt="10.png"></a></p>
-<p>有可能转载之前会用到获取豆瓣的功能，所以我在这里留了一个空行。</p>
-<p>放到种子描述里看看效果：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkNz5"><img src="https://www.z4a.net/images/2021/04/02/14.png" srcset="/img/loading.gif" lazyload alt="14.png"></a></p>
-<h3 id="示范一例（单图转载）"><a href="#示范一例（单图转载）" class="headerlink" title="示范一例（单图转载）"></a>示范一例（单图转载）</h3><hr>
-<p>这次我们以Filelis的一张防盗图作为示例：<a target="_blank" rel="noopener" href="https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png">https://yes.ilikeshots.club/images/2021/04/02/8747ff431876b843b1fdd2f01358b38a.png</a></p>
-<p>如果没搞错的话，应该是防盗的，哈哈~~~</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkR3k"><img src="https://www.z4a.net/images/2021/04/02/11.png" srcset="/img/loading.gif" lazyload alt="11.png"></a></p>
-<p>让子弹飞一会儿~~</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkl7b"><img src="https://www.z4a.net/images/2021/04/02/12.png" srcset="/img/loading.gif" lazyload alt="12.png"></a></p>
-<p>我们将bbcode防盗一个种子描述里看看效果：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmkz8H"><img src="https://www.z4a.net/images/2021/04/02/13.png" srcset="/img/loading.gif" lazyload alt="13.png"></a></p>
-<p>这里我们选择的bbcode是中等大小图或者是原图，我觉得可以加一个缩略的bbcode代码。当你使用的时候我大概已经加上了，哈哈~~</p>
-<h3 id="补充-如何转移配置呢"><a href="#补充-如何转移配置呢" class="headerlink" title="补充(如何转移配置呢)"></a>补充(如何转移配置呢)</h3><hr>
-<p>有时候可能需要备份和转移，那么我们的配置到底存在哪里呢？</p>
-<p>打开油猴，由于备份存储数据需要打开一个高级面板，我们设置通用配置模式为高级：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu1YH"><img src="https://www.z4a.net/images/2021/04/03/15.png" srcset="/img/loading.gif" lazyload alt="15.png"></a></p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gmu3ef"><img src="https://www.z4a.net/images/2021/04/03/16.png" srcset="/img/loading.gif" lazyload alt="16.png"></a></p>
-<p>然后发现脚本编辑页面多了一个存储选项，我们需要做的就是把里边的东西拷贝出来，用作备份，想要还原就覆盖好了。</p>
-<h3 id="禁转提示2021-04-10（1-7-2）"><a href="#禁转提示2021-04-10（1-7-2）" class="headerlink" title="禁转提示2021.04.10（1.7.2）"></a>禁转提示2021.04.10（1.7.2）</h3><hr>
-<p>贴吧有人说禁转加个提示什么的，想想也是，之前有次从别的站搜索到岛的资源，还得退出去搜一些是否独占。。。这可就不妥了~</p>
-<p>开整（动了一部分代码，可能伴随部分bug，欢迎反馈），看图：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gwIOOa"><img src="https://www.z4a.net/images/2021/04/11/20.png" srcset="/img/loading.gif" lazyload alt="20.png"></a><br><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gwIQ4P"><img src="https://www.z4a.net/images/2021/04/11/21.png" srcset="/img/loading.gif" lazyload alt="21.png"></a><br><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gwIk5T"><img src="https://www.z4a.net/images/2021/04/11/22.png" srcset="/img/loading.gif" lazyload alt="22.png"></a></p>
-<p>分成了三类资源，独占-限转-一般。限转的话看一下日期是否达到7天，是的话就可以点击确定了~</p>
-<p>其他站的一些禁转也加了判断，但是我一个人测试或者站点不全什么的，有什么要增加的可以留言。</p>
-<h3 id="支持站点排序（1-7-3）"><a href="#支持站点排序（1-7-3）" class="headerlink" title="支持站点排序（1.7.3）"></a>支持站点排序（1.7.3）</h3><hr>
-<p>默认排序有时候不能满足所有人需求，所以接着整，弄一个支持手动拖拽排序的版本。废话不多说，看动图：</p>
-<p><a target="_blank" rel="noopener" href="https://gifyu.com/image/rOJM"><img src="https://s4.gifyu.com/images/1233ea6c7bfb8339bec.gif" srcset="/img/loading.gif" lazyload alt="1233ea6c7bfb8339bec.gif"></a></p>
+<p><code>python3 --version</code></p>
+<ol start="3">
+<li>如果显示的版本低于3.7.4，那么就需要升级了，本次选择3.7.5版本的。</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载python包解压并进入</span>
+wget https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz
+tar zxvf Python-3.7.5.tgz
+<span class="hljs-built_in">cd</span> Python-3.7.5
+
+<span class="hljs-comment"># 配置，编译，安装</span>
+sudo apt-get install libffi-dev
+./configure --with-ssl --enable-shared
+make
+sudo make install
+
+<span class="hljs-comment"># 删除旧的软连接</span>
+sudo rm -rf /usr/bin/python3
+sudo rm -rf /usr/bin/pip3
+
+<span class="hljs-comment"># 添加python3的软链接</span>
+sudo ln -s /usr/<span class="hljs-built_in">local</span>/bin/python3.7 /usr/bin/python3
+<span class="hljs-comment"># 添加 pip3 的软链接</span>
+sudo ln -s /usr/<span class="hljs-built_in">local</span>/bin/pip3.7 /usr/bin/pip3
+
+<span class="hljs-comment"># 再度查看版本号</span>
+python3 --version
+
+<span class="hljs-comment"># 如果报错：python3: error while loading shared libraries: libpython3.7m.so.1.0: cannot open shared object file: No such file or directory</span>
+sudo apt-get install libpython3.7
+
+<span class="hljs-comment"># 然后就可以看到python3升级成功了</span></code></pre></div>
+
+<ol start="4">
+<li>进人XstreamDL-CLI根目录进行环境配置：</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">pip3 install -r requirements.txt
+
+<span class="hljs-comment"># 如果报错：subprocess.CalledProcessError: Command &#x27;(&#x27;lsb_release&#x27;, &#x27;-a&#x27;)&#x27; returned non-zero exit status 1.</span>
+sudo ln -s /usr/share/pyshared/lsb_release.py /usr/<span class="hljs-built_in">local</span>/lib/python3.7/site-packages/lsb_release.py
+
+<span class="hljs-comment"># 提示pip版本低</span>
+ARNING: You are using pip version 19.2.3, however version 21.2.4 is available.
+You should consider upgrading via the <span class="hljs-string">&#x27;pip install --upgrade pip&#x27;</span> <span class="hljs-built_in">command</span>.
+<span class="hljs-comment"># 运行下述命令进行升级</span>
+pip3 install --upgrade pip
+
+<span class="hljs-comment"># 然后进行python包的安装</span>
+pip3 install -r requirements.txt</code></pre></div>
+
+<ol start="5">
+<li><p>pyinstaller打包<br>由于盒子没有界面，所以选择进行打包丢到/usr/bin目录下作为命令行工具使用。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">pip3 install pyinstaller
+
+pyinstaller -i logo.ico -n XstreamDL-CLI_v1.2.9 -F XstreamDL_CLI/__main__.py
+
+<span class="hljs-comment"># 如果出现ModuleNotFoundError: No module named &#x27;_ctypes&#x27;</span>
+sudo apt-get install libffi-dev
+
+<span class="hljs-comment"># 然后重新编译安装python3...所以我在后边又把这一句补回去了。。</span>
+
+<span class="hljs-comment"># 打包完成会提示成功并且在XstreamDL-CLI根目录出现一个dist目录</span>
+INFO: Building EXE because EXE-00.toc is non existent
+INFO: Building EXE from EXE-00.toc
+INFO: Appending archive to ELF section <span class="hljs-keyword">in</span> EXE /home/guai/XstreamDL-CLI/dist/XstreamDL-CLI_v1.2.9
+INFO: Building EXE from EXE-00.toc completed successfully.
+
+<span class="hljs-comment"># dist目录下有一个可执行文件：</span>
+ls dist/
+XstreamDL-CLI_v1.2.9
+
+<span class="hljs-comment"># 然后把这个文件拷贝到/usr/bin</span>
+cp ./dist/XstreamDL-CLI_v1.2.9 /usr/bin/XstreamDL-CLI
+
+<span class="hljs-comment"># 以后就可以执行该命令行了</span>
+XstreamDL-CLI，输入Xs可以按tab键补全。</code></pre></div></li>
+<li><p>帮助文档：XstreamDL-CLI -h即可召唤帮助文档</p>
+</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs python">version <span class="hljs-number">1.2</span><span class="hljs-number">.9</span>, A downloader that download the HLS/DASH stream.
+usage: XstreamDL-CLI [OPTION]... URL/FILE/FOLDER...
+
+A downloader that download the HLS/DASH stream
+
+positional arguments:
+  URI                   URL/FILE/FOLDER string
+
+optional arguments:
+  -v, --version         Print version <span class="hljs-keyword">and</span> exit
+  -h, --<span class="hljs-built_in">help</span>            Print <span class="hljs-built_in">help</span> message <span class="hljs-keyword">and</span> exit
+  -name NAME, --name NAME
+                        Specific stream base name
+  -base BASE_URL, --base-url BASE_URL
+                        Set base url <span class="hljs-keyword">for</span> Stream
+  -save-<span class="hljs-built_in">dir</span> SAVE_DIR, --save-<span class="hljs-built_in">dir</span> SAVE_DIR
+                        Set save <span class="hljs-built_in">dir</span> <span class="hljs-keyword">for</span> Stream
+  --ffmpeg FFMPEG       Set executable ffmpeg path
+  --mp4decrypt MP4DECRYPT
+                        Set executable mp4decrypt path
+  --select              Show stream to select <span class="hljs-keyword">and</span> download, default <span class="hljs-keyword">is</span> to
+                        download <span class="hljs-built_in">all</span>
+  --disable-force-close
+                        Default make <span class="hljs-built_in">all</span> connections closed securely, but it
+                        will make DL speed slower
+  --limit-per-host LIMIT_PER_HOST
+                        Increase the value <span class="hljs-keyword">if</span> your connection to the stream
+                        host <span class="hljs-keyword">is</span> poor, suggest &gt;<span class="hljs-number">100</span> <span class="hljs-keyword">for</span> DASH stream
+  --user-agent USER_AGENT
+                        <span class="hljs-built_in">set</span> user-agent headers <span class="hljs-keyword">for</span> request
+  --referer REFERER     <span class="hljs-built_in">set</span> custom referer <span class="hljs-keyword">for</span> request
+  --headers HEADERS     <span class="hljs-built_in">set</span> custom headers <span class="hljs-keyword">for</span> request, separators <span class="hljs-keyword">is</span> |, e.g.
+                        <span class="hljs-string">&quot;header1:value1|header2:value2&quot;</span>
+  --overwrite           Overwrite output files
+  --raw-concat          Concat content <span class="hljs-keyword">as</span> raw
+  --disable-auto-concat
+                        Disable auto-concat
+  --enable-auto-delete  Enable auto-delete files after concat success
+  --disable-auto-decrypt
+                        Disable auto-decrypt segments before dump to disk
+  --key KEY             &lt;<span class="hljs-built_in">id</span>&gt;:&lt;k&gt;, &lt;<span class="hljs-built_in">id</span>&gt; <span class="hljs-keyword">is</span> either a track ID <span class="hljs-keyword">in</span> decimal <span class="hljs-keyword">or</span> a
+                        <span class="hljs-number">128</span>-bit KID <span class="hljs-keyword">in</span> <span class="hljs-built_in">hex</span>, &lt;k&gt; <span class="hljs-keyword">is</span> a <span class="hljs-number">128</span>-bit key <span class="hljs-keyword">in</span> <span class="hljs-built_in">hex</span>
+  --b64key B64KEY       base64 <span class="hljs-built_in">format</span> aes key, only <span class="hljs-keyword">for</span> HLS standard
+                        AES-<span class="hljs-number">128</span>-CBC encryption
+  --hexiv HEXIV         <span class="hljs-built_in">hex</span> <span class="hljs-built_in">format</span> aes iv
+  --proxy PROXY         use http proxy, e.g. http://<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">1080</span>
+  --split               Dash option, split one stream to multi sections
+  --repl                REPL mode</code></pre></div>
+
+<p><strong>注意点：合并需要先将ffmpeg置于环境变量。</strong></p>
+<ol start="7">
+<li>使用实例：</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 一般用法</span>
+XstreamDL-CLI --raw-concat --b64key oKi/hwKVuLveo/hISX1PQw== --hexiv b3d5ca56926d49d8e96b70aa5c7b358e --name 第一节总论  --save-dir /home/guai/Downloads/ https://hls.videocc.net/d06ae002cb/2/d06ae002cb4a0bed78fb912c874fdbb2_2.m3u8
+
+<span class="hljs-comment"># 其中--raw-concat表示要合并所有的分段， --b64key和 --hexiv参数不是很懂，欢迎大家讨论。--name表示合并之后的视频名称，--save-dir表示下载路径，最后一个是m3u8的链接地址。</span></code></pre></div>
+
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># ISM EXAMPLE</span>
+XstreamDL-CLI --select --overwrite http://playready.directtaps.net/smoothstreaming/SSWSS720H264/SuperSpeedway_720.ism/Manifest
+
+<span class="hljs-comment"># drm ism content</span>
+XstreamDL-CLI --disable-auto-concat --select --overwrite https://akamaicdn.hbogo.eu/5acb29be-eba0-46b1-8646-0e8354ff9cda_hbo/COMP/140258727_adr_comp_0cc2c364-5dba-4f1c-96f9-5640f98f5bbb_3400000_v2.ism/manifest</code></pre></div>
+
+<p>其他更多详情请查看GitHub链接，也可以下载exe桌面应用程序。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>折腾不易，总算是弄好了，哈哈~~</p>
-<p>如果你有什么好的建议，欢迎留言~</p>
-<p>如果你有什么bug反馈，欢迎留言~</p>
+<p>你不努力，别人也会催着你努力，加油！！！</p>
 
             </div>
             <hr>
@@ -361,7 +418,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/">业余爱好</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -373,7 +430,7 @@
                     
                       <a class="hover-with-bg" href="/tags/PT/">PT</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
                     
                   </div>
                 
@@ -453,18 +510,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E8%BD%AC%E8%BD%BD--%E5%9B%BD%E5%86%85%E5%A4%96PT%E7%AB%99%E5%B0%8F%E7%BB%84%E6%94%B6%E5%BD%95%E3%80%90%E5%BE%85%E6%9B%B4%E6%96%B0%E3%80%91/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">转载--国内外PT站小组收录【待更新】</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Sublime-Text3-%E6%BF%80%E6%B4%BB%E8%BF%87%E7%A8%8B%EF%BC%882021%EF%BC%89/">
-                        <span class="hidden-mobile">Sublime Text3 激活过程（2021）</span>
+                      <a href="/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC%E7%A2%B0%E5%88%B0ajax%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%97%A0%E5%88%B7%E6%96%B0%E5%A4%9A%E6%AC%A1%E6%89%A7%E8%A1%8C/">
+                        <span class="hidden-mobile">油猴脚本碰到ajax如何实现无刷新多次执行</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
