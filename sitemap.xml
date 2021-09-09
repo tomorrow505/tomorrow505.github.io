@@ -200,7 +200,7 @@
 
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2021-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -214,7 +214,14 @@
   </url>
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>http://tomorrow505.xyz/tags/Python/</loc>
+    <lastmod>2021-09-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://tomorrow505.xyz/tags/%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2021-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -242,13 +249,6 @@
   </url>
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/Python/</loc>
-    <lastmod>2021-09-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://tomorrow505.xyz/tags/%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-09-09</lastmod>
     <changefreq>daily</changefreq>
@@ -263,6 +263,13 @@
   </url>
   
   <url>
+    <loc>http://tomorrow505.xyz/tags/qbittorrent/</loc>
+    <lastmod>2021-09-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://tomorrow505.xyz/tags/shell/</loc>
     <lastmod>2021-09-09</lastmod>
     <changefreq>daily</changefreq>
@@ -271,13 +278,6 @@
   
   <url>
     <loc>http://tomorrow505.xyz/tags/Linux/</loc>
-    <lastmod>2021-09-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://tomorrow505.xyz/tags/qbittorrent/</loc>
     <lastmod>2021-09-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
