@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.4k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      39
+      40
        分钟
     </span>
   
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -339,6 +339,7 @@
 <span class="hljs-keyword">import</span> re
 <span class="hljs-keyword">import</span> requests
 
+PASSKEY = <span class="hljs-string">&#x27;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span> <span class="hljs-comment"># 蝴蝶的秘钥，用于获取下载链接用</span>
 
 <span class="hljs-comment"># 定义搜索插件的名称</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">hudbt</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span>
@@ -429,13 +430,16 @@
                 <span class="hljs-keyword">if</span> self.item_name:
                     self.current_item[self.item_name] = -<span class="hljs-number">1</span>
                     
-		   <span class="hljs-comment"># 判断种子详情页链接，可能是下载用到的，我们这边没有实现现在功能但是还是加上吧</span>
+		   <span class="hljs-comment"># 判断种子详情页链接，下载页链接</span>
             <span class="hljs-keyword">if</span> self.inside_tr <span class="hljs-keyword">and</span> tag == self.A <span class="hljs-keyword">and</span> self.HREF <span class="hljs-keyword">in</span> params:
-                link = self.url + params[<span class="hljs-string">&quot;href&quot;</span>]
+                link = <span class="hljs-string">&quot;https:&quot;</span> + params[<span class="hljs-string">&quot;href&quot;</span>]
                 <span class="hljs-keyword">if</span> link.endswith(<span class="hljs-string">&quot;&amp;hit=1&quot;</span>):
                     self.current_item[<span class="hljs-string">&quot;engine_url&quot;</span>] = self.url
                     self.current_item[<span class="hljs-string">&quot;desc_link&quot;</span>] = link
-                    self.current_item[<span class="hljs-string">&quot;link&quot;</span>] = link
+                    torrent_id = re.search(<span class="hljs-string">&#x27;id=\d+&#x27;</span>, link).group()
+                    self.current_item[<span class="hljs-string">&quot;link&quot;</span>] = <span class="hljs-string">&#x27;https://hudbt.hust.edu.cn/download.php?&#123;&#125;&amp;passkey=&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(
+                        torrent_id, PASSKEY
+                    )
                     self.item_name = <span class="hljs-string">&quot;name&quot;</span>
 
         <span class="hljs-comment"># 重构实现数据获取，size，seeds，leech</span>
@@ -505,15 +509,15 @@
     c.search(<span class="hljs-string">&#x27;请以你的名字呼唤我&#x27;</span>)</code></pre></div>
 
 <p>测试结果展示：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">//</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span>details.php?id=<span class="hljs-number">146462</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> BluRay <span class="hljs-number">720</span>p x264 AC3-CMCT|<span class="hljs-number">4939212390</span>|<span class="hljs-number">1</span>|<span class="hljs-number">0</span>|https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">/|https:/</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span><span class="hljs-regexp">//</span>hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">146462</span>&amp;hit=<span class="hljs-number">1</span>
+<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">146462</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> BluRay <span class="hljs-number">720</span>p x<span class="hljs-number">264</span> AC<span class="hljs-number">3</span>-CMCT|<span class="hljs-number">4939212390</span>|<span class="hljs-number">1</span>|<span class="hljs-number">0</span>|https://hudbt.hust.edu.cn/|https://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">146462</span>&amp;hit=<span class="hljs-number">1</span>
 
-https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">//</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span>details.php?id=<span class="hljs-number">145095</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> Repack <span class="hljs-number">1080</span>p BluRay DTS x264-Geek|<span class="hljs-number">19993072762</span>|<span class="hljs-number">7</span>|<span class="hljs-number">0</span>|https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">/|https:/</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span><span class="hljs-regexp">//</span>hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">145095</span>&amp;hit=<span class="hljs-number">1</span>
+<span class="hljs-attribute">https</span>://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">145095</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> Repack <span class="hljs-number">1080</span>p BluRay DTS x<span class="hljs-number">264</span>-Geek|<span class="hljs-number">19993072762</span>|<span class="hljs-number">6</span>|<span class="hljs-number">0</span>|https://hudbt.hust.edu.cn/|https://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">145095</span>&amp;hit=<span class="hljs-number">1</span>
 
-https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">//</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span>details.php?id=<span class="hljs-number">137637</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> <span class="hljs-number">1080</span>p BluRay x264 DTS-WiKi|<span class="hljs-number">18146236825</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">/|https:/</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span><span class="hljs-regexp">//</span>hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137637</span>&amp;hit=<span class="hljs-number">1</span>
+<span class="hljs-attribute">https</span>://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137637</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> <span class="hljs-number">1080</span>p BluRay x<span class="hljs-number">264</span> DTS-WiKi|<span class="hljs-number">18146236825</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https://hudbt.hust.edu.cn/|https://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137637</span>&amp;hit=<span class="hljs-number">1</span>
 
-https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">//</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span>details.php?id=<span class="hljs-number">137635</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> <span class="hljs-number">720</span>p BluRay x264-WiKi|<span class="hljs-number">8589934592</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">/|https:/</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span><span class="hljs-regexp">//</span>hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137635</span>&amp;hit=<span class="hljs-number">1</span>
+<span class="hljs-attribute">https</span>://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137635</span>&amp;hit=<span class="hljs-number">1</span>|Call Me by Your Name <span class="hljs-number">2017</span> <span class="hljs-number">720</span>p BluRay x<span class="hljs-number">264</span>-WiKi|<span class="hljs-number">8589934592</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https://hudbt.hust.edu.cn/|https://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137635</span>&amp;hit=<span class="hljs-number">1</span>
 
-https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">//</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span>details.php?id=<span class="hljs-number">137266</span>&amp;hit=<span class="hljs-number">1</span>|Call Me By Your Name <span class="hljs-number">2017</span> HD720P X264 AAC Multilingual CHS MF|<span class="hljs-number">2931315179</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-regexp">/|https:/</span><span class="hljs-regexp">/hudbt.hust.edu.cn/</span><span class="hljs-regexp">//</span>hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137266</span>&amp;hit=<span class="hljs-number">1</span></code></pre></div>
+<span class="hljs-attribute">https</span>://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137266</span>&amp;hit=<span class="hljs-number">1</span>|Call Me By Your Name <span class="hljs-number">2017</span> HD<span class="hljs-number">720</span>P X<span class="hljs-number">264</span> AAC Multilingual CHS MF|<span class="hljs-number">2931315179</span>|<span class="hljs-number">0</span>|<span class="hljs-number">0</span>|https://hudbt.hust.edu.cn/|https://hudbt.hust.edu.cn/details.php?id=<span class="hljs-number">137266</span>&amp;hit=<span class="hljs-number">1</span></code></pre></div>
 
 <h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><hr>
 <ol>
@@ -521,7 +525,12 @@ https:<span class="hljs-regexp">//</span>hudbt.hust.edu.cn<span class="hljs-rege
 <li>点击搜索，右下角点击搜索插件，左下角点击安装一个新的搜索引擎，选择本地文件，找到hudbt.py.</li>
 </ol>
 <p><img src="https://www.z4a.net/images/2021/10/15/2e9c207ce77e9056d.png" srcset="/img/loading.gif" lazyload alt="2e9c207ce77e9056d.png"></p>
-<h3 id="搜索显示"><a href="#搜索显示" class="headerlink" title="搜索显示"></a>搜索显示</h3><p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gFdnKI"><img src="https://www.z4a.net/images/2021/10/15/35881cf4c09b1933b.png" srcset="/img/loading.gif" lazyload alt="35881cf4c09b1933b.png"></a><br><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gFdIyU"><img src="https://www.z4a.net/images/2021/10/15/4ccda1a6822ec6878.png" srcset="/img/loading.gif" lazyload alt="4ccda1a6822ec6878.png"></a></p>
+<h3 id="搜索显示"><a href="#搜索显示" class="headerlink" title="搜索显示"></a>搜索显示</h3><p>以IMDB号搜，这里写了正则，完整的IMDB链接也没有关系；</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gFdnKI"><img src="https://www.z4a.net/images/2021/10/15/35881cf4c09b1933b.png" srcset="/img/loading.gif" lazyload alt="35881cf4c09b1933b.png"></a></p>
+<p>以中文搜，跟网站搜索结果一致，但是如果结果过多我们这里只是选择了一页50个结果，所以还有改进的空间；</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gFdIyU"><img src="https://www.z4a.net/images/2021/10/15/4ccda1a6822ec6878.png" srcset="/img/loading.gif" lazyload alt="4ccda1a6822ec6878.png"></a></p>
+<p>可以根据选择的结果排序然后右键可以看详情页，或者直接根据结果进行下载。</p>
+<p><img src="https://www.z4a.net/images/2021/10/16/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></p>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><hr>
 <p>折腾不易，且行且珍惜。如果通过这种方案可以获取到网站的结果，其实获取qbittorrent与之匹配。那么qbittorrentapi研究起来是不是感觉离自动辅种也不远了？而且可以支持内站外站，你想要的都有哦，哈哈~~</p>
 
