@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>基于FRP内网穿透实现plex远程访问</title>
+    <link href="/%E5%9F%BA%E4%BA%8EFRP%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0plex%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/"/>
+    <url>/%E5%9F%BA%E4%BA%8EFRP%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0plex%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/</url>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>最近折腾了plex电影库，但是不能够远程访问，本着折腾无止境的念头，所以才有了使用frp服务器内网穿透的想法……周末开干。</p><p>使用了digitalocean的vps作为服务器，一个月5刀的费用。好在之前用GitHub education pack白嫖了100刀，可以用一年多免费的~</p><blockquote><p>frp工作原理：简单地说，<a href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp</a>就是一个<a href="https://www.zhihu.com/question/24723688">反向代理软件</a>，它体积轻量但功能很强大，可以<strong>使处于内网或防火墙后的设备对外界提供服务</strong>，它支持HTTP、TCP、UDP等众多协议。</p></blockquote><h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><hr><blockquote><p>系统使用Ubuntu 18.04.5 x64，frp客户端和服务端本身同时均支持Linux和Windows，且配置方法一样，请根据实际环境自行测试。</p></blockquote><p>服务器端配置代码：</p><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载frp文件并进行解压</span>wget https://github.com/fatedier/frp/releases/download/v0.22.0/frp_0.22.0_linux_amd64.tar.gztar -zxvf frp_0.22.0_linux_amd64.tar.gzcp -r frp_0.22.0_linux_amd64 frp<span class="hljs-built_in">cd</span> frp &amp;&amp; rm frpc &amp;&amp; rm frpc.ini<span class="hljs-comment"># 修改配置文件</span>vim frps.ini<span class="hljs-comment"># 文件大致格式</span>[common]bind_port = 7000 <span class="hljs-comment"># 默认只有这一行</span>dashboard_port = 7500 <span class="hljs-comment"># 开启dashboard</span>token = 12345678 <span class="hljs-comment"># token为服务器端和客户端的标识</span>dashboard_user = admin <span class="hljs-comment"># dashboard的用户名</span>dashboard_pwd = admin  <span class="hljs-comment"># dashboard的密码</span></code></pre></div><ul><li>“bind_port”表示用于客户端和服务端连接的端口，这个端口号我们之后在配置客户端的时候要用到。</li><li>“dashboard_port”是服务端仪表板的端口，若使用7500端口，在配置完成服务启动后可以通过浏览器访问 x.x.x.x:7500 （其中x.x.x.x为VPS的IP）查看frp服务运行信息。</li><li>“token”是用于客户端和服务端连接的口令，请自行设置并记录，稍后会用到。</li><li>“dashboard_user”和“dashboard_pwd”表示打开仪表板页面登录的用户名和密码，自行设置即可。</li></ul><p>运行服务器：</p><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 第一种</span>./frps -c frps.ini  <span class="hljs-comment"># 这样会阻塞住，ctrl+c就会停止</span><span class="hljs-comment"># 第二种</span>nohup ./frps -c frps.ini &amp; <span class="hljs-comment"># 这样就丢到后台去了，通过jobs可以看后台运行的服务。</span></code></pre></div><p>针对上述第二种方案怎么关闭：</p><div class="hljs code-wrapper"><pre><code class="hljs bash">ps -aux|grep frp| grep -v greproot      3600  0.1  0.1 110188  9484 pts/0    Sl   15:04   0:00 ./frpc -c ./frpc.ini<span class="hljs-built_in">kill</span> -9 3600</code></pre></div><p>怎么开机启动：</p><div class="hljs code-wrapper"><pre><code class="hljs bash">vi /etc/systemd/system/frps.service <span class="hljs-comment"># 新建此文件，并写入以下内容，注意frps和frps.ini的位置</span>[Unit]Description=frps daemon[Service]Type=simpleExecStart=/usr/bin/frps -c /etc/frps/frps.ini[Install]WantedBy=multi-user.target<span class="hljs-comment"># 启动并设为开机自启。</span>systemctl start frpssystemctl <span class="hljs-built_in">enable</span> frps</code></pre></div><h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><hr><blockquote><p>同样地，根据客户端设备的情况选择相应的frp程序进行<a href="https://github.com/fatedier/frp/releases">下载</a>，Windows下下载和解压等步骤不再描述。<br>假定你下载了“frp_0.22.0_windows_amd64.zip”，将其解压在了D盘根目录下，并且将文件夹重命名为“frp”，可以删除其中的frps和frps.ini文件。<br>用文本编辑器打开frpc.ini，与服务端类似，内容如下。</p></blockquote><div class="hljs code-wrapper"><pre><code class="hljs bash">[common]server_addr = x.x.x.xserver_port = 7000token = 12345678[plex]<span class="hljs-built_in">type</span> = tcplocal_ip = 127.0.0.1           local_port = 32400remote_port = 7001  <span class="hljs-string">&quot;server_addr&quot;</span> 为服务端IP地址，填入即可。<span class="hljs-string">&quot;server_port&quot;</span>为服务器端口，填入你设置的端口号即可，如果未改变就是7000<span class="hljs-string">&quot;token&quot;</span>是你在服务器上设置的连接口令，原样填入即可。</code></pre></div><p>原理图：来源于网络</p><p><img src="https://s2.ax1x.com/2019/01/12/FjUW0x.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1"></p><p>运行：</p><p>cmd命令符窗口进入目录：frpc -c frpc.ini，同样的，会有一个窗口，而且关了就停了。</p><p>后台运行：新建frp.bat，将下述命令放进去，点击frp.bat即可运行。</p><div class="hljs code-wrapper"><pre><code class="hljs bash">@<span class="hljs-built_in">echo</span> off<span class="hljs-keyword">if</span> <span class="hljs-string">&quot;%1&quot;</span> == <span class="hljs-string">&quot;h&quot;</span> goto beginmshta vbscript:createobject(<span class="hljs-string">&quot;wscript.shell&quot;</span>).run(<span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;%~nx0&quot;</span><span class="hljs-string">&quot; h&quot;</span>,0)(window.close)&amp;&amp;<span class="hljs-built_in">exit</span>:beginREMD:<span class="hljs-built_in">cd</span> D:\frpfrpc -c frpc.ini<span class="hljs-built_in">exit</span></code></pre></div><p>关闭：</p><p>之后直接运行这个 .bat 文件即可启动frpc并隐藏窗口（可在任务管理器中退出）。<br>至于开机启动，把这个 .bat 文件直接扔进Windows的开机启动文件夹就好了 :)</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr><p>至此，我们可以通过手机用vps的ip地址加7003端口访问plex服务了，至于怎么绑定域名，还没有折腾明白，先写到这里。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>折腾笔记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>生活</tag>
+      
+      <tag>电影</tag>
+      
+      <tag>爱好</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>基于QB搜索插件制作聚合搜索工具：以蝴蝶为例</title>
     <link href="/%E5%9F%BA%E4%BA%8EQB%E6%90%9C%E7%B4%A2%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C%E8%81%9A%E5%90%88%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%A5%E8%9D%B4%E8%9D%B6%E4%B8%BA%E4%BE%8B/"/>
     <url>/%E5%9F%BA%E4%BA%8EQB%E6%90%9C%E7%B4%A2%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C%E8%81%9A%E5%90%88%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%A5%E8%9D%B4%E8%9D%B6%E4%B8%BA%E4%BE%8B/</url>
@@ -49,9 +78,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>爱好</tag>
       
@@ -78,9 +107,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -136,9 +165,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -213,11 +242,11 @@
     
     <tags>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
       <tag>Fluid</tag>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
     </tags>
     
@@ -327,9 +356,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -385,9 +414,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -416,9 +445,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -445,9 +474,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -474,9 +503,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -503,9 +532,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -530,9 +559,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -557,11 +586,11 @@
     
     <tags>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
       <tag>Fluid</tag>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
     </tags>
     
@@ -586,9 +615,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>Python</tag>
       
@@ -615,11 +644,11 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Fluid</tag>
       
       <tag>美化</tag>
+      
+      <tag>编程</tag>
       
     </tags>
     
@@ -644,9 +673,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -675,9 +704,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -704,9 +733,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -733,9 +762,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       

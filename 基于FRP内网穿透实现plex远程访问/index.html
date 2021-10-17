@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Hexo-Fluid实现mac panel风格代码块 - Tomorrow&#39;s blog</title>
+  <title>基于FRP内网穿透实现plex远程访问 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hexo-Fluid实现mac panel风格代码块">
+            <span class="h2" id="subtitle" title="基于FRP内网穿透实现plex远程访问">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-19 10:19" pubdate>
-        2021年3月19日 上午
+      <time datetime="2021-10-17 20:53" pubdate>
+        2021年10月17日 晚上
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20
+      13
        分钟
     </span>
   
@@ -244,168 +244,116 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo-Fluid实现mac panel风格代码块</h1>
+            <h1 style="display: none">基于FRP内网穿透实现plex远程访问</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：6 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>一直以来看别人博客都觉的Mac风格的代码块很炫酷，这几天尝试自己搭建博客，选中了<a target="_blank" rel="noopener" href="https://github.com/fluid-dev/hexo-theme-fluid">Fluid</a>这个主题，但是仅限于支持设定的两种风格。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-comment"># 实现高亮的库，对应下面的设置</span>
-<span class="hljs-comment"># Options: highlightjs | prismjs</span>
-<span class="hljs-attr">lib:</span> <span class="hljs-string">&quot;highlightjs&quot;</span>
-
-<span class="hljs-attr">highlightjs:</span>
-<span class="hljs-comment"># 在链接中挑选 style 填入</span>
-<span class="hljs-comment"># See: https://highlightjs.org/static/demo/</span>
-<span class="hljs-attr">style:</span> <span class="hljs-string">&quot;Monokai Sublime&quot;</span>
-
-<span class="hljs-comment"># 是否根据 style 改变代码背景色（如果 style 是深色背景别忘了开启此项）</span>
-<span class="hljs-attr">bg_color:</span> <span class="hljs-literal">true</span>
-
-<span class="hljs-attr">prismjs:</span>
-<span class="hljs-comment"># 在下方链接页面右侧的圆形按钮挑选 style 填入，也可以直接填入 css 链接</span>
-<span class="hljs-comment"># See: https://prismjs.com/</span>
-<span class="hljs-attr">style:</span> <span class="hljs-string">&quot;default&quot;</span>
-
-<span class="hljs-comment"># 设为 true 高亮将本地静态生成（并只支持部分 prismjs 插件），设为 false 高亮将在浏览器通过 js 生成</span>
-<span class="hljs-attr">preprocess:</span> <span class="hljs-literal">true</span></code></pre></div>
-
-<p>这就让人很为难了，因为也看过一些教程，大多是next怎么做的。找了半天发现了相关为Yilia主题代码块添加Mac Panel效果的一篇教程。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="私人订制 为Yilia主题代码块添加Mac Panel效果
-">[1]</span></a></sup>所以就跟着弄了一下，也踩了一些坑，花了半天时间终于搞定了。哈哈~记录一下。</p>
-<h3 id="需要的条件"><a href="#需要的条件" class="headerlink" title="需要的条件"></a>需要的条件</h3><hr>
-<p>需要有一点点的css和JavaScript基础以及找寻代码判断相关性的能力。</p>
-<h3 id="大致思想及流程"><a href="#大致思想及流程" class="headerlink" title="大致思想及流程"></a>大致思想及流程</h3><hr>
-<ol>
-<li>自动更改样式。首先得大致知道hexo是如何把markdown的代码渲染出来的，在这个过程之后又怎样匹配出来了自己在ymal中定义的样式呢？</li>
-</ol>
-<p>根据highlightjs和prismjs作为关键字，通过一番查找找到了/fluid/scripts/events/lib/highlights.js，该js函数调用了hexo的生命周期在恰当的时间点博客中代码块内容进行替换，从而使得原有的代码块样式能够被替换指定的风格块。</p>
-<ol start="2">
-<li>找到了之后如何做呢？首先需要分析代码做了哪些工作。</li>
-</ol>
-<div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (config.code.highlight.lib === <span class="hljs-string">&#x27;highlightjs&#x27;</span>) &#123;
-    hexo.config.prismjs = objUtil.merge(&#123;&#125;, hexo.config.prismjs, &#123;
-        enable: <span class="hljs-literal">false</span>
-    &#125;);
-    hexo.config.highlight = objUtil.merge(&#123;&#125;, hexo.config.highlight, &#123;
-        enable     : <span class="hljs-literal">true</span>,
-        hljs       : <span class="hljs-literal">true</span>,
-        wrap       : <span class="hljs-literal">false</span>,
-        auto_detect: <span class="hljs-literal">true</span>,
-        line_number: config.code.highlight.line_number || <span class="hljs-literal">false</span>
-    &#125;);
-    hexo.extend.filter.register(<span class="hljs-string">&#x27;after_post_render&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">page</span>) =&gt;</span> &#123;
-        <span class="hljs-keyword">if</span> (config.code.highlight.highlightjs.bg_color) &#123;
-            page.content = page.content.replace(<span class="hljs-regexp">/(?&lt;!&lt;div class=&quot;hljs code-wrapper&quot;&gt;)(&lt;pre.+?&lt;\/pre&gt;)/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&quot;hljs code-wrapper&quot;&gt;<span class="hljs-subst">$&#123;p1&#125;</span>&lt;/div&gt;`</span>;
-            &#125;);
-            page.content = page.content.replace(<span class="hljs-regexp">/&lt;td class=&quot;gutter/gim</span>s, <span class="hljs-string">&#x27;&lt;td class=&quot;gutter hljs&#x27;</span>);
-        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!hexo.config.highlight.line_number) &#123;
-            page.content = page.content.replace(<span class="hljs-regexp">/(?&lt;!&lt;div class=&quot;code-wrapper&quot;&gt;)(&lt;pre.+?&lt;\/pre&gt;)/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&quot;code-wrapper&quot;&gt;<span class="hljs-subst">$&#123;p1&#125;</span>&lt;/div&gt;`</span>;
-            &#125;);
-        &#125;
-        <span class="hljs-keyword">if</span> (hexo.config.highlight.line_number) &#123;
-            <span class="hljs-comment">// Mermaid block adaptation</span>
-            page.content = page.content.replace(<span class="hljs-regexp">/&lt;figure.+?&lt;td class=&quot;code&quot;&gt;.*?(&lt;pre.+?&lt;\/pre&gt;).+?&lt;\/figure&gt;/gim</span>s, <span class="hljs-function">(<span class="hljs-params">str, p1</span>) =&gt;</span> &#123;
-                <span class="hljs-keyword">if</span> (<span class="hljs-regexp">/&lt;code[^&gt;]+?mermaid[^&gt;]+?&gt;/im</span>s.test(p1)) &#123;
-                    <span class="hljs-keyword">return</span> p1.replace(<span class="hljs-regexp">/(class=&quot;.*?)hljs(.*?&quot;)/gim</span>s, <span class="hljs-string">&#x27;$1$2&#x27;</span>).replace(<span class="hljs-regexp">/&lt;br&gt;/gim</span>s, <span class="hljs-string">&#x27;\n&#x27;</span>);
-                &#125;
-                <span class="hljs-keyword">return</span> str;
-            &#125;);
-        &#125;
-        <span class="hljs-keyword">return</span> page;
-    &#125;);</code></pre></div>
-
-<p>好长的一段啊，但是大概是说禁用prismjs，然后根据yaml设置highlightjs的相关参数生成高亮配置参数。然后注入了一个渲染后的事件，传入渲染后的页面进行一些正则替换，主要是改变class，然后把替换好的代码包裹在一个div里边，注意，div的class为<strong>code-wrapper</strong>。</p>
-<ol start="3">
-<li>实施替换</li>
-</ol>
-<p>看到教程中提到的某段话：</p>
+<p>最近折腾了plex电影库，但是不能够远程访问，本着折腾无止境的念头，所以才有了使用frp服务器内网穿透的想法……周末开干。</p>
+<p>使用了digitalocean的vps作为服务器，一个月5刀的费用。好在之前用GitHub education pack白嫖了100刀，可以用一年多免费的~</p>
 <blockquote>
-<p>添加了自动更换样式的脚本后，我们将需要替换到代码块的样式放入主题的css文件夹中，以便于浏览器能够正常渲染。在Yilia主题路径\source-src\css下，新建css文件，文件名为code-block.css。并复制以下代码blablabla……</p>
+<p>frp工作原理：简单地说，<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp</a>就是一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24723688">反向代理软件</a>，它体积轻量但功能很强大，可以<strong>使处于内网或防火墙后的设备对外界提供服务</strong>，它支持HTTP、TCP、UDP等众多协议。</p>
 </blockquote>
-<p>也就是说这个class就是我们后期渲染的关键。我们再找找Fluid是怎么渲染的呢？又是一段查找，.styl文件用于存放css样式，所以顺藤摸瓜找到了主题source目录下的css目录，一番折腾发现存放于该目录下_page下的rewrite.styl中。<strong>\fluid\source\css_pages_base</strong>。</p>
-<p>根据关键字code-wrapper我们找到了定义的样式：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs css">&amp; &gt; <span class="hljs-selector-class">.code-wrapper</span>
-  <span class="hljs-attribute">position</span> relative
-  <span class="hljs-attribute">border-radius</span> <span class="hljs-number">3px</span></code></pre></div>
+<h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><hr>
+<blockquote>
+<p>系统使用Ubuntu 18.04.5 x64，frp客户端和服务端本身同时均支持Linux和Windows，且配置方法一样，请根据实际环境自行测试。</p>
+</blockquote>
+<p>服务器端配置代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载frp文件并进行解压</span>
+wget https://github.com/fatedier/frp/releases/download/v0.22.0/frp_0.22.0_linux_amd64.tar.gz
+tar -zxvf frp_0.22.0_linux_amd64.tar.gz
 
-<p>这么简单嘛？那么我们就注释掉这段开始自定义样式咯，参照教程在新建在css目录下新建_custom目录，创建macpanel.styl。并在main.styl中引入。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-class">.code-wrapper</span>&#123;
-  <span class="hljs-attribute">position</span>: relative;
-  <span class="hljs-attribute">overflow</span>: hidden;
-  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
-  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span> <span class="hljs-number">10px</span> <span class="hljs-number">0px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.4</span>);
-  <span class="hljs-attribute">margin</span>: <span class="hljs-number">30px</span> <span class="hljs-number">0</span>;
-  ::-webkit-scrollbar &#123;
-    height: <span class="hljs-number">10px</span>;
-  &#125;
-  ::-webkit-scrollbar-track &#123;
-    -webkit-box-shadow: inset <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">6px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.3</span>);
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;
-  &#125;
+cp -r frp_0.22.0_linux_amd64 frp
+<span class="hljs-built_in">cd</span> frp &amp;&amp; rm frpc &amp;&amp; rm frpc.ini
 
-  ::-webkit-scrollbar-thumb &#123;
-    border-radius: <span class="hljs-number">10px</span>;
-    -webkit-<span class="hljs-attribute">box-shadow</span>: inset <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">6px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>);
-  &#125;
-  &amp;<span class="hljs-selector-pseudo">::before</span> &#123;
-    <span class="hljs-attribute">color</span>: white;
-    <span class="hljs-attribute">content</span>: <span class="hljs-built_in">attr</span>(data-rel);
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">30px</span>;
-    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#21252b</span>;
-    <span class="hljs-attribute">color</span>: <span class="hljs-number">#fff</span>;
-    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">16px</span>;
-    <span class="hljs-attribute">position</span>: absolute;
-    <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
-    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#x27;Source Sans Pro&#x27;</span>, sans-serif;
-    <span class="hljs-attribute">font-weight</span>: bold;
-    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0px</span> <span class="hljs-number">80px</span>;
-    <span class="hljs-attribute">text-indent</span>: <span class="hljs-number">15px</span>;
-    <span class="hljs-attribute">float</span>: left;
-  &#125;
-  &amp;<span class="hljs-selector-pseudo">::after</span> &#123;
-    <span class="hljs-attribute">content</span>: <span class="hljs-string">&#x27; &#x27;</span>;
-    <span class="hljs-attribute">position</span>: absolute;
-    -webkit-<span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
-    <span class="hljs-attribute">background</span>: <span class="hljs-number">#fc625d</span>;
-    <span class="hljs-attribute">width</span>: <span class="hljs-number">12px</span>;
-    <span class="hljs-attribute">height</span>: <span class="hljs-number">12px</span>;
-    <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
-    <span class="hljs-attribute">left</span>: <span class="hljs-number">20px</span>;
-    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">13px</span>;
-    -webkit-<span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">20px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#fdbc40</span>, <span class="hljs-number">40px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#35cd4b</span>;
-    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">20px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#fdbc40</span>, <span class="hljs-number">40px</span> <span class="hljs-number">0px</span> <span class="hljs-number">#35cd4b</span>;
-    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">3</span>;
-  &#125;
-&#125;
+<span class="hljs-comment"># 修改配置文件</span>
+vim frps.ini
 
-<span class="hljs-selector-class">.code-wrapper</span> &gt; pre &#123;
-	<span class="hljs-attribute">margin-bottom</span> <span class="hljs-number">0</span>
-&#125;</code></pre></div>
+<span class="hljs-comment"># 文件大致格式</span>
+[common]
+bind_port = 7000 <span class="hljs-comment"># 默认只有这一行</span>
+dashboard_port = 7500 <span class="hljs-comment"># 开启dashboard</span>
+token = 12345678 <span class="hljs-comment"># token为服务器端和客户端的标识</span>
+dashboard_user = admin <span class="hljs-comment"># dashboard的用户名</span>
+dashboard_pwd = admin  <span class="hljs-comment"># dashboard的密码</span></code></pre></div>
 
-<p>可能我还动了一些地方的css样式，但是大概都是调位置之类的<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="你真的理解浏览器盒模型吗
-">[2]</span></a></sup>，掌握沙盒模型然后调节rewrite和自定义的macpanel两个样式文件就可以了。效果就是你们看到的这样啦~</p>
+<ul>
+<li>“bind_port”表示用于客户端和服务端连接的端口，这个端口号我们之后在配置客户端的时候要用到。</li>
+<li>“dashboard_port”是服务端仪表板的端口，若使用7500端口，在配置完成服务启动后可以通过浏览器访问 x.x.x.x:7500 （其中x.x.x.x为VPS的IP）查看frp服务运行信息。</li>
+<li>“token”是用于客户端和服务端连接的口令，请自行设置并记录，稍后会用到。</li>
+<li>“dashboard_user”和“dashboard_pwd”表示打开仪表板页面登录的用户名和密码，自行设置即可。</li>
+</ul>
+<p>运行服务器：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 第一种</span>
+./frps -c frps.ini  <span class="hljs-comment"># 这样会阻塞住，ctrl+c就会停止</span>
+<span class="hljs-comment"># 第二种</span>
+nohup ./frps -c frps.ini &amp; <span class="hljs-comment"># 这样就丢到后台去了，通过jobs可以看后台运行的服务。</span></code></pre></div>
+
+<p>针对上述第二种方案怎么关闭：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">ps -aux|grep frp| grep -v grep
+root      3600  0.1  0.1 110188  9484 pts/0    Sl   15:04   0:00 ./frpc -c ./frpc.ini
+<span class="hljs-built_in">kill</span> -9 3600</code></pre></div>
+
+<p>怎么开机启动：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">vi /etc/systemd/system/frps.service <span class="hljs-comment"># 新建此文件，并写入以下内容，注意frps和frps.ini的位置</span>
+
+[Unit]
+Description=frps daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/frps -c /etc/frps/frps.ini
+
+[Install]
+WantedBy=multi-user.target
+
+<span class="hljs-comment"># 启动并设为开机自启。</span>
+systemctl start frps
+systemctl <span class="hljs-built_in">enable</span> frps</code></pre></div>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><hr>
+<blockquote>
+<p>同样地，根据客户端设备的情况选择相应的frp程序进行<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">下载</a>，Windows下下载和解压等步骤不再描述。<br>假定你下载了“frp_0.22.0_windows_amd64.zip”，将其解压在了D盘根目录下，并且将文件夹重命名为“frp”，可以删除其中的frps和frps.ini文件。<br>用文本编辑器打开frpc.ini，与服务端类似，内容如下。</p>
+</blockquote>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">[common]
+server_addr = x.x.x.x
+server_port = 7000
+token = 12345678
+[plex]
+<span class="hljs-built_in">type</span> = tcp
+local_ip = 127.0.0.1           
+local_port = 32400
+remote_port = 7001  
+
+<span class="hljs-string">&quot;server_addr&quot;</span> 为服务端IP地址，填入即可。
+<span class="hljs-string">&quot;server_port&quot;</span>为服务器端口，填入你设置的端口号即可，如果未改变就是7000
+<span class="hljs-string">&quot;token&quot;</span>是你在服务器上设置的连接口令，原样填入即可。</code></pre></div>
+
+<p>原理图：来源于网络</p>
+<p><img src="https://s2.ax1x.com/2019/01/12/FjUW0x.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" srcset="/img/loading.gif" lazyload></p>
+<p>运行：</p>
+<p>cmd命令符窗口进入目录：frpc -c frpc.ini，同样的，会有一个窗口，而且关了就停了。</p>
+<p>后台运行：新建frp.bat，将下述命令放进去，点击frp.bat即可运行。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">@<span class="hljs-built_in">echo</span> off
+<span class="hljs-keyword">if</span> <span class="hljs-string">&quot;%1&quot;</span> == <span class="hljs-string">&quot;h&quot;</span> goto begin
+mshta vbscript:createobject(<span class="hljs-string">&quot;wscript.shell&quot;</span>).run(<span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;%~nx0&quot;</span><span class="hljs-string">&quot; h&quot;</span>,0)(window.close)&amp;&amp;<span class="hljs-built_in">exit</span>
+:begin
+REM
+D:
+<span class="hljs-built_in">cd</span> D:\frp
+frpc -c frpc.ini
+<span class="hljs-built_in">exit</span></code></pre></div>
+
+<p>关闭：</p>
+<p>之后直接运行这个 .bat 文件即可启动frpc并隐藏窗口（可在任务管理器中退出）。<br>至于开机启动，把这个 .bat 文件直接扔进Windows的开机启动文件夹就好了 :)</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>不折腾不痛快，所以需要一颗爱折腾的心……</p>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="http://oltremare.cc/2019092030716/">私人订制 为Yilia主题代码块添加Mac Panel效果</a>
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/FrankKai/FrankKai.github.io/issues/38">你真的理解浏览器盒模型吗</a>
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<p>至此，我们可以通过手机用vps的ip地址加7003端口访问plex服务了，至于怎么绑定域名，还没有折腾明白，先写到这里。</p>
+
             </div>
             <hr>
             <div>
@@ -422,11 +370,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
+                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BE%8E%E5%8C%96/">美化</a>
+                      <a class="hover-with-bg" href="/tags/%E7%94%B5%E5%BD%B1/">电影</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                      <a class="hover-with-bg" href="/tags/%E7%88%B1%E5%A5%BD/">爱好</a>
                     
                   </div>
                 
@@ -506,18 +454,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Github-Hexo%E7%BB%91%E5%AE%9A%E5%88%B0Godaddy%E5%9F%9F%E5%90%8D/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Github+Hexo绑定到Godaddy域名</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E5%9B%9B%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（四）</span>
+                      <a href="/%E5%9F%BA%E4%BA%8EQB%E6%90%9C%E7%B4%A2%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C%E8%81%9A%E5%90%88%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%A5%E8%9D%B4%E8%9D%B6%E4%B8%BA%E4%BE%8B/">
+                        <span class="hidden-mobile">基于QB搜索插件制作聚合搜索工具：以蝴蝶为例</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

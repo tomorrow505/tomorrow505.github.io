@@ -191,6 +191,72 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8Hexo-Fluid%E4%B8%BB%E9%A2%98%E4%B8%8B%E5%8A%A0%E5%85%A5%E6%89%93%E8%B5%8F%E5%8A%9F%E8%83%BD/" target="_self">
+          <img src="/post/donate.jpg" srcset="/img/loading.gif" lazyload alt="如何在Hexo+Fluid主题下加入打赏功能">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8Hexo-Fluid%E4%B8%BB%E9%A2%98%E4%B8%8B%E5%8A%A0%E5%85%A5%E6%89%93%E8%B5%8F%E5%8A%9F%E8%83%BD/">如何在Hexo+Fluid主题下加入打赏功能</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8Hexo-Fluid%E4%B8%BB%E9%A2%98%E4%B8%8B%E5%8A%A0%E5%85%A5%E6%89%93%E8%B5%8F%E5%8A%9F%E8%83%BD/">
+          
+          
+            
+          
+          前言：
+看到别人的博客有打赏功能，好像是别的主题也有这样的默认功能？辣么，我也想要。
+搜寻过程
+还是没有找到能够将Fluid和打赏联系起来的博客，但是Hexo各个主题大同小异，我又找到了一篇相关的博客[1]。
+思想其实很简单，就是自己定一个一个div插入页面中。div为ejs文本，然后写一个样式表，在渲染的时候插入指定位置即可。
+实现过程
+话不多说，上代码：
+
+layout\_partial下新建
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-19 21:26" pubdate>
+              2021-03-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+            
+              <a href="/tags/Fluid/">Fluid</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/Github-Hexo%E7%BB%91%E5%AE%9A%E5%88%B0Godaddy%E5%9F%9F%E5%90%8D/" target="_self">
           <img src="/post/godaddy.jpg" srcset="/img/loading.gif" lazyload alt="Github+Hexo绑定到Godaddy域名">
         </a>
@@ -240,9 +306,9 @@ hexo d
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Fluid/">Fluid</a>
-            
               <a href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+            
+              <a href="/tags/Fluid/">Fluid</a>
             
               <a href="/tags/Python/">Python</a>
             
@@ -306,11 +372,11 @@ highlightjs:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
               <a href="/tags/Fluid/">Fluid</a>
             
               <a href="/tags/%E7%BE%8E%E5%8C%96/">美化</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
             
           </div>
         
@@ -368,9 +434,9 @@ highlightjs:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
               <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
             
               <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
@@ -436,9 +502,9 @@ async def up_
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
               <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
             
               <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
@@ -503,9 +569,9 @@ def get_video_info(video_path) -&gt; int:
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
               <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
             
               <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
@@ -567,9 +633,9 @@ FFMPEG是一套可以用来记录、转换数字音频、视频，
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-            
               <a href="/tags/Python/">Python</a>
+            
+              <a href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
             
               <a href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
             
