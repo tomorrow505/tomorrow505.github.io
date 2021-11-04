@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -257,7 +257,8 @@
 <p>昨天一个PT圈的朋友说自己机场进不去了，可能是跑路了。自己在do白嫖的vps又有用武之地了，哈哈~</p>
 <p>之前为了折腾私人网盘搭了一个宝塔面板，然后Nginx跟trojan冲突了，虽然网上有解决方案，但是不能套CDN，弃了。万一IP被墙了转移太麻烦了~</p>
 <p>最后选择的是<code>V2Ray+WebSocket(ws)+TLS+Nginx+网站+Cloudflare</code>的方案，在这里记录一下，免得下次又要重新配置。</p>
-<p>原理是先在 VPS 服务器上用 V2Ray 伪装成一个网站，再用 CDN 中转。这时流量传递的顺序是这样的：<img src="https://blog.fiteen.top/2019/hide-ip/visitor-firewall-cdn-vps-website.png" srcset="/img/loading.gif" lazyload alt="原理"></p>
+<p>原理是先在 VPS 服务器上用 V2Ray 伪装成一个网站，再用 CDN 中转。这时流量传递的顺序是这样的：</p>
+<p><img src="https://blog.fiteen.top/2019/hide-ip/visitor-firewall-cdn-vps-website.png" srcset="/img/loading.gif" lazyload alt="原理"></p>
 <p>主要实现就是两点：</p>
 <ul>
 <li>借助 V2Ray 客户端代理，将我们的流量被伪装成网站流量访问我们的域名。</li>
@@ -278,7 +279,7 @@
 <li><strong>PHP</strong></li>
 <li><strong>Mysql</strong></li>
 </ul>
-<p>登录宝塔面板后如果你的服务器没有网站运行环境他会弹出一键安装窗口，可能还需要注册一个宝塔账号，然后进行授权什么的。</p>
+<p>登录宝塔面板后如果你的服务器没有网站运行环境他会弹出一键安装窗口，如果要用到宝塔的证书服务，可能还需要注册一个宝塔账号，然后进行授权什么的。</p>
 <p><img src="https://pic3.zhimg.com/80/v2-8f9d79517de6af4cc08edd8efcf3b87e_720w.jpg" srcset="/img/loading.gif" lazyload alt="搭建环境"></p>
 <p>3、建站。这个时候需要一个域名先，无论是买的还是免费的，我们假设这个域名就是tomorrow505.xyz。然后我们登录cloudfare（没有的话就注册一个，然后Add site将域名托管在cloudfare，不同的域名商家不一样），具体的教程参见：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56423186">https://zhuanlan.zhihu.com/p/56423186</a></p>
 <p>我们在自己域名对应的站点下创建一条A记录为v2ray指向我们的服务器。</p>
@@ -286,7 +287,8 @@
 <p>此时我们暂时不需要CDN，所以选择DNS only。现在我们就可以ping v2ray.tomorrow505.xyz了，返回的是VPS的真实IP。这个我们后边还会设置隐藏。使用这个域名建一个站：</p>
 <p><img src="https://www.z4a.net/images/2021/11/04/295a28328dbdb704d.png" srcset="/img/loading.gif" lazyload alt="295a28328dbdb704d.png"></p>
 <p><img src="https://www.z4a.net/images/2021/11/04/39fd1766354322154.png" srcset="/img/loading.gif" lazyload alt="39fd1766354322154.png"></p>
-<p>提示我们需要部署SSL证书，宝塔面板自带部署证书的功能：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/400/50874%E3%80%82%E7%82%B9%E5%87%BB%E6%9C%AA%E9%83%A8%E7%BD%B2%EF%BC%8C%E4%BC%9A%E8%B7%B3%E8%BD%AC%E5%88%B0%E4%B8%8B%E5%9B%BE%EF%BC%8C%E8%BF%99%E9%87%8C%E6%BC%94%E7%A4%BA%E4%BA%86%E7%94%A8Let&#39;s">https://cloud.tencent.com/document/product/400/50874。点击未部署，会跳转到下图，这里演示了用Let&#39;s</a> encrypt申请的证书，并开启强制https访问。</p>
+<p>提示我们需要部署SSL证书，宝塔面板自带部署证书的功能：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/400/50874">https://cloud.tencent.com/document/product/400/50874</a></p>
+<p>点击上图未部署位置，会跳转到下图，这里演示了用Let’s Encrypt申请的证书，并开启强制https访问。</p>
 <p><img src="https://www.z4a.net/images/2021/11/04/477c5ebea8c378f2b.png" srcset="/img/loading.gif" lazyload alt="477c5ebea8c378f2b.png"></p>
 <p>那么站点就搭建好了。使用上述域名访问可以看到下边的提示：</p>
 <p><img src="https://www.z4a.net/images/2021/11/04/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></p>
