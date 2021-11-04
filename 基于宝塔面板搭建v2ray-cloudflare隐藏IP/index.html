@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（二） - Tomorrow&#39;s blog</title>
+  <title>基于宝塔面板搭建v2ray+cloudflare隐藏IP - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（二）">
+            <span class="h2" id="subtitle" title="基于宝塔面板搭建v2ray+cloudflare隐藏IP">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 19:18" pubdate>
-        2021年3月18日 晚上
+      <time datetime="2021-11-04 13:42" pubdate>
+        2021年11月4日 下午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      780 字
+      1.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      20
        分钟
     </span>
   
@@ -244,78 +244,164 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（二）</h1>
+            <h1 style="display: none">基于宝塔面板搭建v2ray+cloudflare隐藏IP</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 个月前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>话接上回，我么能够通过传递过来的视频文件路径获取视频长度和截图命令，那么如何使用python实现呢？</p>
-<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
-<p>话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> Mediainfo
+<p>昨天一个PT圈的朋友说自己机场进不去了，可能是跑路了。自己在do白嫖的vps又有用武之地了，哈哈~</p>
+<p>之前为了折腾私人网盘搭了一个宝塔面板，然后Nginx跟trojan冲突了，虽然网上有解决方案，但是不能套CDN，弃了。万一IP被墙了转移太麻烦了~</p>
+<p>最后选择的是<code>V2Ray+WebSocket(ws)+TLS+Nginx+网站+Cloudflare</code>的方案，在这里记录一下，免得下次又要重新配置。</p>
+<p>原理是先在 VPS 服务器上用 V2Ray 伪装成一个网站，再用 CDN 中转。这时流量传递的顺序是这样的：<img src="https://blog.fiteen.top/2019/hide-ip/visitor-firewall-cdn-vps-website.png" srcset="/img/loading.gif" lazyload alt="原理"></p>
+<p>主要实现就是两点：</p>
+<ul>
+<li>借助 V2Ray 客户端代理，将我们的流量被伪装成网站流量访问我们的域名。</li>
+<li>利用 CDN 中转 V2Ray 的 WebSocket 流量到我们的VPS。</li>
+</ul>
+<p>这样，GFW 只知道你与 CDN 之间的联系，不知道 VPS 的实际地址，并且 CDN 会有很多 IP 地址，GFW 也不会随意封这些 IP，毕竟也有很多正规网站在使用，因此可以基本保证 IP 的安全。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><hr>
+<p>默认有VPS了，然后我用的是ubuntu18.04，不知道为啥，就是喜欢ubuntu的名字。然后有一个域名了，可以解析到你的VPS。然后接下来就是部署一个网站。我们使用宝塔面板进行搭建。</p>
+<p>1、宝塔面板的安装：<a target="_blank" rel="noopener" href="https://www.bt.cn/bbs/thread-19376-1-1.html">https://www.bt.cn/bbs/thread-19376-1-1.html</a></p>
+<p><strong>Ubuntu/Deepin安装命令：</strong><code>wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh &amp;&amp; sudo bash install.sh</code></p>
+<p>安装完成后会高速你登录网址以及账号密码，用小本本记录下来。（图片来自知乎）</p>
+<p><img src="https://pic2.zhimg.com/80/v2-0fa056bb05839eaae2c8961d5ad3ed9d_720w.jpg" srcset="/img/loading.gif" lazyload alt="安装截图"></p>
+<p>2、一键配置网站环境</p>
+<p>就像你电脑上的游戏，有时候缺少某个环境就无法运行。</p>
+<p>同样网站运行也需要一定的环境支持，这里我推荐的环境组合为</p>
+<ul>
+<li><strong>Nginx</strong></li>
+<li><strong>PHP</strong></li>
+<li><strong>Mysql</strong></li>
+</ul>
+<p>登录宝塔面板后如果你的服务器没有网站运行环境他会弹出一键安装窗口，可能还需要注册一个宝塔账号，然后进行授权什么的。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-8f9d79517de6af4cc08edd8efcf3b87e_720w.jpg" srcset="/img/loading.gif" lazyload alt="搭建环境"></p>
+<p>3、建站。这个时候需要一个域名先，无论是买的还是免费的，我们假设这个域名就是tomorrow505.xyz。然后我们登录cloudfare（没有的话就注册一个，然后Add site将域名托管在cloudfare，不同的域名商家不一样），具体的教程参见：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56423186">https://zhuanlan.zhihu.com/p/56423186</a></p>
+<p>我们在自己域名对应的站点下创建一条A记录为v2ray指向我们的服务器。</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/19375f3595e7614cd.png" srcset="/img/loading.gif" lazyload alt="19375f3595e7614cd.png"></p>
+<p>此时我们暂时不需要CDN，所以选择DNS only。现在我们就可以ping v2ray.tomorrow505.xyz了，返回的是VPS的真实IP。这个我们后边还会设置隐藏。使用这个域名建一个站：</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/295a28328dbdb704d.png" srcset="/img/loading.gif" lazyload alt="295a28328dbdb704d.png"></p>
+<p><img src="https://www.z4a.net/images/2021/11/04/39fd1766354322154.png" srcset="/img/loading.gif" lazyload alt="39fd1766354322154.png"></p>
+<p>提示我们需要部署SSL证书，宝塔面板自带部署证书的功能：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/400/50874%E3%80%82%E7%82%B9%E5%87%BB%E6%9C%AA%E9%83%A8%E7%BD%B2%EF%BC%8C%E4%BC%9A%E8%B7%B3%E8%BD%AC%E5%88%B0%E4%B8%8B%E5%9B%BE%EF%BC%8C%E8%BF%99%E9%87%8C%E6%BC%94%E7%A4%BA%E4%BA%86%E7%94%A8Let&#39;s">https://cloud.tencent.com/document/product/400/50874。点击未部署，会跳转到下图，这里演示了用Let&#39;s</a> encrypt申请的证书，并开启强制https访问。</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/477c5ebea8c378f2b.png" srcset="/img/loading.gif" lazyload alt="477c5ebea8c378f2b.png"></p>
+<p>那么站点就搭建好了。使用上述域名访问可以看到下边的提示：</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></p>
+<p>4、安装v2ray，基本上就是一键命令。</p>
+<p><code>bash &lt;(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)</code></p>
+<p><img src="https://www.z4a.net/images/2021/11/04/6.png" srcset="/img/loading.gif" lazyload alt="6.png"></p>
+<p>出现上图那样的提示就显示成功了，运行：chown -R nobody /var/log/v2ray赋予日志写入权限。</p>
+<p>然后我们开始配置文件：/usr/local/etc/v2ray/config.json</p>
+<div class="hljs code-wrapper"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">&quot;inbound&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;streamSettings&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;network&quot;</span>: <span class="hljs-string">&quot;ws&quot;</span>, 
+      <span class="hljs-attr">&quot;wsSettings&quot;</span>: &#123;
+        <span class="hljs-attr">&quot;path&quot;</span>: <span class="hljs-string">&quot;/ws/&quot;</span>, 
+        <span class="hljs-attr">&quot;headers&quot;</span>: &#123;
+          <span class="hljs-attr">&quot;Host&quot;</span>: <span class="hljs-string">&quot;ws.v2ray.tomorrow505.xyz&quot;</span>
+        &#125;
+      &#125;
+    &#125;, 
+    <span class="hljs-attr">&quot;protocol&quot;</span>: <span class="hljs-string">&quot;vmess&quot;</span>, 
+    <span class="hljs-attr">&quot;port&quot;</span>: <span class="hljs-number">9999</span>, 
+    <span class="hljs-attr">&quot;settings&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;clients&quot;</span>: [
+        &#123;
+          <span class="hljs-attr">&quot;alterId&quot;</span>: <span class="hljs-number">100</span>, 
+          <span class="hljs-attr">&quot;security&quot;</span>: <span class="hljs-string">&quot;auto&quot;</span>, 
+          <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;00b93379-2d11-4392-a600-52f1d7ea0148&quot;</span>, 
+          <span class="hljs-attr">&quot;level&quot;</span>: <span class="hljs-number">1</span>
+        &#125;
+      ]
+    &#125;
+  &#125;, 
+  <span class="hljs-attr">&quot;outboundDetour&quot;</span>: [
+    &#123;
+      <span class="hljs-attr">&quot;tag&quot;</span>: <span class="hljs-string">&quot;blocked&quot;</span>, 
+      <span class="hljs-attr">&quot;protocol&quot;</span>: <span class="hljs-string">&quot;blackhole&quot;</span>, 
+      <span class="hljs-attr">&quot;settings&quot;</span>: &#123;&#125;
+    &#125;
+  ], 
+  <span class="hljs-attr">&quot;outbound&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;protocol&quot;</span>: <span class="hljs-string">&quot;freedom&quot;</span>, 
+    <span class="hljs-attr">&quot;settings&quot;</span>: &#123;&#125;
+  &#125;, 
+  <span class="hljs-attr">&quot;log&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;access&quot;</span>: <span class="hljs-string">&quot;/var/log/v2ray/access.log&quot;</span>, 
+    <span class="hljs-attr">&quot;loglevel&quot;</span>: <span class="hljs-string">&quot;warning&quot;</span>, 
+    <span class="hljs-attr">&quot;error&quot;</span>: <span class="hljs-string">&quot;/var/log/v2ray/error.log&quot;</span>
+  &#125;, 
+  <span class="hljs-attr">&quot;routing&quot;</span>: &#123;
+    <span class="hljs-attr">&quot;settings&quot;</span>: &#123;
+      <span class="hljs-attr">&quot;rules&quot;</span>: [
+        &#123;
+          <span class="hljs-attr">&quot;ip&quot;</span>: [<span class="hljs-string">&quot;geoip:private&quot;</span>], 
+          <span class="hljs-attr">&quot;type&quot;</span>: <span class="hljs-string">&quot;field&quot;</span>, 
+          <span class="hljs-attr">&quot;outboundTag&quot;</span>: <span class="hljs-string">&quot;blocked&quot;</span>
+        &#125;
+      ]
+    &#125;, 
+    <span class="hljs-attr">&quot;strategy&quot;</span>: <span class="hljs-string">&quot;rules&quot;</span>
+  &#125;
+&#125;</code></pre></div>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_video_info</span>(<span class="hljs-params">video_path</span>) -&gt; int:</span>
-    <span class="hljs-string">&quot;&quot;&quot;</span>
-<span class="hljs-string">    :return: 视频长度，数字</span>
-<span class="hljs-string">    &quot;&quot;&quot;</span>
-    media_info = MediaInfo.parse(video_path) <span class="hljs-comment"># 解析视频</span>
-    data = media_info.to_json()
-    data = json.loads(data)[<span class="hljs-string">&#x27;tracks&#x27;</span>]        <span class="hljs-comment"># 获取视频各种信息</span>
-    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> data:
-        <span class="hljs-keyword">if</span> key[<span class="hljs-string">&#x27;track_type&#x27;</span>] == <span class="hljs-string">&#x27;Video&#x27;</span>:     <span class="hljs-comment"># 视频的总帧数除以帧率得到长度</span>
-            video_duration = <span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_count&#x27;</span>]) / (<span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_rate&#x27;</span>].split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))
-            <span class="hljs-keyword">return</span> video_duration</code></pre></div>
+<p>上边几个地方需要修改的：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs markup">&quot;path&quot;: &quot;&#x2F;ws&#x2F;&quot;, ##这里是路径，配合Nginx转发；可以不改。
+&quot;host&quot;：改成&quot;ws.自己的域名&quot;;
+&quot;port&quot;: 9999, ##这里是需要Nginx转发的端口;
+&quot;alterId&quot;: 100, ##这里是额外ID;
+&quot;id&quot;: &quot;00b93379-2d11-4392-a600-52f1d7ea0148&quot;, ##这里是UUID。可以从https:&#x2F;&#x2F;1024tools.com&#x2F;uuid生成之后选择一个。需要和客户端对应。</code></pre></div>
 
-<p>上述代码可以直接得到一个视频的总的长度，但是我们想要截取图片的时候需要字符串，类似hh:mm:ss这样的。然后我们想要的是好几张图片？我以三张为例，假设一条线段想要有三个中间节点，那么我们会怎么处理呢？四等分就会有三个时间点了对不对？</p>
-<p>比如60分钟的电影，我们取15分钟时间间隔，15, 30, 45 三个时间节点刚刚好，一般电影开头和截图截不出来什么东西的。我们需要把时间总长度4等分然后取三个节点将其转换成字符串传入截图函数中即可。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
+<p>接着在宝塔面板的安全页面放行9999端口。</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/8.png" srcset="/img/loading.gif" lazyload alt="8.png"></p>
+<p>然后根据图片的提示运行：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">systemctl <span class="hljs-built_in">enable</span> v2ray
+systemctl start v2ray
+systemctl status v2ray</code></pre></div>
 
-<span class="hljs-comment"># 总的过程，传入一个时间长度，获取截图时间节点进行截图存储保存路径</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_thumbnails</span>(<span class="hljs-params">video_duration</span>):</span>
-    number = <span class="hljs-number">3</span> <span class="hljs-comment"># 截图张数</span>
-    picture_list = [] <span class="hljs-comment"># 用于存储截图的保存路径</span>
-    seektime = <span class="hljs-number">0</span> <span class="hljs-comment"># 用于记录截图距离开头的时长，以秒计</span>
-    
-    interval = <span class="hljs-built_in">int</span>(video_duration/(number+<span class="hljs-number">1</span>)) <span class="hljs-comment"># 计算时间间隔</span>
-    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, number):
-        seektime += interval <span class="hljs-comment"># 计算时间节点</span>
-        img = get_frame_at(seektime, n) <span class="hljs-comment"># 截取对应时间节点的图片</span>
-        <span class="hljs-keyword">if</span> img:
-            picture_list.append(img)
-    <span class="hljs-keyword">return</span> picture_list
+<p><img src="https://www.z4a.net/images/2021/11/04/7.png" srcset="/img/loading.gif" lazyload alt="7.png"></p>
+<p>可以看到正在running……</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash">systemctl stop v2ray</code></pre></div>
 
-<span class="hljs-comment"># 被调用的函数，调用ffmpeg获取某一个时间节点的截图</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_frame_at</span>(<span class="hljs-params">seektime, n=<span class="hljs-number">99</span></span>):</span>
-    timestring = get_time_string(seektime) <span class="hljs-comment"># 将int型转为hh:mm:ss类型用于截图</span>
-    file_name = os.path.basename(video_path)
-    tmp_path = os.path.join(base_path, <span class="hljs-string">&#x27;tmp&#x27;</span>) <span class="hljs-comment"># 截图存放于事先新建的tmp目录下</span>
-    img_path = os.path.join(tmp_path, <span class="hljs-string">&quot;&#123;filename&#125;-out-&#123;d&#125;.png&quot;</span>.<span class="hljs-built_in">format</span>(filename=file_name, d=n)) <span class="hljs-comment"># 截图名称及存放绝对路径</span>
-    command = <span class="hljs-string">&#x27;ffmpeg -ss &#123;timestring&#125; -y -i &quot;&#123;file&#125;&quot; &quot;-f&quot; &quot;image2&quot; &quot;-frames:v&quot;  &quot;1&quot; &quot;-c:v&quot; &quot;png&quot; &#x27;</span> \
-    <span class="hljs-string">&#x27;&quot;-loglevel&quot; &quot;8&quot; &quot;&#123;img_path&#125;&quot;&#x27;</span>.<span class="hljs-built_in">format</span>(timestring=timestring, file=self.abs_file_path,
-                                          img_path=img_path)
-    <span class="hljs-keyword">try</span>:
-        subprocess.call(command, shell=<span class="hljs-literal">True</span>)
-        <span class="hljs-keyword">return</span> img_path
-    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
-        logger.info(<span class="hljs-string">&#x27;截图失败：%s&#x27;</span> % exc)
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+<p>接着进入宝塔面板，进入添加的网站，修改配置文件，在#SSL-END的前变添加如下代码，里面的9999是前面v2ray中配置的端口，必须对应起来：</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/9.png" srcset="/img/loading.gif" lazyload alt="9.png"></p>
+<div class="hljs code-wrapper"><pre><code class="hljs json">location /ws &#123;
+        proxy_redirect off;
+        proxy_pass http://127.0.0.1:9999;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+        proxy_set_header Host $http_host;
+    &#125;</code></pre></div>
 
-<span class="hljs-comment"># 用于将int型转换为字符串的函数</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_time_string</span>(<span class="hljs-params">seconds</span>) -&gt; str:</span>
-    hours = <span class="hljs-built_in">int</span>(seconds // <span class="hljs-number">3600</span>)
-    minutes = <span class="hljs-built_in">int</span>((seconds % <span class="hljs-number">3600</span>) // <span class="hljs-number">60</span>)
-    seconds = <span class="hljs-built_in">int</span>(seconds % <span class="hljs-number">60</span>)
-    timestring = <span class="hljs-built_in">str</span>(hours) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(minutes).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(seconds).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>)
-    <span class="hljs-keyword">return</span> timestring</code></pre></div>
-
+<p>在宝塔面板软件商店-&gt;已安装找到Nginx，重启Nginx：</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/10.png" srcset="/img/loading.gif" lazyload alt="10.png"></p>
+<p>此时v2ray服务端就算搭建好了，然后配置客户端，windows上下载v2rayN：<a target="_blank" rel="noopener" href="https://github.com/v2ray/v2ray-core/releases%EF%BC%8C%E9%80%89%E6%8B%A9v2rayN-core%E7%89%88%E6%9C%AC%EF%BC%8C%E8%A7%A3%E5%8E%8B%E8%BF%90%E8%A1%8Cv2rayN.exe%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BF%9B%E8%A1%8C%E5%A6%82%E4%B8%8B%E9%85%8D%E7%BD%AE%EF%BC%9A">https://github.com/v2ray/v2ray-core/releases，选择v2rayN-core版本，解压运行v2rayN.exe，然后进行如下配置：</a></p>
+<p><img src="https://www.z4a.net/images/2021/11/04/12.png" srcset="/img/loading.gif" lazyload alt="12.png"></p>
+<p><img src="https://www.z4a.net/images/2021/11/04/13.png" srcset="/img/loading.gif" lazyload alt="13.png"></p>
+<p>上边图中标红的，换成自己的域名和UUID，其他的如果没有变化的就不用改了。然后右键v2rayN.exe运行起来的程序设置：</p>
+<p>​    系统代理-&gt;自动配置系统代理</p>
+<p>​    路由-&gt;绕过大陆</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/14.png" srcset="/img/loading.gif" lazyload alt="14.png"></p>
+<p>油管测速，还行吧。</p>
+<p>最后记得到cloudflare中把云朵点亮，确保IP被隐藏了：</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/15.png" srcset="/img/loading.gif" lazyload alt="15.png"></p>
+<p>打开：<a target="_blank" rel="noopener" href="https://tool.lu/ip/">https://tool.lu/ip/</a> 对结果进行验证：我们看到域名已经放到cloudfare代理下边了。</p>
+<p><img src="https://www.z4a.net/images/2021/11/04/16.png" srcset="/img/loading.gif" lazyload alt="16.png"></p>
+<p>使用本方法可以保证网站和v2ray共存，后续还可以在vps上继续搭建网站。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>是的，现在已经能够通过视频路径获取截图到指定目录了，但是怎么上传呢？国内外的图床很多都有着丰富的API，所以还需要使用一些模块来完成上传的工作。本例子使用imgbox作为目标图床。预知后事，请听下回分解。</p>
-
+<p>人生不易，且折腾着吧。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/v2fly/fhs-install-v2ray">fhs-install-v2ray安装v2ray一键脚本</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56423186">域名解析教程：Cloudflare解析与DNSPod解析</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/400/50874">宝塔面板 SSL 证书安装部署</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span><a target="_blank" rel="noopener" href="http://tech.isylar.com/part1/%E5%AE%9D%E5%A1%94%20BT%20%E9%9D%A2%E6%9D%BF%20+%20V2Ray%EF%BC%9A%E5%AE%9E%E7%8E%B0%20Websocket+TLS+Nginx%20%E5%88%86%E6%B5%81.html">宝塔BT面板+v2ray：实现 websocket+TLS+Nginx分流</a>
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:5" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.strivefysfxyh.com/%E6%90%AC%E7%93%A6%E5%B7%A5vps%E7%9A%84ip%E8%A2%AB%E5%B0%81-v2raywebsocketwstlsnginx%E7%BD%91%E7%AB%99cloudflare/">搬瓦工vps的ip被封-v2raywebsocketwstlsnginx网站cloudflare</a>
+<a href="#fnref:5" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:6" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.fiteen.top/2019/hide-ip">V2Ray + CDN 中转隐藏 IP</a>
+<a href="#fnref:6" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -324,7 +410,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -332,11 +418,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
+                      <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                      <a class="hover-with-bg" href="/tags/%E7%88%B1%E5%A5%BD/">爱好</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/%E6%8A%98%E8%85%BE/">折腾</a>
                     
                   </div>
                 
@@ -416,18 +502,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                      <a href="/%E5%9F%BA%E4%BA%8EFRP%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0plex%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE/">
+                        <span class="hidden-mobile">基于FRP内网穿透实现plex远程访问</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
