@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>基于FRP内网穿透实现plex远程访问 - Tomorrow&#39;s blog</title>
+  <title>某东薅羊毛之——使用篇 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="基于FRP内网穿透实现plex远程访问">
+            <span class="h2" id="subtitle" title="某东薅羊毛之——使用篇">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-10-17 20:53" pubdate>
-        2021年10月17日 晚上
+      <time datetime="2021-11-05 10:56" pubdate>
+        2021年11月5日 上午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      1.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13
+      17
        分钟
     </span>
   
@@ -244,115 +244,110 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">基于FRP内网穿透实现plex远程访问</h1>
+            <h1 style="display: none">某东薅羊毛之——使用篇</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：19 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>最近折腾了plex电影库，但是不能够远程访问，本着折腾无止境的念头，所以才有了使用frp服务器内网穿透的想法……周末开干。</p>
-<p>使用了digitalocean的vps作为服务器，一个月5刀的费用。好在之前用GitHub education pack白嫖了100刀，可以用一年多免费的~</p>
-<blockquote>
-<p>frp工作原理：简单地说，<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp</a>就是一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24723688">反向代理软件</a>，它体积轻量但功能很强大，可以<strong>使处于内网或防火墙后的设备对外界提供服务</strong>，它支持HTTP、TCP、UDP等众多协议。</p>
-</blockquote>
-<h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><hr>
-<blockquote>
-<p>系统使用Ubuntu 18.04.5 x64，frp客户端和服务端本身同时均支持Linux和Windows，且配置方法一样，请根据实际环境自行测试。</p>
-</blockquote>
-<p>服务器端配置代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 下载frp文件并进行解压</span>
-wget https://github.com/fatedier/frp/releases/download/v0.22.0/frp_0.22.0_linux_amd64.tar.gz
-tar -zxvf frp_0.22.0_linux_amd64.tar.gz
+<p>之前在PT群里搭上了一位大佬薅羊毛的车，其实在很早之前也有一位PTER跟我提过可以用群晖docker挂脚本，当时蜗牛装的windows，三天两头宕机，就没管。上车之后也是等着京豆满了买一波东西，其他的也没怎么管。</p>
+<p>直到最近为了折腾plex穿透又重新入了一个vps，恰巧自己最近学了下docker。哈哈，自己也顺手搞了一下子，京豆效果不咋好，经常脚本就失效了，每天有点收益，聊胜于无吧。后来发现其实脚本挂多了还有别的一些收益，比如红包、免费水果，等等，可是比较烦的是需要下载3个APP，然后每个APP都有红包，可能都有过期时限。所以为了更好地服务大家，后续可能会搞一个API接口出来查询个人信息。</p>
+<h3 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h3><hr>
+<p>脚本每天都会给绑定的微信或者TG之类的发一个统计，形式大致如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs json">📣=======账号=======📣
+账号名称：tomorrow505
 
-cp -r frp_0.22.0_linux_amd64 frp
-<span class="hljs-built_in">cd</span> frp &amp;&amp; rm frpc &amp;&amp; rm frpc.ini
+# 京豆部分，支付的时候直接抵现金，100京豆抵一块钱
+今日收入：330京豆 🐶                   # 今天累积的京豆收益
+昨日收入：480京豆 🐶                   # 昨天累积的京豆收益
+昨日支出：-400京豆 🐶                  # 昨天支持的京豆数量
+当前京豆：3087(今日将过期0)京豆🐶       # 账户现存的京豆数量
 
-<span class="hljs-comment"># 修改配置文件</span>
-vim frps.ini
+# 京喜牧场，这个鸡蛋我也不知道怎么算的，但是后续可以说明一下京喜牧场的金蛋怎么用
+京喜牧场：44枚鸡蛋🥚
 
-<span class="hljs-comment"># 文件大致格式</span>
-[common]
-bind_port = 7000 <span class="hljs-comment"># 默认只有这一行</span>
-dashboard_port = 7500 <span class="hljs-comment"># 开启dashboard</span>
-token = 12345678 <span class="hljs-comment"># token为服务器端和客户端的标识</span>
-dashboard_user = admin <span class="hljs-comment"># dashboard的用户名</span>
-dashboard_pwd = admin  <span class="hljs-comment"># dashboard的密码</span></code></pre></div>
+# 这个也是可以抵无门槛红包的
+极速金币：51849金币(≈5.1849元💴)
 
+# 同样可以提现，入口稍后说明
+京东赚赚：17700金币(≈1.77元💴)
+
+# 跟极速金币差不多，也是无门槛红包
+京东秒杀：1566秒秒币(≈1.566元💴)
+
+# 东东农场的水果成熟以后，可以兑换水果，也能够抵扣的无门槛红包。
+# 分为四个等级，每个等级难度不一样，4级抵扣50，但是难度大，时间长。
+东东农场：20包湿巾,进度7.13%,14天后可兑🍉
+
+# 京喜工厂的东西基本上还是要花钱的，属于折扣商品，然后质量不做保证
+京喜工厂：当前未开始生产商品,请手动去京东APP-&gt;游戏与互动-&gt;查看更多-&gt;京喜工厂 开启活动
+
+# 这个可以做一下，可以领一些电子产品，还没有成功过~
+东东工厂：当前未选择商品(或未开启活动) , 请到京东APP=&gt;首页=&gt;京东电器=&gt;(底栏)东东工厂 选择商品!
+
+# 这个也可以做一下，可以领一些电子产品，还没有成功过~
+东东萌宠：手持便携式小风扇,勋章2/4块(16.9%)
+                     
+# 红包明细，每一个APP都不一样，我们就看前三个，对应每一个APP的红包
+↓↓↓↓↓红包明细↓↓↓↓↓
+当前总红包：7.53(今日总过期0.80)元 🧧
+京喜红包：6.96(今日将过期0.80)元 🧧
+极速红包：0.00(今日将过期0.00)元 🧧
+京东红包：0.57(今日将过期0.00)元 🧧
+健康红包：0.00(今日将过期0.00)元 🧧</code></pre></div>
+
+<p><strong>使用图文教程</strong></p>
+<ol>
+<li><p>京豆篇-&gt;入口：京东APP-&gt;我的-&gt;京豆。</p>
+<p>这个没什么好说的了，就是支付抵扣现金。获得的方式就是签到以及做一些任务，其中某些任务需要关注商店、添加购物车等等，如果觉得打扰应该可以不用挂了，因为脚本是绑在一块儿的。</p>
+</li>
+</ol>
+<p><img src="https://www.z4a.net/images/2021/11/05/1364407194b682d63.png" srcset="/img/loading.gif" lazyload alt="1364407194b682d63.png"></p>
+<p>2、币种篇，入口不同APP分别介绍</p>
 <ul>
-<li>“bind_port”表示用于客户端和服务端连接的端口，这个端口号我们之后在配置客户端的时候要用到。</li>
-<li>“dashboard_port”是服务端仪表板的端口，若使用7500端口，在配置完成服务启动后可以通过浏览器访问 x.x.x.x:7500 （其中x.x.x.x为VPS的IP）查看frp服务运行信息。</li>
-<li>“token”是用于客户端和服务端连接的口令，请自行设置并记录，稍后会用到。</li>
-<li>“dashboard_user”和“dashboard_pwd”表示打开仪表板页面登录的用户名和密码，自行设置即可。</li>
+<li>京东-&gt;秒杀-&gt;秒秒币兑换</li>
+<li>极速-&gt;我的-&gt;金币-&gt;金币兑换</li>
+<li>赚赚-&gt;微信-&gt;京东赚赚小程序</li>
 </ul>
-<p>运行服务器：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 第一种</span>
-./frps -c frps.ini  <span class="hljs-comment"># 这样会阻塞住，ctrl+c就会停止</span>
-<span class="hljs-comment"># 第二种</span>
-nohup ./frps -c frps.ini &amp; <span class="hljs-comment"># 这样就丢到后台去了，通过jobs可以看后台运行的服务。</span></code></pre></div>
+<p>截图示意：秒秒币兑换</p>
+<p><img src="https://www.z4a.net/images/2021/11/05/245a4fef25a9170a5.png" srcset="/img/loading.gif" lazyload alt="245a4fef25a9170a5.png"></p>
+<p>截图示意：极速金币兑换</p>
+<p><img src="https://www.z4a.net/images/2021/11/05/39aa3ae2480e05b1e.png" srcset="/img/loading.gif" lazyload alt="39aa3ae2480e05b1e.png"></p>
+<p>截图示意：赚赚兑换，尝试兑换显示活动火爆~~~</p>
+<p><img src="https://www.z4a.net/images/2021/11/05/4095c040f0fd90998.png" srcset="/img/loading.gif" lazyload alt="4095c040f0fd90998.png"></p>
+<p>3、农场工厂加工篇</p>
+<div class="hljs code-wrapper"><pre><code class="hljs json"># 东东农场的水果成熟以后，可以兑换水果，也能够抵扣的无门槛红包。入口：京东-&gt;我的-&gt;东东农场。
+东东农场：20包湿巾,进度7.13%,14天后可兑🍉
 
-<p>针对上述第二种方案怎么关闭：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">ps -aux|grep frp| grep -v grep
-root      3600  0.1  0.1 110188  9484 pts/0    Sl   15:04   0:00 ./frpc -c ./frpc.ini
-<span class="hljs-built_in">kill</span> -9 3600</code></pre></div>
+# 京喜工厂的东西基本上还是要花钱的，属于折扣商品，然后质量不做保证。入口：京喜-&gt;我的-&gt;京喜工厂
+京喜工厂：当前未开始生产商品,请手动去京东APP-&gt;游戏与互动-&gt;查看更多-&gt;京喜工厂 开启活动
 
-<p>怎么开机启动：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">vi /etc/systemd/system/frps.service <span class="hljs-comment"># 新建此文件，并写入以下内容，注意frps和frps.ini的位置</span>
+# 这个可以做一下，可以领一些电子产品，还没有成功过，电力值比较难攒~ 入口：京东=&gt;首页=&gt;京东电器=&gt;(底栏)东东工厂
+东东工厂：当前未选择商品(或未开启活动) , 请到京东APP=&gt;首页=&gt;京东电器=&gt;(底栏)东东工厂 选择商品!
 
-[Unit]
-Description=frps daemon
+# 这个也可以做一下，可以领一些电子产品，还没有成功过~ 入口：京东-&gt;我的-&gt;东东萌宠
+东东萌宠：手持便携式小风扇,勋章2/4块(16.9%)</code></pre></div>
 
-[Service]
-Type=simple
-ExecStart=/usr/bin/frps -c /etc/frps/frps.ini
+<p>4、不同APP红包</p>
+<p>上面提到的的币种没有过期时限，可以一直攒着想什么时候花什么时候花。但是不同APP对应的红包却是有过期时限的：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs json"># 红包明细，每一个APP都不一样，我们就看前三个，对应每一个APP的红包
+↓↓↓↓↓红包明细↓↓↓↓↓
+当前总红包：7.53(今日总过期0.80)元 🧧
+京喜红包：6.96(今日将过期0.80)元 🧧
+极速红包：0.00(今日将过期0.00)元 🧧
+京东红包：0.57(今日将过期0.00)元 🧧
+健康红包：0.00(今日将过期0.00)元 🧧</code></pre></div>
 
-[Install]
-WantedBy=multi-user.target
-
-<span class="hljs-comment"># 启动并设为开机自启。</span>
-systemctl start frps
-systemctl <span class="hljs-built_in">enable</span> frps</code></pre></div>
-
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><hr>
-<blockquote>
-<p>同样地，根据客户端设备的情况选择相应的frp程序进行<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">下载</a>，Windows下下载和解压等步骤不再描述。<br>假定你下载了“frp_0.22.0_windows_amd64.zip”，将其解压在了D盘根目录下，并且将文件夹重命名为“frp”，可以删除其中的frps和frps.ini文件。<br>用文本编辑器打开frpc.ini，与服务端类似，内容如下。</p>
-</blockquote>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">[common]
-server_addr = x.x.x.x
-server_port = 7000
-token = 12345678
-[plex]
-<span class="hljs-built_in">type</span> = tcp
-local_ip = 127.0.0.1           
-local_port = 32400
-remote_port = 7001  
-
-<span class="hljs-string">&quot;server_addr&quot;</span> 为服务端IP地址，填入即可。
-<span class="hljs-string">&quot;server_port&quot;</span>为服务器端口，填入你设置的端口号即可，如果未改变就是7000
-<span class="hljs-string">&quot;token&quot;</span>是你在服务器上设置的连接口令，原样填入即可。</code></pre></div>
-
-<p>原理图：来源于网络</p>
-<p><img src="https://s2.ax1x.com/2019/01/12/FjUW0x.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" srcset="/img/loading.gif" lazyload></p>
-<p>运行：</p>
-<p>cmd命令符窗口进入目录：frpc -c frpc.ini，同样的，会有一个窗口，而且关了就停了。</p>
-<p>后台运行：新建frp.bat，将下述命令放进去，点击frp.bat即可运行。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">@<span class="hljs-built_in">echo</span> off
-<span class="hljs-keyword">if</span> <span class="hljs-string">&quot;%1&quot;</span> == <span class="hljs-string">&quot;h&quot;</span> goto begin
-mshta vbscript:createobject(<span class="hljs-string">&quot;wscript.shell&quot;</span>).run(<span class="hljs-string">&quot;&quot;</span><span class="hljs-string">&quot;%~nx0&quot;</span><span class="hljs-string">&quot; h&quot;</span>,0)(window.close)&amp;&amp;<span class="hljs-built_in">exit</span>
-:begin
-REM
-D:
-<span class="hljs-built_in">cd</span> D:\frp
-frpc -c frpc.ini
-<span class="hljs-built_in">exit</span></code></pre></div>
-
-<p>关闭：</p>
-<p>之后直接运行这个 .bat 文件即可启动frpc并隐藏窗口（可在任务管理器中退出）。<br>至于开机启动，把这个 .bat 文件直接扔进Windows的开机启动文件夹就好了 :)</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>至此，我们可以通过手机用vps的ip地址加7003端口访问plex服务了，至于怎么绑定域名，还没有折腾明白，先写到这里。</p>
+<p>然后各个APP基本上购物车是想通的，所以不同平台都可以下单，我在下单的时候就会三个APP都打开一下，哪个便宜下哪个。</p>
+<p>京喜红包经常会比较多，然后有一些拼单还可以不要运费，所以个人用得比较多。</p>
+<p>晒两单：</p>
+<p><img src="https://www.z4a.net/images/2021/11/05/55c331feae0b74729.png" srcset="/img/loading.gif" lazyload alt="55c331feae0b74729.png"></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><hr>
+<p>关于脚本的任何细节，可以自行谷歌，本教程不做任何讨论，其他更多的脚本收益可以自行探索。拜拜~</p>
 
             </div>
             <hr>
@@ -362,7 +357,7 @@ frpc -c frpc.ini
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+                      <a class="hover-with-bg" href="/categories/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">使用教程</a>
                     
                   </div>
                 
@@ -372,9 +367,7 @@ frpc -c frpc.ini
                     
                       <a class="hover-with-bg" href="/tags/%E7%94%9F%E6%B4%BB/">生活</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%94%B5%E5%BD%B1/">电影</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%88%B1%E5%A5%BD/">爱好</a>
+                      <a class="hover-with-bg" href="/tags/%E7%BE%8A%E6%AF%9B/">羊毛</a>
                     
                   </div>
                 
@@ -454,18 +447,12 @@ frpc -c frpc.ini
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E5%9F%BA%E4%BA%8E%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%E6%90%AD%E5%BB%BAv2ray-cloudflare%E9%9A%90%E8%97%8FIP/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于宝塔面板搭建v2ray+cloudflare隐藏IP</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E5%9F%BA%E4%BA%8EQB%E6%90%9C%E7%B4%A2%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C%E8%81%9A%E5%90%88%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%A5%E8%9D%B4%E8%9D%B6%E4%B8%BA%E4%BE%8B/">
-                        <span class="hidden-mobile">基于QB搜索插件制作聚合搜索工具：以蝴蝶为例</span>
+                      <a href="/%E5%9F%BA%E4%BA%8E%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%E6%90%AD%E5%BB%BAv2ray-cloudflare%E9%9A%90%E8%97%8FIP/">
+                        <span class="hidden-mobile">基于宝塔面板搭建v2ray+cloudflare隐藏IP</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
