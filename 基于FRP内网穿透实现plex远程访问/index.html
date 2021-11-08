@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      1.1k 字
     </span>
   
 
@@ -248,14 +248,14 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：19 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
 <p>最近折腾了plex电影库，但是不能够远程访问，本着折腾无止境的念头，所以才有了使用frp服务器内网穿透的想法……周末开干。</p>
-<p>使用了digitalocean的vps作为服务器，一个月5刀的费用。好在之前用GitHub education pack白嫖了100刀，可以用一年多免费的~</p>
+<p>使用了digitalocean的vps作为服务器，一个月5刀的费用。后续还可以翻墙，搭建各种功能，还算可以吧~</p>
 <blockquote>
 <p>frp工作原理：简单地说，<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/master/README_zh.md">frp</a>就是一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/24723688">反向代理软件</a>，它体积轻量但功能很强大，可以<strong>使处于内网或防火墙后的设备对外界提供服务</strong>，它支持HTTP、TCP、UDP等众多协议。</p>
 </blockquote>
@@ -353,6 +353,8 @@ frpc -c frpc.ini
 <p>之后直接运行这个 .bat 文件即可启动frpc并隐藏窗口（可在任务管理器中退出）。<br>至于开机启动，把这个 .bat 文件直接扔进Windows的开机启动文件夹就好了 :)</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
 <p>至此，我们可以通过手机用vps的ip地址加7003端口访问plex服务了，至于怎么绑定域名，还没有折腾明白，先写到这里。</p>
+<h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><hr>
+<p>已经使用宝塔面板反代绑定了域名，但是……传出去之后宿舍看还是渣渣画质，不如不开。如果回家或者在外边，倒是可以开，或者后期再弄一个私有云盘。</p>
 
             </div>
             <hr>
