@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      35
+      40
        分钟
     </span>
   
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -334,6 +334,7 @@ cd58d3: Incognito.1997.1080p.AMZN.WEB-DL.DDP2.0.x264-KAMIKAZE (stalledUP)
 <p>基于上述说明，我们在做跳检工具的时候首先需要有可添加的种子链接或者种子文件，这里不做说明怎么获取的。我们通过硬盘存在的种子文件进行解析，判断种子文件是否存在于保存路径对应的位置下，判断是否加载、是否跳检。</p>
 <p>配置文件：config.yml，qb下边的三个信息就是登陆信息，save_path表示电脑硬盘下常用的存储路径，可以自己扩展（基于yaml语法）</p>
 <div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">qb:</span>
+  <span class="hljs-attr">ip:</span> <span class="hljs-string">localhost</span>
   <span class="hljs-attr">port:</span> <span class="hljs-number">2021</span>
   <span class="hljs-attr">user:</span> <span class="hljs-string">admin</span>
   <span class="hljs-attr">pwd:</span> <span class="hljs-number">123456</span>
@@ -362,10 +363,65 @@ data = tp.parse_torrent_file(torrent_path)
 print(data)</code></pre></div>
 
 <p>输出结果：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">&#123;<span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;https://announce.leaguehd.com/announce.php?passkey=xxxxxxxx&#x27;</span>, <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;海棠不惜胭脂色，独立蒙蒙细雨中。&#x27;</span>, <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;info&#x27;</span>: &#123;<span class="hljs-string">&#x27;files&#x27;</span>: [&#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5371995103, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5877701549, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E02.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5860881886, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E03.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 4504376575, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E04.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5948937008, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E05.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 6522341196, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E06.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;], <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;地狱公使.Hellbound.2021.S01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF&#x27;</span>, <span class="hljs-string">&#x27;piece length&#x27;</span>: 4194304, <span class="hljs-string">&#x27;pieces&#x27;</span>: [<span class="hljs-string">&#x27;42846d3c0f2444e3b21c4241e93813a236072c01&#x27;</span>, <span class="hljs-string">&#x27;07fa7e1e0f6e0e467f8bce3b803220622c7fb710&#x27;</span>, <span class="hljs-string">&#x27;d197e50069e5a873cb7494f13406e76d7e77fd57&#x27;</span>, <span class="hljs-string">&#x27;75b4baf85fccb83540d1b25c982bed1f72c16082&#x27;</span>, <span class="hljs-string">&#x27;ea9a2d27f697e6fe505b82d20e9f92d77f2b3dfe&#x27;</span>, <span class="hljs-string">&#x27;6f4a880ecf953c11fb0ef0ff45280f165897696a&#x27;</span>, <span class="hljs-string">&#x27;3491717797225aefeb25c390f15e51c315964cb0&#x27;</span>, <span class="hljs-string">&#x27;4166ffb5871a730046e23e93fd90e91dd12c5cf4&#x27;</span>, <span class="hljs-string">&#x27;d2dabbcd7684adf8c0095a656acb35bdad87f447&#x27;</span>, <span class="hljs-string">&#x27;3553ca6dd87cd5853e2a08a6b56f518a8249f55a&#x27;</span>, <span class="hljs-string">&#x27;e60a14aea02b0ac532d159928a4f67de6504f577&#x27;</span>, <span class="hljs-string">&#x27;1d46ff71ba9696312c6df4bae5003a64e45a9cb9&#x27;</span>], <span class="hljs-string">&#x27;private&#x27;</span>: 1, <span class="hljs-string">&#x27;source&#x27;</span>: <span class="hljs-string">&#x27;[lemonhd.org] LemonHD&#x27;</span>&#125;&#125;</code></pre></div>
+<div class="hljs code-wrapper"><pre><code class="hljs json">&#123;
+	&#x27;announce&#x27;: &#x27;https://announce.leaguehd.com/announce.php?passkey=xxxxxxxx&#x27;,
+	&#x27;comment&#x27;: &#x27;海棠不惜胭脂色，独立蒙蒙细雨中。&#x27;,
+	&#x27;created by&#x27;: &#x27;&#x27;,
+	&#x27;info&#x27;: &#123;
+		&#x27;files&#x27;: [&#123;
+			&#x27;length&#x27;: 5371995103,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 5877701549,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E02.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 5860881886,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E03.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 4504376575,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E04.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 5948937008,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E05.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 6522341196,
+			&#x27;path&#x27;: [&#x27;Hellbound.S01E06.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;]
+		&#125;],
+		&#x27;name&#x27;: &#x27;地狱公使.Hellbound.2021.S01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF&#x27;,
+		&#x27;piece length&#x27;: 4194304,
+		&#x27;pieces&#x27;: [&#x27;42846d3c0f2444e3b21c4241e93813a236072c01&#x27;, &#x27;07fa7e1e0f6e0e467f8bce3b803220622c7fb710&#x27;, &#x27;d197e50069e5a873cb7494f13406e76d7e77fd57&#x27;, &#x27;75b4baf85fccb83540d1b25c982bed1f72c16082&#x27;, &#x27;ea9a2d27f697e6fe505b82d20e9f92d77f2b3dfe&#x27;, &#x27;6f4a880ecf953c11fb0ef0ff45280f165897696a&#x27;, &#x27;3491717797225aefeb25c390f15e51c315964cb0&#x27;, &#x27;4166ffb5871a730046e23e93fd90e91dd12c5cf4&#x27;, &#x27;d2dabbcd7684adf8c0095a656acb35bdad87f447&#x27;, &#x27;3553ca6dd87cd5853e2a08a6b56f518a8249f55a&#x27;, &#x27;e60a14aea02b0ac532d159928a4f67de6504f577&#x27;, &#x27;1d46ff71ba9696312c6df4bae5003a64e45a9cb9&#x27;],
+		&#x27;private&#x27;: 1,
+		&#x27;source&#x27;: &#x27;[lemonhd.org] LemonHD&#x27;
+	&#125;
+&#125;</code></pre></div>
 
 <p>另外一个例子：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs bash">&#123;<span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;https://tracker.totheglory.im/xxxxxxxxxxxxxxxx&#x27;</span>, <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;TorrenTGui.ORG&#x27;</span>, <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;qBittorrent v4.3.0.1&#x27;</span>, <span class="hljs-string">&#x27;creation date&#x27;</span>: 1637659097, <span class="hljs-string">&#x27;info&#x27;</span>: &#123;<span class="hljs-string">&#x27;files&#x27;</span>: [&#123;<span class="hljs-string">&#x27;length&#x27;</span>: 12165927052, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 77, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.md5&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 4630, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.nfo&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 149495666, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Sample&#x27;</span>, <span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.Sample.mkv&#x27;</span>]&#125;], <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi&#x27;</span>, <span class="hljs-string">&#x27;piece length&#x27;</span>: 2097152, <span class="hljs-string">&#x27;pieces&#x27;</span>: [<span class="hljs-string">&#x27;25bca2c62bf5e860e313ae199b13f74dac73eccd&#x27;</span>, <span class="hljs-string">&#x27;e5c491462186cdd12d57cbb0b65c954eac0bd0fe&#x27;</span>, <span class="hljs-string">&#x27;fef56f71ededf949bc9daea4a536c1427435283c&#x27;</span>, <span class="hljs-string">&#x27;18989fdd1ed5535a5287379627465652c2fcfc6c&#x27;</span>, <span class="hljs-string">&#x27;c443e881fb1e1a0be03369482fd1cc93df00fb01&#x27;</span>, <span class="hljs-string">&#x27;01ce23ed69c156ce641c8059da993e2d36961f66&#x27;</span>, <span class="hljs-string">&#x27;94b253320be234a0fbbc14c28e90020ae444f70a&#x27;</span>, <span class="hljs-string">&#x27;1b6403bf358c02629c44840c768ca0efcd66d0cd&#x27;</span>, <span class="hljs-string">&#x27;7a3a3e14713884de9a825a330b4d955fffbed860&#x27;</span>, <span class="hljs-string">&#x27;cbfe56c328b86a84e9511cf74f437ef8d329fc2a&#x27;</span>, <span class="hljs-string">&#x27;60badaec560686ca71490996ef0e958f301664fa&#x27;</span>], <span class="hljs-string">&#x27;private&#x27;</span>: 1, <span class="hljs-string">&#x27;ttg_tag&#x27;</span>: <span class="hljs-string">&#x27;8032a74ec22927a5bd6367537eafd87e&#x27;</span>&#125;&#125;</code></pre></div>
+<div class="hljs code-wrapper"><pre><code class="hljs json">&#123;
+	&#x27;announce&#x27;: &#x27;https://tracker.totheglory.im/xxxxxxxxxxxxxxxx&#x27;,
+	&#x27;comment&#x27;: &#x27;TorrenTGui.ORG&#x27;,
+	&#x27;created by&#x27;: &#x27;qBittorrent v4.3.0.1&#x27;,
+	&#x27;creation date&#x27;: 1637659097,
+	&#x27;info&#x27;: &#123;
+		&#x27;files&#x27;: [&#123;
+			&#x27;length&#x27;: 12165927052,
+			&#x27;path&#x27;: [&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.mkv&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 77,
+			&#x27;path&#x27;: [&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.md5&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 4630,
+			&#x27;path&#x27;: [&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.nfo&#x27;]
+		&#125;, &#123;
+			&#x27;length&#x27;: 149495666,
+			&#x27;path&#x27;: [&#x27;Sample&#x27;, &#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.Sample.mkv&#x27;]
+		&#125;],
+		&#x27;name&#x27;: &#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi&#x27;,
+		&#x27;piece length&#x27;: 2097152,
+		&#x27;pieces&#x27;: [&#x27;25bca2c62bf5e860e313ae199b13f74dac73eccd&#x27;, &#x27;e5c491462186cdd12d57cbb0b65c954eac0bd0fe&#x27;, &#x27;fef56f71ededf949bc9daea4a536c1427435283c&#x27;, &#x27;18989fdd1ed5535a5287379627465652c2fcfc6c&#x27;, &#x27;c443e881fb1e1a0be03369482fd1cc93df00fb01&#x27;, &#x27;01ce23ed69c156ce641c8059da993e2d36961f66&#x27;, &#x27;94b253320be234a0fbbc14c28e90020ae444f70a&#x27;, &#x27;1b6403bf358c02629c44840c768ca0efcd66d0cd&#x27;, &#x27;7a3a3e14713884de9a825a330b4d955fffbed860&#x27;, &#x27;cbfe56c328b86a84e9511cf74f437ef8d329fc2a&#x27;, &#x27;60badaec560686ca71490996ef0e958f301664fa&#x27;],
+		&#x27;private&#x27;: 1,
+		&#x27;ttg_tag&#x27;: &#x27;8032a74ec22927a5bd6367537eafd87e&#x27;
+	&#125;
+&#125;</code></pre></div>
 
 <p>我们可以解析出来的东西包括tracker，种子制作时间，制作工具，文件大小及路径，块的数量，以及source和comment字段。</p>
 <p>如果通过文件路径组合起来的文件绝对路径，在硬盘中都存在，那么我们就判断这个种子已经下载完毕。</p>
@@ -460,6 +516,27 @@ print(data)</code></pre></div>
             <span class="hljs-keyword">if</span> flag == <span class="hljs-literal">True</span>:
                 qb.torrents_add(torrent_files=torrent_path, save_path=save_path, is_skip_checking=<span class="hljs-literal">True</span>, is_paused=<span class="hljs-literal">True</span>)
                 print(<span class="hljs-string">&#x27;种子检验完毕，保存路径为%s，已经添加！！&#x27;</span> % save_path)</code></pre></div>
+
+<p>运行示例</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python">qBittorrent: v4<span class="hljs-number">.2</span><span class="hljs-number">.5</span>
+qBittorrent Web API: <span class="hljs-number">2.5</span><span class="hljs-number">.1</span>
+请输入种子保存路径&gt;&gt;C:\Users\CL\Desktop\测试
+************ 当前处理种子文件：[HUDBT].The.Canyon<span class="hljs-number">.2009</span><span class="hljs-number">.1080</span>p.AMZN.WEB-DL.DD+<span class="hljs-number">5.1</span>.H<span class="hljs-number">.264</span>-monkee.mkv.torrent ************
+当前种子已经存在于客户端，跳出……
+************ 当前处理种子文件：[LemonHD].[<span class="hljs-number">265642</span>]The Canyon <span class="hljs-number">2009</span> 1080p AMZN WEB-DL DD+<span class="hljs-number">5.1</span> H<span class="hljs-number">.264</span>-monkee.torrent ************
+当前种子已经存在于客户端，跳出……
+************ 当前处理种子文件：[LemonHD].[<span class="hljs-number">266709</span>]Hellbound <span class="hljs-number">2021</span> S01 Complete 1080p NF WEB-DL H265 HDR DDP5 <span class="hljs-number">1</span> Atmos-LeagueNF.torrent ************
+种子文件包含<span class="hljs-number">6</span>个文件
+W:\电影仓库\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+J:\电影仓库\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+G:\PT电影\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+************ 当前处理种子文件：[TTG] Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.torrent ************
+种子文件包含<span class="hljs-number">4</span>个文件
+W:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
+J:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
+G:\PT电影\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……</code></pre></div>
+
+
 
 <h3 id="四、打包链接"><a href="#四、打包链接" class="headerlink" title="四、打包链接"></a>四、打包链接</h3><hr>
 <p>上述代码已经打包成可执行软件，自行测试服用。</p>
