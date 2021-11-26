@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>基于qbittorrentapi实现批量加载种子跳检</title>
+    <link href="/%E5%9F%BA%E4%BA%8Eqbittorrentapi%E5%AE%9E%E7%8E%B0%E6%89%B9%E9%87%8F%E5%8A%A0%E8%BD%BD%E7%A7%8D%E5%AD%90%E8%B7%B3%E6%A3%80/"/>
+    <url>/%E5%9F%BA%E4%BA%8Eqbittorrentapi%E5%AE%9E%E7%8E%B0%E6%89%B9%E9%87%8F%E5%8A%A0%E8%BD%BD%E7%A7%8D%E5%AD%90%E8%B7%B3%E6%A3%80/</url>
+    
+    <content type="html"><![CDATA[<h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><hr><p>之前在贴吧发过一个qbittorrent跳检的工具，但是也就是自己使用而已，并没有进行一些宣传以及分析过程。这次有机会也有人问，在这里介绍一下。</p><h3 id="二、API介绍"><a href="#二、API介绍" class="headerlink" title="二、API介绍"></a>二、API介绍</h3><hr><p>个人之所以比较喜欢qbittorrent是因为其丰富的api可以进行一些DIY进行各种工具的开发。</p><p><strong>操作首先需要开启webui：参考教程——<a href="https://www.machunjie.com/setup/pt/853.html">Ubuntu安装qbittorrent并开启web服务</a>。这里就不做赘述了，我们需要记录下端口、账号和密码后续使用。</strong></p><p>api的介绍文档：<a href="https://qbittorrent-api.readthedocs.io/en/latest/">https://qbittorrent-api.readthedocs.io/en/latest/</a></p><p>简单代码演示：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> qbittorrentapi <span class="hljs-keyword">import</span> Client, LoginFailed<span class="hljs-comment"># 获取客户端实例</span>qb = Client(host=<span class="hljs-string">&#x27;localhost:2021&#x27;</span>, username=<span class="hljs-string">&#x27;admin&#x27;</span>, password=<span class="hljs-string">&#x27;123456&#x27;</span>)<span class="hljs-comment"># 客户端进行登录</span><span class="hljs-keyword">try</span>:    qb.auth_log_in()<span class="hljs-keyword">except</span> LoginFailed <span class="hljs-keyword">as</span> e:    print(e)<span class="hljs-comment"># 输出客户端信息</span>print(<span class="hljs-string">f&#x27;qBittorrent: <span class="hljs-subst">&#123;qb.app.version&#125;</span>&#x27;</span>)print(<span class="hljs-string">f&#x27;qBittorrent Web API: <span class="hljs-subst">&#123;qb.app.web_api_version&#125;</span>&#x27;</span>)<span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> qb.app.build_info.items(): print(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;k&#125;</span>: <span class="hljs-subst">&#123;v&#125;</span>&#x27;</span>)<span class="hljs-comment"># 抓取前10个种子的部分信息：哈希值截取，名称，状态</span><span class="hljs-keyword">for</span> torrent <span class="hljs-keyword">in</span> qb.torrents_info()[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>]:    print(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;torrent.<span class="hljs-built_in">hash</span>[-<span class="hljs-number">6</span>:]&#125;</span>: <span class="hljs-subst">&#123;torrent.name&#125;</span> (<span class="hljs-subst">&#123;torrent.state&#125;</span>)&#x27;</span>)</code></pre></div><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment">## 上述代码运行结果</span>qBittorrent: v4.2.5qBittorrent Web API: 2.5.1<span class="hljs-comment"># 编译库版本信息</span>bitness: 64boost: 1.72.0libtorrent: 1.2.6.0openssl: 1.1.1gqt: 5.13.2zlib: 1.2.11<span class="hljs-comment"># 种子部分信息</span>7aef57: Crying.Out.In.Love.2016.2160p.WEB-DL.AAC2.0.H265-tomorrow505.mkv (stalledUP)ab961d: Van.Helsing.2004.720p.BluRay.DTS.x264-RuDE (stalledUP)044c69: My.Roommate.is.a.Gumiho.S01E03.210602.720p-NEXT.mp4 (stalledUP)0ac220: Sommaren.med.Monika.1953.1080p.BluRay.x264-DON (stalledUP)51edf3: 3.10.To.Yuma.2007.1080p.BluRay.DTS.x264.D-Z0N3.mkv (stalledUP)cd58d3: Incognito.1997.1080p.AMZN.WEB-DL.DDP2.0.x264-KAMIKAZE (stalledUP)12902d: La.mala.educacion.2004.1080p.BluRay.x264.AC3-HDChina.mkv (stalledUP)943ff4: The.Memory.Eraser.2020.720p.BluRay.x264-WiKi (stalledUP)2e2219: Wedding.Dress.2009.HDTV.720p.x264-HDCTV (stalledUP)48b7b4: Avant.Le.Deluge.1954.REMASTERED.FRENCH.720p.BluRay.DTS.x264-NEO (stalledUP)</code></pre></div><p>同时我们可以找到添加种子功能的api：其中是有跳检参数的。</p><blockquote><p><code>torrents_add</code><strong>(<em><strong>urls=None</strong></em>,</strong> <em>torrent_files=None**</em>,** <em>save_path=None**</em>,** <em>cookie=None**</em>,** <em>category=None**</em>,** <em>is_skip_checking=None**</em>,** <em>is_paused=None**</em>,** <em>is_root_folder=None**</em>,** <em>rename=None**</em>,** <em>upload_limit=None**</em>,** <em>download_limit=None**</em>,** <em>use_auto_torrent_management=None**</em>,** <em>is_sequential_download=None**</em>,** <em>is_first_last_piece_priority=None**</em>,** <em>tags=None**</em>,** <em>content_layout=None**</em>,** <em>ratio_limit=None**</em>,** <em>seeding_time_limit=None**</em>,** <em><strong>kwargs</strong></em>)**</p></blockquote><p><strong>Add</strong> one or more torrents by URLs and/or torrent files. 通过链接或者种子文件添加一个或多个种子。</p><p>参数列表：</p><ul><li><strong>urls</strong> – 对应于通过链接添加种子，可以是磁链或者是种子的下载链接</li><li><strong>torrent_files</strong> – 可以有几种文件类型: 1) 读取了的单文件种子数据类型  2) 使用open(<filepath>, ‘rb’) 打开的单种子文件句柄 3) 单种子文件路径 4) 多个可迭代的上述文件类型 5) 字典类型，不多做说明。我们演示单文件路径进行添加。</li><li><strong>save_path</strong> – 种子下载文件的保存路径</li><li><strong>cookie</strong> – 使用链接添加种子的时候添加cookie对象</li><li><strong>category</strong> – 分类</li><li><strong>is_skip_checking</strong> – 是否跳检选项</li><li><strong>is_paused</strong> – 是否暂停种子选项</li><li><strong>is_root_folder</strong> – 是否创建根目录 (superseded by content_layout with v4.3.2)</li><li><strong>rename</strong> –是否重命名</li><li><strong>upload_limit</strong> – 上传速度限制 bytes/second</li><li><strong>download_limit</strong> – 下载速度限制 bytes/second</li><li><strong>use_auto_torrent_management</strong> – 是否自动管理种子</li><li><strong>is_sequential_download</strong> – 是否顺序下载</li><li><strong>is_first_last_piece_priority</strong> – 是否先下载收尾文件块</li><li><strong>tags</strong> – 标签分配 (<strong>add</strong>ed in Web API v2.6.2)</li><li><strong>content_layout</strong> – Original, Subfolder, or NoSubfolder to control filesystem structure for content (<strong>add</strong>ed in Web API v2.7) 没关注过这个参数</li><li><strong>ratio_limit</strong> – share limit as ratio of upload amt over download amt; e.g. 0.5 or 2.0 (<strong>add</strong>ed in Web API v2.8.1) 分享率限制</li><li><strong>seeding_time_limit</strong> – number of minutes to seed torrent (<strong>add</strong>ed in Web API v2.8.1) 做种时间限制</li></ul><h3 id="三、工作原理"><a href="#三、工作原理" class="headerlink" title="三、工作原理"></a>三、工作原理</h3><hr><p>基于上述说明，我们在做跳检工具的时候首先需要有可添加的种子链接或者种子文件，这里不做说明怎么获取的。我们通过硬盘存在的种子文件进行解析，判断种子文件是否存在于保存路径对应的位置下，判断是否加载、是否跳检。</p><p>配置文件：config.yml，qb下边的三个信息就是登陆信息，save_path表示电脑硬盘下常用的存储路径，可以自己扩展（基于yaml语法）</p><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">qb:</span>  <span class="hljs-attr">port:</span> <span class="hljs-number">2021</span>  <span class="hljs-attr">user:</span> <span class="hljs-string">admin</span>  <span class="hljs-attr">pwd:</span> <span class="hljs-number">123456</span><span class="hljs-attr">path:</span>  <span class="hljs-attr">save_path:</span>    <span class="hljs-bullet">-</span> <span class="hljs-string">W:\电影仓库</span>    <span class="hljs-bullet">-</span> <span class="hljs-string">J:\电影仓库</span></code></pre></div><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> load<span class="hljs-keyword">try</span>:    <span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> CLoader <span class="hljs-keyword">as</span> Loader<span class="hljs-keyword">except</span> ImportError:    <span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> Loader<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_config</span>():</span>    data = load(<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./config.yml&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>), Loader=Loader)    print(data)load_config()</code></pre></div><div class="hljs code-wrapper"><pre><code class="hljs json">&#123;&#x27;qb&#x27;: &#123;&#x27;port&#x27;: 2021, &#x27;user&#x27;: &#x27;admin&#x27;, &#x27;pwd&#x27;: 123456&#125;, &#x27;path&#x27;: &#123;&#x27;save_path&#x27;: [&#x27;W:\\电影仓库&#x27;, &#x27;J:\\电影仓库&#x27;]&#125;&#125;</code></pre></div><p>通过上述代码我们可以将其转换成为熟悉的字典。接下来我们就需要获取种子文件进行解析了，之前的文章中我有过介绍，就直接搬运过来：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tptorrent_path = <span class="hljs-string">r&quot;C:\Users\CL\Desktop\[LemonHD].[266709]Hellbound 2021 S01 Complete 1080p NF WEB-DL H265 HDR DDP5 1 Atmos-LeagueNF.torrent&quot;</span>data = tp.parse_torrent_file(torrent_path)print(data)</code></pre></div><p>输出结果：</p><div class="hljs code-wrapper"><pre><code class="hljs bash">&#123;<span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;https://announce.leaguehd.com/announce.php?passkey=xxxxxxxx&#x27;</span>, <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;海棠不惜胭脂色，独立蒙蒙细雨中。&#x27;</span>, <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;info&#x27;</span>: &#123;<span class="hljs-string">&#x27;files&#x27;</span>: [&#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5371995103, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5877701549, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E02.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5860881886, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E03.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 4504376575, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E04.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 5948937008, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E05.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 6522341196, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Hellbound.S01E06.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF.mkv&#x27;</span>]&#125;], <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;地狱公使.Hellbound.2021.S01.1080p.NF.WEB-DL.H265.HDR.DDP5.1.Atmos-LeagueNF&#x27;</span>, <span class="hljs-string">&#x27;piece length&#x27;</span>: 4194304, <span class="hljs-string">&#x27;pieces&#x27;</span>: [<span class="hljs-string">&#x27;42846d3c0f2444e3b21c4241e93813a236072c01&#x27;</span>, <span class="hljs-string">&#x27;07fa7e1e0f6e0e467f8bce3b803220622c7fb710&#x27;</span>, <span class="hljs-string">&#x27;d197e50069e5a873cb7494f13406e76d7e77fd57&#x27;</span>, <span class="hljs-string">&#x27;75b4baf85fccb83540d1b25c982bed1f72c16082&#x27;</span>, <span class="hljs-string">&#x27;ea9a2d27f697e6fe505b82d20e9f92d77f2b3dfe&#x27;</span>, <span class="hljs-string">&#x27;6f4a880ecf953c11fb0ef0ff45280f165897696a&#x27;</span>, <span class="hljs-string">&#x27;3491717797225aefeb25c390f15e51c315964cb0&#x27;</span>, <span class="hljs-string">&#x27;4166ffb5871a730046e23e93fd90e91dd12c5cf4&#x27;</span>, <span class="hljs-string">&#x27;d2dabbcd7684adf8c0095a656acb35bdad87f447&#x27;</span>, <span class="hljs-string">&#x27;3553ca6dd87cd5853e2a08a6b56f518a8249f55a&#x27;</span>, <span class="hljs-string">&#x27;e60a14aea02b0ac532d159928a4f67de6504f577&#x27;</span>, <span class="hljs-string">&#x27;1d46ff71ba9696312c6df4bae5003a64e45a9cb9&#x27;</span>], <span class="hljs-string">&#x27;private&#x27;</span>: 1, <span class="hljs-string">&#x27;source&#x27;</span>: <span class="hljs-string">&#x27;[lemonhd.org] LemonHD&#x27;</span>&#125;&#125;</code></pre></div><p>另外一个例子：</p><div class="hljs code-wrapper"><pre><code class="hljs bash">&#123;<span class="hljs-string">&#x27;announce&#x27;</span>: <span class="hljs-string">&#x27;https://tracker.totheglory.im/xxxxxxxxxxxxxxxx&#x27;</span>, <span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;TorrenTGui.ORG&#x27;</span>, <span class="hljs-string">&#x27;created by&#x27;</span>: <span class="hljs-string">&#x27;qBittorrent v4.3.0.1&#x27;</span>, <span class="hljs-string">&#x27;creation date&#x27;</span>: 1637659097, <span class="hljs-string">&#x27;info&#x27;</span>: &#123;<span class="hljs-string">&#x27;files&#x27;</span>: [&#123;<span class="hljs-string">&#x27;length&#x27;</span>: 12165927052, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.mkv&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 77, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.md5&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 4630, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.nfo&#x27;</span>]&#125;, &#123;<span class="hljs-string">&#x27;length&#x27;</span>: 149495666, <span class="hljs-string">&#x27;path&#x27;</span>: [<span class="hljs-string">&#x27;Sample&#x27;</span>, <span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi.Sample.mkv&#x27;</span>]&#125;], <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Titane.2021.1080p.BluRay.x264.DTS-WiKi&#x27;</span>, <span class="hljs-string">&#x27;piece length&#x27;</span>: 2097152, <span class="hljs-string">&#x27;pieces&#x27;</span>: [<span class="hljs-string">&#x27;25bca2c62bf5e860e313ae199b13f74dac73eccd&#x27;</span>, <span class="hljs-string">&#x27;e5c491462186cdd12d57cbb0b65c954eac0bd0fe&#x27;</span>, <span class="hljs-string">&#x27;fef56f71ededf949bc9daea4a536c1427435283c&#x27;</span>, <span class="hljs-string">&#x27;18989fdd1ed5535a5287379627465652c2fcfc6c&#x27;</span>, <span class="hljs-string">&#x27;c443e881fb1e1a0be03369482fd1cc93df00fb01&#x27;</span>, <span class="hljs-string">&#x27;01ce23ed69c156ce641c8059da993e2d36961f66&#x27;</span>, <span class="hljs-string">&#x27;94b253320be234a0fbbc14c28e90020ae444f70a&#x27;</span>, <span class="hljs-string">&#x27;1b6403bf358c02629c44840c768ca0efcd66d0cd&#x27;</span>, <span class="hljs-string">&#x27;7a3a3e14713884de9a825a330b4d955fffbed860&#x27;</span>, <span class="hljs-string">&#x27;cbfe56c328b86a84e9511cf74f437ef8d329fc2a&#x27;</span>, <span class="hljs-string">&#x27;60badaec560686ca71490996ef0e958f301664fa&#x27;</span>], <span class="hljs-string">&#x27;private&#x27;</span>: 1, <span class="hljs-string">&#x27;ttg_tag&#x27;</span>: <span class="hljs-string">&#x27;8032a74ec22927a5bd6367537eafd87e&#x27;</span>&#125;&#125;</code></pre></div><p>我们可以解析出来的东西包括tracker，种子制作时间，制作工具，文件大小及路径，块的数量，以及source和comment字段。</p><p>如果通过文件路径组合起来的文件绝对路径，在硬盘中都存在，那么我们就判断这个种子已经下载完毕。</p><p>ok，接下来是所有代码。</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> qbittorrentapi <span class="hljs-keyword">import</span> Client, LoginFailed<span class="hljs-keyword">import</span> torrent_parser <span class="hljs-keyword">as</span> tp<span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> load<span class="hljs-keyword">import</span> os<span class="hljs-keyword">import</span> hashlib<span class="hljs-keyword">import</span> bencode<span class="hljs-keyword">try</span>:    <span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> CLoader <span class="hljs-keyword">as</span> Loader<span class="hljs-keyword">except</span> ImportError:    <span class="hljs-keyword">from</span> yaml <span class="hljs-keyword">import</span> Loader<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_qb</span>(<span class="hljs-params">config</span>):</span>    <span class="hljs-comment"># 获取客户端实例</span>    qb = Client(host=<span class="hljs-string">&#x27;%s:%s&#x27;</span>% (config[<span class="hljs-string">&#x27;ip&#x27;</span>], config[<span class="hljs-string">&#x27;port&#x27;</span>]), username=config[<span class="hljs-string">&#x27;user&#x27;</span>], password=config[<span class="hljs-string">&#x27;pwd&#x27;</span>])    <span class="hljs-comment"># 客户端进行登录</span>    <span class="hljs-keyword">try</span>:        qb.auth_log_in()    <span class="hljs-keyword">except</span> LoginFailed <span class="hljs-keyword">as</span> e:        print(e)    <span class="hljs-comment"># 输出客户端信息</span>    print(<span class="hljs-string">f&#x27;qBittorrent: <span class="hljs-subst">&#123;qb.app.version&#125;</span>&#x27;</span>)    print(<span class="hljs-string">f&#x27;qBittorrent Web API: <span class="hljs-subst">&#123;qb.app.web_api_version&#125;</span>&#x27;</span>)    print()    <span class="hljs-keyword">return</span> qb<span class="hljs-comment"># 根据种子路径获取其hash值</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_hash</span>(<span class="hljs-params">filename</span>):</span>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:        torrent_data = f.read()        metainfo = bencode.bdecode(torrent_data)        info = metainfo[<span class="hljs-string">&#x27;info&#x27;</span>]        <span class="hljs-keyword">return</span> hashlib.sha1(bencode.bencode(info)).hexdigest()<span class="hljs-comment"># 加载配置文件</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_config</span>():</span>    data = load(<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./config.yml&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>), Loader=Loader)    <span class="hljs-keyword">return</span> data<span class="hljs-comment"># 获取种子文件列表信息</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pars_torrent</span>(<span class="hljs-params">path</span>):</span>    file_paths = []    data = tp.parse_torrent_file(path)    info = <span class="hljs-built_in">dict</span>(data[<span class="hljs-string">&#x27;info&#x27;</span>])    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;files&#x27;</span> <span class="hljs-keyword">in</span> info.keys():        <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> info[<span class="hljs-string">&#x27;files&#x27;</span>]:            file_paths.append(<span class="hljs-string">&#x27;\\&#x27;</span>.join(item[<span class="hljs-string">&#x27;path&#x27;</span>]))    <span class="hljs-keyword">else</span>:        file_paths.append(info[<span class="hljs-string">&#x27;name&#x27;</span>])    <span class="hljs-keyword">return</span> file_paths<span class="hljs-comment"># 主程序入口</span><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:    user_info = load_config()    qb = get_qb(user_info[<span class="hljs-string">&#x27;qb&#x27;</span>])    save_paths = user_info[<span class="hljs-string">&#x27;save_path&#x27;</span>]        <span class="hljs-comment"># 输入种子所在目录</span>    torrents_path = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;请输入种子保存路径&gt;&gt;&quot;</span>)    files = os.listdir(torrents_path)        <span class="hljs-comment"># 循环处理种子信息</span>    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:        print(<span class="hljs-string">&quot;*********************** 当前处理种子文件：%s ***********************&quot;</span> % file)        torrent_path = os.path.join(torrents_path, file)                <span class="hljs-comment"># 种子已经存在于客户端，跳过</span>        hash_value = get_hash(torrent_path)        torrent = qb.torrents_info(torrent_hashes=hash_value)        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(torrent) == <span class="hljs-number">1</span>:            print(<span class="hljs-string">&quot;当前种子已经存在于客户端，跳出……&quot;</span>)            <span class="hljs-keyword">continue</span>                <span class="hljs-comment"># 判断种子文件是否存在于常用的保存路径</span>        torrent_files = pars_torrent(torrent_path)        print(<span class="hljs-string">&#x27;种子文件包含%d个文件&#x27;</span>%<span class="hljs-built_in">len</span>(torrent_files))        <span class="hljs-keyword">for</span> save_path <span class="hljs-keyword">in</span> save_paths:            flag = <span class="hljs-literal">True</span>            <span class="hljs-keyword">for</span> torrent_file <span class="hljs-keyword">in</span> torrent_files:                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isfile(os.path.join(save_path, torrent_file)):                    print(<span class="hljs-string">&#x27;%s 文件不存在，跳出……&#x27;</span> % os.path.join(save_path, torrent_file))                    flag = <span class="hljs-literal">False</span>                    <span class="hljs-keyword">break</span>            <span class="hljs-keyword">if</span> flag == <span class="hljs-literal">True</span>:                qb.torrents_add(torrent_files=torrent_path, save_path=save_path, is_skip_checking=<span class="hljs-literal">True</span>, is_paused=<span class="hljs-literal">True</span>)                print(<span class="hljs-string">&#x27;种子检验完毕，保存路径为%s，已经添加！！&#x27;</span> % save_path)</code></pre></div><h3 id="四、打包链接"><a href="#四、打包链接" class="headerlink" title="四、打包链接"></a>四、打包链接</h3><hr><p>上述代码已经打包成可执行软件，自行测试服用。</p><p><a href="https://cloud.tomorrow505.xyz/index.php/s/PMnF8SfkdpQbg7H">https://cloud.tomorrow505.xyz/index.php/s/PMnF8SfkdpQbg7H</a></p><p>配置config.yml，运行，输入种子所在目录，等待。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>业余爱好</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>编程</tag>
+      
+      <tag>PT</tag>
+      
+      <tag>生活</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>某东薅羊毛之——使用篇</title>
     <link href="/%E6%9F%90%E4%B8%9C%E8%96%85%E7%BE%8A%E6%AF%9B%E4%B9%8B%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E7%AF%87/"/>
     <url>/%E6%9F%90%E4%B8%9C%E8%96%85%E7%BE%8A%E6%AF%9B%E4%B9%8B%E2%80%94%E2%80%94%E4%BD%BF%E7%94%A8%E7%AF%87/</url>
@@ -134,9 +163,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>爱好</tag>
       
@@ -163,9 +192,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -221,9 +250,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -298,11 +327,11 @@
     
     <tags>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
       <tag>Fluid</tag>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
     </tags>
     
@@ -412,9 +441,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -470,9 +499,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -501,9 +530,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -530,9 +559,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -559,9 +588,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -588,9 +617,9 @@
     
     <tags>
       
-      <tag>博客</tag>
-      
       <tag>Fluid</tag>
+      
+      <tag>博客</tag>
       
     </tags>
     
@@ -615,9 +644,9 @@
     
     <tags>
       
-      <tag>博客</tag>
-      
       <tag>Fluid</tag>
+      
+      <tag>博客</tag>
       
     </tags>
     
@@ -642,11 +671,11 @@
     
     <tags>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
       <tag>Fluid</tag>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
     </tags>
     
@@ -671,9 +700,9 @@
     
     <tags>
       
-      <tag>博客</tag>
-      
       <tag>Fluid</tag>
+      
+      <tag>博客</tag>
       
       <tag>Python</tag>
       
@@ -700,9 +729,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>美化</tag>
       
@@ -729,9 +758,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -760,9 +789,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -789,9 +818,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -818,9 +847,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
