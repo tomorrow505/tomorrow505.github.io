@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.6k 字
+      2.7k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      40
+      41
        分钟
     </span>
   
@@ -476,7 +476,7 @@ print(data)</code></pre></div>
     info = <span class="hljs-built_in">dict</span>(data[<span class="hljs-string">&#x27;info&#x27;</span>])
     <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;files&#x27;</span> <span class="hljs-keyword">in</span> info.keys():
         <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> info[<span class="hljs-string">&#x27;files&#x27;</span>]:
-            file_paths.append(<span class="hljs-string">&#x27;\\&#x27;</span>.join(item[<span class="hljs-string">&#x27;path&#x27;</span>]))
+            file_paths.append(info[<span class="hljs-string">&#x27;name&#x27;</span>] + <span class="hljs-string">&#x27;\\&#x27;</span> + <span class="hljs-string">&#x27;\\&#x27;</span>.join(item[<span class="hljs-string">&#x27;path&#x27;</span>]))
     <span class="hljs-keyword">else</span>:
         file_paths.append(info[<span class="hljs-string">&#x27;name&#x27;</span>])
     <span class="hljs-keyword">return</span> file_paths
@@ -518,8 +518,9 @@ print(data)</code></pre></div>
                 print(<span class="hljs-string">&#x27;种子检验完毕，保存路径为%s，已经添加！！&#x27;</span> % save_path)</code></pre></div>
 
 <p>运行示例</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python">qBittorrent: v4<span class="hljs-number">.2</span><span class="hljs-number">.5</span>
-qBittorrent Web API: <span class="hljs-number">2.5</span><span class="hljs-number">.1</span>
+<div class="hljs code-wrapper"><pre><code class="hljs python">************ qBittorrent: v4<span class="hljs-number">.2</span><span class="hljs-number">.5</span> ************
+************ qBittorrent Web API: <span class="hljs-number">2.5</span><span class="hljs-number">.1</span> ************
+
 请输入种子保存路径&gt;&gt;C:\Users\CL\Desktop\测试
 ************ 当前处理种子文件：[HUDBT].The.Canyon<span class="hljs-number">.2009</span><span class="hljs-number">.1080</span>p.AMZN.WEB-DL.DD+<span class="hljs-number">5.1</span>.H<span class="hljs-number">.264</span>-monkee.mkv.torrent ************
 当前种子已经存在于客户端，跳出……
@@ -527,14 +528,15 @@ qBittorrent Web API: <span class="hljs-number">2.5</span><span class="hljs-numbe
 当前种子已经存在于客户端，跳出……
 ************ 当前处理种子文件：[LemonHD].[<span class="hljs-number">266709</span>]Hellbound <span class="hljs-number">2021</span> S01 Complete 1080p NF WEB-DL H265 HDR DDP5 <span class="hljs-number">1</span> Atmos-LeagueNF.torrent ************
 种子文件包含<span class="hljs-number">6</span>个文件
-W:\电影仓库\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
-J:\电影仓库\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
-G:\PT电影\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+W:\电影仓库\地狱公使.Hellbound<span class="hljs-number">.2021</span>.S01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+J:\电影仓库\地狱公使.Hellbound<span class="hljs-number">.2021</span>.S01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
+G:\PT电影\地狱公使.Hellbound<span class="hljs-number">.2021</span>.S01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF\Hellbound.S01E01<span class="hljs-number">.1080</span>p.NF.WEB-DL.H265.HDR.DDP5<span class="hljs-number">.1</span>.Atmos-LeagueNF.mkv 文件不存在，跳出……
 ************ 当前处理种子文件：[TTG] Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.torrent ************
 种子文件包含<span class="hljs-number">4</span>个文件
-W:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
-J:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
-G:\PT电影\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……</code></pre></div>
+W:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
+J:\电影仓库\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
+G:\PT电影\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi\Titane<span class="hljs-number">.2021</span><span class="hljs-number">.1080</span>p.BluRay.x264.DTS-WiKi.mkv 文件不存在，跳出……
+输入任何字符结束&gt;&gt;</code></pre></div>
 
 
 
