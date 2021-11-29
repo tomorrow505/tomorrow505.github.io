@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：1 小时前
                 
               </p>
             
@@ -493,6 +493,8 @@ print(data)</code></pre></div>
     
     <span class="hljs-comment"># 循环处理种子信息</span>
     <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files:
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> file.endswith(<span class="hljs-string">&#x27;.torrent&#x27;</span>):
+            <span class="hljs-keyword">continue</span>
         print(<span class="hljs-string">&quot;*********************** 当前处理种子文件：%s ***********************&quot;</span> % file)
         torrent_path = os.path.join(torrents_path, file)
         
@@ -644,6 +646,12 @@ G:\PT电影\Titane<span class="hljs-number">.2021</span><span class="hljs-number
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">基于python解决锐捷掉线web端自动登录</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

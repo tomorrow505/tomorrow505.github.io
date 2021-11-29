@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Hexo+Fluid博客添加网易云背景音乐 - Tomorrow&#39;s blog</title>
+  <title>基于python解决锐捷掉线web端自动登录 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hexo+Fluid博客添加网易云背景音乐">
+            <span class="h2" id="subtitle" title="基于python解决锐捷掉线web端自动登录">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-09 13:42" pubdate>
-        2021年4月9日 下午
+      <time datetime="2021-11-29 10:04" pubdate>
+        2021年11月29日 上午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      507 字
+      907 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      13
        分钟
     </span>
   
@@ -244,57 +244,112 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hexo+Fluid博客添加网易云背景音乐</h1>
+            <h1 style="display: none">基于python解决锐捷掉线web端自动登录</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：8 个月前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>看到别人的博客都有音乐插件，我也想要，结果这个主题下好像没有，需要自己折腾一下子。我就做个最简单的好了~</p>
-<h3 id="修改记录"><a href="#修改记录" class="headerlink" title="修改记录"></a>修改记录</h3><hr>
-<p>首先就是网易云比较简单，只要生成一首歌或者是歌单的外链就可以了。将下述的代码添加到footer对应的content里，因为想要把它的位置固定在左下角。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;music_div&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: fixed; bottom: 0px; left: 30px;&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">frameborder</span>=<span class="hljs-string">&quot;no&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginwidth</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginheight</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">330</span> <span class="hljs-attr">height</span>=<span class="hljs-string">110</span> </span>
-<span class="hljs-tag">    	<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//music.163.com/outchain/player?type=0&amp;id=919444742&amp;auto=1&amp;height=90&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/js/musicshow.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+<p>今天早上一来，又掉线了，确实最近掉线比较频繁，玩PT的应该都讨厌掉线，经常在宿舍看见做种一下子到0了，远程又连不上，更别说有时候外站HR，衰~~</p>
+<p>所以想着搞一个自动任务，定时检查自己的网络是否顺畅，然后不顺畅自动登录就好了。</p>
+<p>先说说自己的网络环境：windows系统，校园网，锐捷认证（有客户端，有网页端）。</p>
+<p>想法1：发现掉网运行客户端进行鼠标模拟点击登录。</p>
+<p>想法2：发现掉网运行浏览器使用selenium点击登录。</p>
+<p>想法3：直接抓取请求参数使用requests库进行登录。</p>
+<p>最最方便的应该就是想法3了，所以花了个把小时把代码撸出来了，在此记录送给需要的朋友~</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><hr>
+<p>进行定时判断，win都有定时任务之类的，或者在程序外层套一个循环，几分钟运行一次，随电脑开机启动。这些问题不大~</p>
+<p>如何判断掉网了：直接请求百度网页，如果出现错误我们就默认掉网了。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
 
-<p>然后引入了jQuery，hexo g之后这样就可以看到左下角有一个音乐框，我们可以使用iframe参数控制其显示大小。</p>
-<p>但是当首页的时候会比较违和，所以我们引入一个musicshow.js控制一下，如果页面是首页的话下拉多少的时候音乐框显示，小于多少就隐藏。</p>
-<p>在主题的source目录js目录里边新建一个musicshow.js文件：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs javascript">!(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params"></span>) </span>&#123;
-     <span class="hljs-comment">//简单判断首页，因为我的域名是tomorrow50.xyz，所以首页就会触发</span>
-	<span class="hljs-keyword">if</span> (location.href.match(<span class="hljs-regexp">/xyz.&#123;0,1&#125;$/</span>))&#123;
-         <span class="hljs-comment">//直接把音乐框隐藏</span>
-		$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:none;&quot;</span>);
-         <span class="hljs-comment">//滚动条事件</span>
-		$(<span class="hljs-built_in">window</span>).scroll(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-			<span class="hljs-comment">//获取滚动条的滑动距离</span>
-			<span class="hljs-keyword">var</span> scroH = $(<span class="hljs-built_in">this</span>).scrollTop();
-			<span class="hljs-comment">//滚动条的滑动距离大于120，就显示，反之就隐藏</span>
-			<span class="hljs-keyword">if</span>(scroH &gt;= <span class="hljs-number">120</span>)&#123;
-				$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:block;position:fixed;bottom:0px;left:30px;&quot;</span>);
-			&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(scroH &lt; <span class="hljs-number">120</span>)&#123;
-				$(<span class="hljs-string">&quot;#music_div&quot;</span>).attr(<span class="hljs-string">&quot;style&quot;</span>,<span class="hljs-string">&quot;display:none;&quot;</span>);
-			&#125;
-		 &#125;)
-	&#125;
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>
+    <span class="hljs-keyword">try</span>:
+        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
+        print(exc)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre></div>
 
-  &#125;
-  show();
-&#125;)();</code></pre></div>
+<p>那么如何重新登录呢？网页版登录都会有一个网址，每次打开浏览器，如果没登录就会自动跳转：</p>
+<p><img src="https://www.z4a.net/images/2021/11/29/1dbc9c89e43bf7370.png" srcset="/img/loading.gif" lazyload alt="1dbc9c89e43bf7370.png"></p>
+<p>如何抓取请求呢？F12大法。可以抓取到登录认证得请求数据：</p>
+<p><img src="https://www.z4a.net/images/2021/11/29/20f6b30bf714b1933.png" srcset="/img/loading.gif" lazyload alt="20f6b30bf714b1933.png"></p>
+<p>从上边我们分析出了请求地址，也可以生成请求头部：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>
+    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>
 
-<p>这样的话就大功告成了~~看看效果：</p>
-<p><img src="https://www.z4a.net/images/2021/04/09/f872b5a47c9ee5daf6fe7da5810d6853.png" srcset="/img/loading.gif" lazyload alt="f872b5a47c9ee5daf6fe7da5810d6853.png"></p>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><hr>
-<p>无非就是自己想要做的事，折腾一下总是能够有办法的！！</p>
+    headers = &#123;
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,
+        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,
+        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,
+    &#125;</code></pre></div>
+
+<p>然后我们需要获取提交的数据：因为content-type指定为<code>application/x-www-form-urlencoded</code>，我们直接使用下边图中点击查看来源后的数据作为数据提交：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gzkp8i"><img src="https://www.z4a.net/images/2021/11/29/3e7d001289ba36855.png" srcset="/img/loading.gif" lazyload alt="3e7d001289ba36855.png"></a><br><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gzkYEp"><img src="https://www.z4a.net/images/2021/11/29/4de2e332ca7e320a1.png" srcset="/img/loading.gif" lazyload alt="4de2e332ca7e320a1.png"></a></p>
+<p>所以完整的请求是：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>
+    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>
+
+    headers = &#123;
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,
+        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,
+        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,
+    &#125;
+
+    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>
+
+    session = requests.session()
+    req = session.post(url=url, headers=headers, data=data)
+    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>
+    <span class="hljs-keyword">return</span> req.content.decode()</code></pre></div>
+
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><hr>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>
+    <span class="hljs-keyword">try</span>:
+        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
+        print(exc)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>
+    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>
+
+    headers = &#123;
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,
+        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,
+        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,
+    &#125;
+
+    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>
+
+    session = requests.session()
+    req = session.post(url=url, headers=headers, data=data)
+    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>
+    <span class="hljs-keyword">return</span> req.content.decode()
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    code = get_response()
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> code:
+        result = relogin()
+        print(result)</code></pre></div>
+
+<p>断开网络运行代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 这是因为网断了</span>
+HTTPSConnectionPool(host=<span class="hljs-string">&#x27;www.baidu.com&#x27;</span>, port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, <span class="hljs-string">&#x27;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:777)&#x27;</span>),))
+
+<span class="hljs-comment"># 认证返回成功的信息 &#123;&quot;userIndex&quot;:&quot;xxxxxxxxxxxxxxxxxxxx&quot;,&quot;result&quot;:&quot;success&quot;,&quot;message&quot;:&quot;&quot;,&quot;forwordurl&quot;:null,&quot;keepaliveInterval&quot;:0,&quot;validCodeUrl&quot;:&quot;&quot;&#125;</span></code></pre></div>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><hr>
+<p>如果有需要打包成为exe脱离python环境定时运行请联系我~</p>
 
             </div>
             <hr>
@@ -304,7 +359,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
                     
                   </div>
                 
@@ -312,11 +367,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Fluid/">Fluid</a>
-                    
                       <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
                     
                   </div>
                 
@@ -396,18 +451,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/%E4%B8%8D%E5%80%9F%E5%8A%A9%E7%AC%AC%E4%B8%89%E6%96%B9%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0cookie%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D%E7%99%BB%E5%BD%95/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">不借助第三方自己实现cookie备份恢复登录</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/%E8%BD%AC%E8%BD%BD--%E5%9B%BD%E5%86%85%E5%A4%96PT%E7%AB%99%E5%B0%8F%E7%BB%84%E6%94%B6%E5%BD%95%E3%80%90%E5%BE%85%E6%9B%B4%E6%96%B0%E3%80%91/">
-                        <span class="hidden-mobile">转载--国内外PT站小组收录【待更新】</span>
+                      <a href="/%E5%9F%BA%E4%BA%8Eqbittorrentapi%E5%AE%9E%E7%8E%B0%E6%89%B9%E9%87%8F%E5%8A%A0%E8%BD%BD%E7%A7%8D%E5%AD%90%E8%B7%B3%E6%A3%80/">
+                        <span class="hidden-mobile">基于qbittorrentapi实现批量加载种子跳检</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
