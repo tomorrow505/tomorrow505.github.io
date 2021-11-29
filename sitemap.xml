@@ -249,6 +249,13 @@
 
   
   <url>
+    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://tomorrow505.xyz/tags/Fluid/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
@@ -256,7 +263,7 @@
   </url>
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/%E7%BE%8E%E5%8C%96/</loc>
+    <loc>http://tomorrow505.xyz/tags/Python/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -270,14 +277,7 @@
   </url>
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://tomorrow505.xyz/tags/Python/</loc>
+    <loc>http://tomorrow505.xyz/tags/%E7%BE%8E%E5%8C%96/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

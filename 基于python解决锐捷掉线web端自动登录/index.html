@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      907 字
+      901 字
     </span>
   
 
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -289,7 +289,8 @@
     &#125;</code></pre></div>
 
 <p>然后我们需要获取提交的数据：因为content-type指定为<code>application/x-www-form-urlencoded</code>，我们直接使用下边图中点击查看来源后的数据作为数据提交：</p>
-<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gzkp8i"><img src="https://www.z4a.net/images/2021/11/29/3e7d001289ba36855.png" srcset="/img/loading.gif" lazyload alt="3e7d001289ba36855.png"></a><br><a target="_blank" rel="noopener" href="https://www.z4a.net/image/gzkYEp"><img src="https://www.z4a.net/images/2021/11/29/4de2e332ca7e320a1.png" srcset="/img/loading.gif" lazyload alt="4de2e332ca7e320a1.png"></a></p>
+<p><img src="https://www.z4a.net/images/2021/11/29/3e7d001289ba36855.png" srcset="/img/loading.gif" lazyload alt="3e7d001289ba36855.png"></p>
+<p><img src="https://www.z4a.net/images/2021/11/29/4de2e332ca7e320a1.png" srcset="/img/loading.gif" lazyload alt="4de2e332ca7e320a1.png"></p>
 <p>所以完整的请求是：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>
     url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>
@@ -304,7 +305,6 @@
 
     session = requests.session()
     req = session.post(url=url, headers=headers, data=data)
-    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>
     <span class="hljs-keyword">return</span> req.content.decode()</code></pre></div>
 
 <h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><hr>
@@ -367,9 +367,9 @@ HTTPSConnectionPool(host=<span class="hljs-string">&#x27;www.baidu.com&#x27;</sp
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
-                    
                       <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
                       <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
                     

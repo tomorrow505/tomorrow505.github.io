@@ -8,7 +8,7 @@
     <link href="/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/"/>
     <url>/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95/</url>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>今天早上一来，又掉线了，确实最近掉线比较频繁，玩PT的应该都讨厌掉线，经常在宿舍看见做种一下子到0了，远程又连不上，更别说有时候外站HR，衰~~</p><p>所以想着搞一个自动任务，定时检查自己的网络是否顺畅，然后不顺畅自动登录就好了。</p><p>先说说自己的网络环境：windows系统，校园网，锐捷认证（有客户端，有网页端）。</p><p>想法1：发现掉网运行客户端进行鼠标模拟点击登录。</p><p>想法2：发现掉网运行浏览器使用selenium点击登录。</p><p>想法3：直接抓取请求参数使用requests库进行登录。</p><p>最最方便的应该就是想法3了，所以花了个把小时把代码撸出来了，在此记录送给需要的朋友~</p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><hr><p>进行定时判断，win都有定时任务之类的，或者在程序外层套一个循环，几分钟运行一次，随电脑开机启动。这些问题不大~</p><p>如何判断掉网了：直接请求百度网页，如果出现错误我们就默认掉网了。</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>    <span class="hljs-keyword">try</span>:        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:        print(exc)        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre></div><p>那么如何重新登录呢？网页版登录都会有一个网址，每次打开浏览器，如果没登录就会自动跳转：</p><p><img src="https://www.z4a.net/images/2021/11/29/1dbc9c89e43bf7370.png" alt="1dbc9c89e43bf7370.png"></p><p>如何抓取请求呢？F12大法。可以抓取到登录认证得请求数据：</p><p><img src="https://www.z4a.net/images/2021/11/29/20f6b30bf714b1933.png" alt="20f6b30bf714b1933.png"></p><p>从上边我们分析出了请求地址，也可以生成请求头部：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;</code></pre></div><p>然后我们需要获取提交的数据：因为content-type指定为<code>application/x-www-form-urlencoded</code>，我们直接使用下边图中点击查看来源后的数据作为数据提交：</p><p><a href="https://www.z4a.net/image/gzkp8i"><img src="https://www.z4a.net/images/2021/11/29/3e7d001289ba36855.png" alt="3e7d001289ba36855.png"></a><br><a href="https://www.z4a.net/image/gzkYEp"><img src="https://www.z4a.net/images/2021/11/29/4de2e332ca7e320a1.png" alt="4de2e332ca7e320a1.png"></a></p><p>所以完整的请求是：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>    session = requests.session()    req = session.post(url=url, headers=headers, data=data)    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>    <span class="hljs-keyword">return</span> req.content.decode()</code></pre></div><h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><hr><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>    <span class="hljs-keyword">try</span>:        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:        print(exc)        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>    session = requests.session()    req = session.post(url=url, headers=headers, data=data)    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>    <span class="hljs-keyword">return</span> req.content.decode()<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:    code = get_response()    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> code:        result = relogin()        print(result)</code></pre></div><p>断开网络运行代码：</p><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 这是因为网断了</span>HTTPSConnectionPool(host=<span class="hljs-string">&#x27;www.baidu.com&#x27;</span>, port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, <span class="hljs-string">&#x27;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:777)&#x27;</span>),))<span class="hljs-comment"># 认证返回成功的信息 &#123;&quot;userIndex&quot;:&quot;xxxxxxxxxxxxxxxxxxxx&quot;,&quot;result&quot;:&quot;success&quot;,&quot;message&quot;:&quot;&quot;,&quot;forwordurl&quot;:null,&quot;keepaliveInterval&quot;:0,&quot;validCodeUrl&quot;:&quot;&quot;&#125;</span></code></pre></div><h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><hr><p>如果有需要打包成为exe脱离python环境定时运行请联系我~</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr><p>今天早上一来，又掉线了，确实最近掉线比较频繁，玩PT的应该都讨厌掉线，经常在宿舍看见做种一下子到0了，远程又连不上，更别说有时候外站HR，衰~~</p><p>所以想着搞一个自动任务，定时检查自己的网络是否顺畅，然后不顺畅自动登录就好了。</p><p>先说说自己的网络环境：windows系统，校园网，锐捷认证（有客户端，有网页端）。</p><p>想法1：发现掉网运行客户端进行鼠标模拟点击登录。</p><p>想法2：发现掉网运行浏览器使用selenium点击登录。</p><p>想法3：直接抓取请求参数使用requests库进行登录。</p><p>最最方便的应该就是想法3了，所以花了个把小时把代码撸出来了，在此记录送给需要的朋友~</p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><hr><p>进行定时判断，win都有定时任务之类的，或者在程序外层套一个循环，几分钟运行一次，随电脑开机启动。这些问题不大~</p><p>如何判断掉网了：直接请求百度网页，如果出现错误我们就默认掉网了。</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>    <span class="hljs-keyword">try</span>:        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:        print(exc)        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></code></pre></div><p>那么如何重新登录呢？网页版登录都会有一个网址，每次打开浏览器，如果没登录就会自动跳转：</p><p><img src="https://www.z4a.net/images/2021/11/29/1dbc9c89e43bf7370.png" alt="1dbc9c89e43bf7370.png"></p><p>如何抓取请求呢？F12大法。可以抓取到登录认证得请求数据：</p><p><img src="https://www.z4a.net/images/2021/11/29/20f6b30bf714b1933.png" alt="20f6b30bf714b1933.png"></p><p>从上边我们分析出了请求地址，也可以生成请求头部：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;</code></pre></div><p>然后我们需要获取提交的数据：因为content-type指定为<code>application/x-www-form-urlencoded</code>，我们直接使用下边图中点击查看来源后的数据作为数据提交：</p><p><img src="https://www.z4a.net/images/2021/11/29/3e7d001289ba36855.png" alt="3e7d001289ba36855.png"></p><p><img src="https://www.z4a.net/images/2021/11/29/4de2e332ca7e320a1.png" alt="4de2e332ca7e320a1.png"></p><p>所以完整的请求是：</p><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>    session = requests.session()    req = session.post(url=url, headers=headers, data=data)    <span class="hljs-keyword">return</span> req.content.decode()</code></pre></div><h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><hr><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>    <span class="hljs-keyword">try</span>:        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:        print(exc)        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>():</span>    url = <span class="hljs-string">&quot;http://192.168.50.3:8080/eportal/InterFace.do?method=login&quot;</span>    headers = &#123;        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36&quot;</span>,        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,    &#125;    data = <span class="hljs-string">&quot;userId=xxxxxxxxxxx&amp;password=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;service=&amp;queryString=xxxxxxxxxxxxxxxxx&amp;operatorPwd=&amp;operatorUserId=&amp;validcode=&amp;passwordEncrypt=true&quot;</span>    session = requests.session()    req = session.post(url=url, headers=headers, data=data)    req.encoding = <span class="hljs-string">&#x27;utf-8&#x27;</span>    <span class="hljs-keyword">return</span> req.content.decode()<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:    code = get_response()    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> code:        result = relogin()        print(result)</code></pre></div><p>断开网络运行代码：</p><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-comment"># 这是因为网断了</span>HTTPSConnectionPool(host=<span class="hljs-string">&#x27;www.baidu.com&#x27;</span>, port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, <span class="hljs-string">&#x27;[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:777)&#x27;</span>),))<span class="hljs-comment"># 认证返回成功的信息 &#123;&quot;userIndex&quot;:&quot;xxxxxxxxxxxxxxxxxxxx&quot;,&quot;result&quot;:&quot;success&quot;,&quot;message&quot;:&quot;&quot;,&quot;forwordurl&quot;:null,&quot;keepaliveInterval&quot;:0,&quot;validCodeUrl&quot;:&quot;&quot;&#125;</span></code></pre></div><h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><hr><p>如果有需要打包成为exe脱离python环境定时运行请联系我~</p>]]></content>
     
     
     <categories>
@@ -20,9 +20,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -192,9 +192,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>爱好</tag>
       
@@ -221,9 +221,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -279,9 +279,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -356,11 +356,11 @@
     
     <tags>
       
+      <tag>博客</tag>
+      
       <tag>Fluid</tag>
       
       <tag>编程</tag>
-      
-      <tag>博客</tag>
       
     </tags>
     
@@ -470,9 +470,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -528,9 +528,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -559,9 +559,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>学习</tag>
       
@@ -588,9 +588,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -617,9 +617,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>PT</tag>
       
@@ -646,9 +646,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -673,9 +673,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
     </tags>
     
@@ -700,11 +700,11 @@
     
     <tags>
       
+      <tag>博客</tag>
+      
       <tag>Fluid</tag>
       
       <tag>编程</tag>
-      
-      <tag>博客</tag>
       
     </tags>
     
@@ -729,9 +729,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>博客</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>Python</tag>
       
@@ -760,9 +760,9 @@
       
       <tag>Fluid</tag>
       
-      <tag>美化</tag>
-      
       <tag>编程</tag>
+      
+      <tag>美化</tag>
       
     </tags>
     
@@ -787,9 +787,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -818,9 +818,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -847,9 +847,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
@@ -876,9 +876,9 @@
     
     <tags>
       
-      <tag>编程</tag>
-      
       <tag>Python</tag>
+      
+      <tag>编程</tag>
       
       <tag>图床</tag>
       
