@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>ChatGPT-学术优化体验</title>
+    <link href="/ChatGPT-%E5%AD%A6%E6%9C%AF%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/"/>
+    <url>/ChatGPT-%E5%AD%A6%E6%9C%AF%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</url>
+    
+    <content type="html"><![CDATA[<p>很久没有写博客了，最近被各种chatgpt刷屏，自己虽然也体验了一下，但是后来因为各种杂事也就放在那里了~</p><p>这两天看到chatgpt可以做科研优化了，所以又泛起好奇心准备折腾一下子了~~</p><p>感谢开发者：<a href="https://github.com/binary-husky/chatgpt_academic">https://github.com/binary-husky/chatgpt_academic</a></p><h3 id="一、主要功能"><a href="#一、主要功能" class="headerlink" title="一、主要功能"></a>一、主要功能</h3><ul><li>学术论文一键润色、语法错误查找；</li><li>中英文快速互译；</li><li>一键代码解释；</li><li>快捷键自定义；</li><li>高阶实验模块化设计；</li><li>项目源代码自我剖析；</li><li>智能读取论文并生成摘要。</li></ul><p>我们先上图体验一下：</p><p>这个是网页版也可以有的功能，简单说一下就是针对一个问题生成文献综述和论文摘要，从无到有还是比较难的……</p><p><a href="https://www.z4a.net/image/VHrPjj"><img src="https://www.z4a.net/images/2023/04/02/1305e70e37690f5e0.png" alt="1305e70e37690f5e0.png"></a></p><p>然后我们根据生成的摘要翻译成英文：</p><p><a href="https://www.z4a.net/image/VHr0UT"><img src="https://www.z4a.net/images/2023/04/02/2ca4ded03946f1409.png" alt="2ca4ded03946f1409.png"></a></p><p>然后叫它给自己生成的英文检查语法，肯定是没错的，然后开始润色，应该是会替换一些内容的，这个可以做个参考。</p><p><a href="https://www.z4a.net/image/VHr4Ev"><img src="https://www.z4a.net/images/2023/04/02/30eafaf965ead29bd.png" alt="30eafaf965ead29bd.png"></a></p><p>这个可以通过上传一个PDF总结出一个摘要，感觉目前处理可能有点简单了，不过如果如果真的批量处理文件什么的，倒是可以节约很多时间。</p><p><a href="https://www.z4a.net/image/VHrh3P"><img src="https://www.z4a.net/images/2023/04/02/4c8299413473e36d4.png" alt="4c8299413473e36d4.png"></a></p><p>这里对自己之前写的一个小项目进行解析，还真是厉害~</p><p><a href="https://www.z4a.net/image/VHrXPa"><img src="https://www.z4a.net/images/2023/04/02/5.png" alt="5.png"></a></p><p>学术上的测试就到这里吧，下面再演示一个代码生成之类的，并且可以持续会话。感觉也可以作为代码查询工具使用了~</p><p><a href="https://www.z4a.net/image/VHrcFN"><img src="https://www.z4a.net/images/2023/04/02/6.png" alt="6.png"></a></p><p><a href="https://www.z4a.net/image/VHr8jL"><img src="https://www.z4a.net/images/2023/04/02/7.png" alt="7.png"></a></p><h3 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h3><p>就简单介绍下windows的吧，其它的可以去官网。</p><p><strong>1. 在 Windows、macOS、Linux 上安装</strong></p><p>通过 Git 命令，将项目克隆到本地，并进行项目文件夹：</p><div class="hljs code-wrapper"><pre><code class="hljs text">&gt; git clone https://github.com/binary-husky/chatgpt_academic.git&gt; cd chatgpt_academic</code></pre></div><p>打开 config.py 文件，配置你的 OpenAI API Key 及本地代理。</p><p>OpenAI API Key 可在这里生成：(这里默认有号，然后还有免费额度，有的已经没有免费了，然后充钱也不方便~~)</p><p><em><a href="https://link.zhihu.com/?target=https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a></em></p><p>然后就是代理了，因为不同的代理不一样，这里就显示下v2ray的：</p><div class="hljs code-wrapper"><pre><code class="hljs python">proxies = &#123;    <span class="hljs-comment">#          [协议]://  [地址]  :[端口]</span>    <span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://localhost:10809&quot;</span>,    <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://localhost:10809&quot;</span>,&#125;</code></pre></div><p>记得开全局代理。。。</p><p>配置完成后，安装 Python 的 pip 命令安装项目依赖，并运行项目，如果解析PDF提示缺少包直接安装就好：</p><div class="hljs code-wrapper"><pre><code class="hljs text">&gt; python -m pip install -r requirements.txt&gt; python main.py</code></pre></div>]]></content>
+    
+    
+    <categories>
+      
+      <category>折腾笔记</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>编程</tag>
+      
+      <tag>爱好</tag>
+      
+      <tag>Python</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>基于python解决锐捷掉线web端自动登录--华科</title>
     <link href="/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95--%E5%8D%8E%E7%A7%91/"/>
     <url>/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95--%E5%8D%8E%E7%A7%91/</url>
@@ -20,9 +49,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -105,9 +134,9 @@
     
     <tags>
       
-      <tag>生活</tag>
-      
       <tag>爱好</tag>
+      
+      <tag>生活</tag>
       
       <tag>折腾</tag>
       
@@ -134,11 +163,11 @@
     
     <tags>
       
+      <tag>爱好</tag>
+      
       <tag>生活</tag>
       
       <tag>电影</tag>
-      
-      <tag>爱好</tag>
       
     </tags>
     
@@ -192,11 +221,11 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
       
       <tag>爱好</tag>
+      
+      <tag>Python</tag>
       
     </tags>
     
@@ -221,9 +250,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -279,9 +308,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -356,11 +385,11 @@
     
     <tags>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
       <tag>Fluid</tag>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
     </tags>
     
@@ -470,9 +499,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -528,9 +557,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -559,9 +588,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>学习</tag>
       
@@ -588,9 +617,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -617,9 +646,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>PT</tag>
       
@@ -646,9 +675,9 @@
     
     <tags>
       
-      <tag>博客</tag>
-      
       <tag>Fluid</tag>
+      
+      <tag>博客</tag>
       
     </tags>
     
@@ -673,9 +702,9 @@
     
     <tags>
       
-      <tag>博客</tag>
-      
       <tag>Fluid</tag>
+      
+      <tag>博客</tag>
       
     </tags>
     
@@ -700,11 +729,11 @@
     
     <tags>
       
-      <tag>博客</tag>
+      <tag>编程</tag>
       
       <tag>Fluid</tag>
       
-      <tag>编程</tag>
+      <tag>博客</tag>
       
     </tags>
     
@@ -729,11 +758,11 @@
     
     <tags>
       
-      <tag>博客</tag>
+      <tag>Python</tag>
       
       <tag>Fluid</tag>
       
-      <tag>Python</tag>
+      <tag>博客</tag>
       
     </tags>
     
@@ -758,9 +787,9 @@
     
     <tags>
       
-      <tag>Fluid</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Fluid</tag>
       
       <tag>美化</tag>
       
@@ -787,9 +816,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -818,9 +847,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -847,9 +876,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       
@@ -876,9 +905,9 @@
     
     <tags>
       
-      <tag>Python</tag>
-      
       <tag>编程</tag>
+      
+      <tag>Python</tag>
       
       <tag>图床</tag>
       

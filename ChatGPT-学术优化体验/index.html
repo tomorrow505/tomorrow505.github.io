@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（二） - Tomorrow&#39;s blog</title>
+  <title>ChatGPT-学术优化体验 - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（二）">
+            <span class="h2" id="subtitle" title="ChatGPT-学术优化体验">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 19:18" pubdate>
-        2021年3月18日 晚上
+      <time datetime="2023-04-02 15:16" pubdate>
+        2023年4月2日 下午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      780 字
+      635 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      7
        分钟
     </span>
   
@@ -244,78 +244,61 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（二）</h1>
+            <h1 style="display: none">ChatGPT-学术优化体验</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 年前
+                  本文最后更新于：10 分钟前
                 
               </p>
             
             <div class="markdown-body">
-              <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>话接上回，我么能够通过传递过来的视频文件路径获取视频长度和截图命令，那么如何使用python实现呢？</p>
-<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
-<p>话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> Mediainfo
+              <p>很久没有写博客了，最近被各种chatgpt刷屏，自己虽然也体验了一下，但是后来因为各种杂事也就放在那里了~</p>
+<p>这两天看到chatgpt可以做科研优化了，所以又泛起好奇心准备折腾一下子了~~</p>
+<p>感谢开发者：<a target="_blank" rel="noopener" href="https://github.com/binary-husky/chatgpt_academic">https://github.com/binary-husky/chatgpt_academic</a></p>
+<h3 id="一、主要功能"><a href="#一、主要功能" class="headerlink" title="一、主要功能"></a>一、主要功能</h3><ul>
+<li>学术论文一键润色、语法错误查找；</li>
+<li>中英文快速互译；</li>
+<li>一键代码解释；</li>
+<li>快捷键自定义；</li>
+<li>高阶实验模块化设计；</li>
+<li>项目源代码自我剖析；</li>
+<li>智能读取论文并生成摘要。</li>
+</ul>
+<p>我们先上图体验一下：</p>
+<p>这个是网页版也可以有的功能，简单说一下就是针对一个问题生成文献综述和论文摘要，从无到有还是比较难的……</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHrPjj"><img src="https://www.z4a.net/images/2023/04/02/1305e70e37690f5e0.png" srcset="/img/loading.gif" lazyload alt="1305e70e37690f5e0.png"></a></p>
+<p>然后我们根据生成的摘要翻译成英文：</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHr0UT"><img src="https://www.z4a.net/images/2023/04/02/2ca4ded03946f1409.png" srcset="/img/loading.gif" lazyload alt="2ca4ded03946f1409.png"></a></p>
+<p>然后叫它给自己生成的英文检查语法，肯定是没错的，然后开始润色，应该是会替换一些内容的，这个可以做个参考。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHr4Ev"><img src="https://www.z4a.net/images/2023/04/02/30eafaf965ead29bd.png" srcset="/img/loading.gif" lazyload alt="30eafaf965ead29bd.png"></a></p>
+<p>这个可以通过上传一个PDF总结出一个摘要，感觉目前处理可能有点简单了，不过如果如果真的批量处理文件什么的，倒是可以节约很多时间。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHrh3P"><img src="https://www.z4a.net/images/2023/04/02/4c8299413473e36d4.png" srcset="/img/loading.gif" lazyload alt="4c8299413473e36d4.png"></a></p>
+<p>这里对自己之前写的一个小项目进行解析，还真是厉害~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHrXPa"><img src="https://www.z4a.net/images/2023/04/02/5.png" srcset="/img/loading.gif" lazyload alt="5.png"></a></p>
+<p>学术上的测试就到这里吧，下面再演示一个代码生成之类的，并且可以持续会话。感觉也可以作为代码查询工具使用了~</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHrcFN"><img src="https://www.z4a.net/images/2023/04/02/6.png" srcset="/img/loading.gif" lazyload alt="6.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/VHr8jL"><img src="https://www.z4a.net/images/2023/04/02/7.png" srcset="/img/loading.gif" lazyload alt="7.png"></a></p>
+<h3 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h3><p>就简单介绍下windows的吧，其它的可以去官网。</p>
+<p><strong>1. 在 Windows、macOS、Linux 上安装</strong></p>
+<p>通过 Git 命令，将项目克隆到本地，并进行项目文件夹：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs text">&gt; git clone https://github.com/binary-husky/chatgpt_academic.git
+&gt; cd chatgpt_academic</code></pre></div>
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_video_info</span>(<span class="hljs-params">video_path</span>) -&gt; int:</span>
-    <span class="hljs-string">&quot;&quot;&quot;</span>
-<span class="hljs-string">    :return: 视频长度，数字</span>
-<span class="hljs-string">    &quot;&quot;&quot;</span>
-    media_info = MediaInfo.parse(video_path) <span class="hljs-comment"># 解析视频</span>
-    data = media_info.to_json()
-    data = json.loads(data)[<span class="hljs-string">&#x27;tracks&#x27;</span>]        <span class="hljs-comment"># 获取视频各种信息</span>
-    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> data:
-        <span class="hljs-keyword">if</span> key[<span class="hljs-string">&#x27;track_type&#x27;</span>] == <span class="hljs-string">&#x27;Video&#x27;</span>:     <span class="hljs-comment"># 视频的总帧数除以帧率得到长度</span>
-            video_duration = <span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_count&#x27;</span>]) / (<span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_rate&#x27;</span>].split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))
-            <span class="hljs-keyword">return</span> video_duration</code></pre></div>
+<p>打开 config.py 文件，配置你的 OpenAI API Key 及本地代理。</p>
+<p>OpenAI API Key 可在这里生成：(这里默认有号，然后还有免费额度，有的已经没有免费了，然后充钱也不方便~~)</p>
+<p><em><a href="https://link.zhihu.com/?target=https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a></em></p>
+<p>然后就是代理了，因为不同的代理不一样，这里就显示下v2ray的：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs python">proxies = &#123;
+    <span class="hljs-comment">#          [协议]://  [地址]  :[端口]</span>
+    <span class="hljs-string">&quot;http&quot;</span>: <span class="hljs-string">&quot;http://localhost:10809&quot;</span>,
+    <span class="hljs-string">&quot;https&quot;</span>: <span class="hljs-string">&quot;http://localhost:10809&quot;</span>,
+&#125;</code></pre></div>
 
-<p>上述代码可以直接得到一个视频的总的长度，但是我们想要截取图片的时候需要字符串，类似hh:mm:ss这样的。然后我们想要的是好几张图片？我以三张为例，假设一条线段想要有三个中间节点，那么我们会怎么处理呢？四等分就会有三个时间点了对不对？</p>
-<p>比如60分钟的电影，我们取15分钟时间间隔，15, 30, 45 三个时间节点刚刚好，一般电影开头和截图截不出来什么东西的。我们需要把时间总长度4等分然后取三个节点将其转换成字符串传入截图函数中即可。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
-
-<span class="hljs-comment"># 总的过程，传入一个时间长度，获取截图时间节点进行截图存储保存路径</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_thumbnails</span>(<span class="hljs-params">video_duration</span>):</span>
-    number = <span class="hljs-number">3</span> <span class="hljs-comment"># 截图张数</span>
-    picture_list = [] <span class="hljs-comment"># 用于存储截图的保存路径</span>
-    seektime = <span class="hljs-number">0</span> <span class="hljs-comment"># 用于记录截图距离开头的时长，以秒计</span>
-    
-    interval = <span class="hljs-built_in">int</span>(video_duration/(number+<span class="hljs-number">1</span>)) <span class="hljs-comment"># 计算时间间隔</span>
-    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, number):
-        seektime += interval <span class="hljs-comment"># 计算时间节点</span>
-        img = get_frame_at(seektime, n) <span class="hljs-comment"># 截取对应时间节点的图片</span>
-        <span class="hljs-keyword">if</span> img:
-            picture_list.append(img)
-    <span class="hljs-keyword">return</span> picture_list
-
-<span class="hljs-comment"># 被调用的函数，调用ffmpeg获取某一个时间节点的截图</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_frame_at</span>(<span class="hljs-params">seektime, n=<span class="hljs-number">99</span></span>):</span>
-    timestring = get_time_string(seektime) <span class="hljs-comment"># 将int型转为hh:mm:ss类型用于截图</span>
-    file_name = os.path.basename(video_path)
-    tmp_path = os.path.join(base_path, <span class="hljs-string">&#x27;tmp&#x27;</span>) <span class="hljs-comment"># 截图存放于事先新建的tmp目录下</span>
-    img_path = os.path.join(tmp_path, <span class="hljs-string">&quot;&#123;filename&#125;-out-&#123;d&#125;.png&quot;</span>.<span class="hljs-built_in">format</span>(filename=file_name, d=n)) <span class="hljs-comment"># 截图名称及存放绝对路径</span>
-    command = <span class="hljs-string">&#x27;ffmpeg -ss &#123;timestring&#125; -y -i &quot;&#123;file&#125;&quot; &quot;-f&quot; &quot;image2&quot; &quot;-frames:v&quot;  &quot;1&quot; &quot;-c:v&quot; &quot;png&quot; &#x27;</span> \
-    <span class="hljs-string">&#x27;&quot;-loglevel&quot; &quot;8&quot; &quot;&#123;img_path&#125;&quot;&#x27;</span>.<span class="hljs-built_in">format</span>(timestring=timestring, file=self.abs_file_path,
-                                          img_path=img_path)
-    <span class="hljs-keyword">try</span>:
-        subprocess.call(command, shell=<span class="hljs-literal">True</span>)
-        <span class="hljs-keyword">return</span> img_path
-    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
-        logger.info(<span class="hljs-string">&#x27;截图失败：%s&#x27;</span> % exc)
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
-
-<span class="hljs-comment"># 用于将int型转换为字符串的函数</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_time_string</span>(<span class="hljs-params">seconds</span>) -&gt; str:</span>
-    hours = <span class="hljs-built_in">int</span>(seconds // <span class="hljs-number">3600</span>)
-    minutes = <span class="hljs-built_in">int</span>((seconds % <span class="hljs-number">3600</span>) // <span class="hljs-number">60</span>)
-    seconds = <span class="hljs-built_in">int</span>(seconds % <span class="hljs-number">60</span>)
-    timestring = <span class="hljs-built_in">str</span>(hours) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(minutes).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(seconds).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>)
-    <span class="hljs-keyword">return</span> timestring</code></pre></div>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>是的，现在已经能够通过视频路径获取截图到指定目录了，但是怎么上传呢？国内外的图床很多都有着丰富的API，所以还需要使用一些模块来完成上传的工作。本例子使用imgbox作为目标图床。预知后事，请听下回分解。</p>
-
+<p>记得开全局代理。。。</p>
+<p>配置完成后，安装 Python 的 pip 命令安装项目依赖，并运行项目，如果解析PDF提示缺少包直接安装就好：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs text">&gt; python -m pip install -r requirements.txt
+&gt; python main.py</code></pre></div>
             </div>
             <hr>
             <div>
@@ -324,7 +307,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/">编程学习</a>
+                      <a class="hover-with-bg" href="/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">折腾笔记</a>
                     
                   </div>
                 
@@ -334,9 +317,9 @@
                     
                       <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a>
                     
-                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                      <a class="hover-with-bg" href="/tags/%E7%88%B1%E5%A5%BD/">爱好</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
                     
                   </div>
                 
@@ -416,18 +399,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                      <a href="/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95--%E5%8D%8E%E7%A7%91/">
+                        <span class="hidden-mobile">基于python解决锐捷掉线web端自动登录--华科</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
