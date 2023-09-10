@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tomorrow505.xyz/%E5%9F%BA%E4%BA%8Epython%E8%A7%A3%E5%86%B3%E9%94%90%E6%8D%B7%E6%8E%89%E7%BA%BFweb%E7%AB%AF%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+    
+    <lastmod>2023-09-10</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tomorrow505.xyz/ChatGPT-%E5%AD%A6%E6%9C%AF%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/</loc>
     
     <lastmod>2023-04-02</lastmod>
@@ -242,127 +249,127 @@
 
   <url>
     <loc>http://tomorrow505.xyz/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2023-06-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://tomorrow505.xyz/tags/Fluid/</loc>
-    <lastmod>2023-06-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://tomorrow505.xyz/tags/Python/</loc>
-    <lastmod>2023-06-11</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://tomorrow505.xyz/tags/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E7%88%B1%E5%A5%BD/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://tomorrow505.xyz/tags/Python/</loc>
+    <lastmod>2023-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://tomorrow505.xyz/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2023-09-10</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://tomorrow505.xyz/tags/Fluid/</loc>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E7%BE%8E%E5%8C%96/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/PT/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E5%9B%BE%E5%BA%8A/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/qbittorrent/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/shell/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/Linux/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E7%94%B5%E5%BD%B1/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E6%8A%98%E8%85%BE/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/%E6%B2%B9%E7%8C%B4/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/tags/ajax/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -371,21 +378,21 @@
   
   <url>
     <loc>http://tomorrow505.xyz/categories/%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/categories/%E4%B8%9A%E4%BD%99%E7%88%B1%E5%A5%BD/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://tomorrow505.xyz/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2023-06-11</lastmod>
+    <lastmod>2023-09-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

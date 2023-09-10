@@ -19,7 +19,7 @@
   <meta name="author" content="tomorrow505">
   <meta name="keywords" content="PT, Python, IT, 学习编程">
   
-  <title>Python基于FFMPEG自动截图上传至imgbox（二） - Tomorrow&#39;s blog</title>
+  <title>基于python解决锐捷掉线web端自动登录（二） - Tomorrow&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -174,7 +174,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Python基于FFMPEG自动截图上传至imgbox（二）">
+            <span class="h2" id="subtitle" title="基于python解决锐捷掉线web端自动登录（二）">
               
             </span>
 
@@ -184,8 +184,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-18 19:18" pubdate>
-        2021年3月18日 晚上
+      <time datetime="2023-09-10 15:04" pubdate>
+        2023年9月10日 下午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      780 字
+      1.8k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      23
        分钟
     </span>
   
@@ -244,77 +244,148 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Python基于FFMPEG自动截图上传至imgbox（二）</h1>
+            <h1 style="display: none">基于python解决锐捷掉线web端自动登录（二）</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 年前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
             <div class="markdown-body">
               <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><hr>
-<p>话接上回，我么能够通过传递过来的视频文件路径获取视频长度和截图命令，那么如何使用python实现呢？</p>
-<h3 id="核心代码及思想"><a href="#核心代码及思想" class="headerlink" title="核心代码及思想"></a>核心代码及思想</h3><hr>
-<p>话不多说，上代码：</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pymediainfo <span class="hljs-keyword">import</span> Mediainfo
+<p>最近的第二次更新，因为学校最近实行某种策略，3点左右断网，然后最近给别人配的时候不熟练的话不是很方便，所以索性再更新一次，以前的直接删掉了，最后有封装好的桌面程序，可以跳过代码分析直接下载。程序设置为开机自启动，一分钟检验一次。<br></p>
+<p><strong>New-&gt; 2023.09.09看到有人反馈失效了，提示密码要加密，所以连忙又搞了一个加密版本。</strong></p>
+<h3 id="更新后的思路"><a href="#更新后的思路" class="headerlink" title="更新后的思路"></a>更新后的思路</h3><p>之前是F12直接抓请求拿加密的密码和querystring，现在把这个过程也给剖开了，因为最近F12不太好拿，所以使用了Fiddler工具，这是个抓包的软件，配置过程就不说了。我们断网看看请求过程：</p>
+<ol>
+<li>首先断网打开网页看看会跳转一个认证网页：我这里是<a target="_blank" rel="noopener" href="http://192.168.50.3:8080/">http://192.168.50.3:8080/</a> ，无线和有线还不太一样，但是问题不大。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HWPDN"><img src="https://www.z4a.net/images/2022/04/02/a1.png" srcset="/img/loading.gif" lazyload alt="a1.png"></a></p>
+<ol start="2">
+<li>打开fiddler访问192.168.50.3:8080，看请求：</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HWM4w"><img src="https://www.z4a.net/images/2022/04/02/a2.png" srcset="/img/loading.gif" lazyload alt="a2.png"></a></p>
+<p><img src="https://github.com/tomorrow505/hust-ruijie-relogin-helper/assets/32202634/30eb3c1a-db31-49fb-b87b-a1b7fc4af2d1" srcset="/img/loading.gif" lazyload></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HuvyJ"><img src="https://www.z4a.net/images/2022/04/03/a4.png" srcset="/img/loading.gif" lazyload alt="a4.png"></a></p>
+<p>我们发现第一个图的前两个请求都是302，然后会有一个200的请求到123.123.123.123，然后第5个请求就是我们之前页面跳转之后登陆页面网址。然后第二个图进入到一个method=login的请求，这肯定就是我们需要模拟的登录请求了。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HuGGK"><img src="https://www.z4a.net/images/2022/04/03/a5.png" srcset="/img/loading.gif" lazyload alt="a5.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HufKr"><img src="https://www.z4a.net/images/2022/04/03/a6.png" srcset="/img/loading.gif" lazyload alt="a6.png"></a></p>
+<p>从webform我们可以知道提交了我们的学号，然后密码变成了一串不认识的东西，还有一些空的字段。然后querystring是不是很眼熟，其实就是登陆页面网址的后半部分，这个根据最后的经验是一个跟本机mac地址等相关的一个字符串，具体怎么生成的暂时不追究了，猜想是请求123.123.123.123的时候根据请求头自动生成的。以及最后一个passwordEncrypt，默认为true。也就是说默认是加密的了现在，之前改成false就可以直接使用密码登录，现在需要加密一下，我们需要探索一下加密过程：</p>
+<p><img src="https://github.com/tomorrow505/hust-ruijie-relogin-helper/assets/32202634/80b44ad2-2d0c-4a17-a8e3-0a3f2bc4b8d9" srcset="/img/loading.gif" lazyload></p>
+<p>点开源代码的js文件看到了这么几行，然后是调用的security.js，那么使用python模拟这几行的过程就可以了，大致为使用RSA进行加密，其中有两个重要参数publicKeyExponent和publicKeyModulus。</p>
+<p>这两个在登录页面上是可以看到的，但是如何通过请求来获取呢？图2有一个pageinfo请求就可以得到了~提交的也就是querystring。</p>
+<p><img src="https://github.com/tomorrow505/hust-ruijie-relogin-helper/assets/32202634/bf559b77-e8fd-4a0e-b5e4-ce95241f4aef" srcset="/img/loading.gif" lazyload></p>
+<p>接下来就是要探索querystring怎么用代码获取，仔细查看点开看图1第3个请求：看到返回的数据大致就明白了，跟我们猜想的基本一致。有线和无线可能网址还不一样，无线好像是178开头的，所以我们需要从上述请求返回值得到两个东西：192.168.50.3和wlanuserip开头到结束的部分。</p>
+<p><a target="_blank" rel="noopener" href="https://www.z4a.net/image/2HWIOC"><img src="https://www.z4a.net/images/2022/04/02/a3.png" srcset="/img/loading.gif" lazyload alt="a3.png"></a></p>
+<ol start="3">
+<li>看代码——获取querystring：请求头与上述一致，由于如果网络没问题就会请求不到querystring，所以自己抛出一个异常，避免程序崩溃。</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">internetWorkingFine</span>(<span class="hljs-params">Exception</span>):</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, ErrorInfo</span>):</span>
+        <span class="hljs-built_in">super</span>().__init__(self)
+        self.ErrorInfo=ErrorInfo
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span>(<span class="hljs-params">self</span>):</span>
+        <span class="hljs-keyword">return</span> self.ErrorInfo
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_video_info</span>(<span class="hljs-params">video_path</span>) -&gt; int:</span>
-    <span class="hljs-string">&quot;&quot;&quot;</span>
-<span class="hljs-string">    :return: 视频长度，数字</span>
-<span class="hljs-string">    &quot;&quot;&quot;</span>
-    media_info = MediaInfo.parse(video_path) <span class="hljs-comment"># 解析视频</span>
-    data = media_info.to_json()
-    data = json.loads(data)[<span class="hljs-string">&#x27;tracks&#x27;</span>]        <span class="hljs-comment"># 获取视频各种信息</span>
-    <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> data:
-        <span class="hljs-keyword">if</span> key[<span class="hljs-string">&#x27;track_type&#x27;</span>] == <span class="hljs-string">&#x27;Video&#x27;</span>:     <span class="hljs-comment"># 视频的总帧数除以帧率得到长度</span>
-            video_duration = <span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_count&#x27;</span>]) / (<span class="hljs-built_in">int</span>(key[<span class="hljs-string">&#x27;frame_rate&#x27;</span>].split(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]))
-            <span class="hljs-keyword">return</span> video_duration</code></pre></div>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_info</span>():</span>
+    redirect_host = <span class="hljs-string">&#x27;http://123.123.123.123/&#x27;</span>
+    headers = &#123;
+        <span class="hljs-string">&quot;Accept&quot;</span>: <span class="hljs-string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9&quot;</span>,
+        <span class="hljs-string">&quot;Accept-Encoding&quot;</span>: <span class="hljs-string">&quot;gzip, deflate&quot;</span>,
+        <span class="hljs-string">&quot;Accept-Language&quot;</span>: <span class="hljs-string">&quot;zh-CN,zh;q=0.9,tr;q=0.8,en-US;q=0.7,en;q=0.6&quot;</span>,
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36&quot;</span>,
+        <span class="hljs-string">&quot;Upgrade-Insecure-Requests&quot;</span>: <span class="hljs-string">&quot;1&quot;</span>,
+        <span class="hljs-string">&quot;Host&quot;</span>: <span class="hljs-string">&quot;123.123.123.123&quot;</span>,
+        <span class="hljs-string">&quot;Proxy-Connection&quot;</span>: <span class="hljs-string">&quot;keep-alive&quot;</span>
+    &#125;
+    info = &#123;&#125;
+    res = requests.get(redirect_host, headers=headers).content.decode()
+    <span class="hljs-comment"># 这部分根据提交数据观察需要urlencode一下，=和&amp;符号要替换</span>
+    info[<span class="hljs-string">&quot;querystr&quot;</span>] = res[(res.find(<span class="hljs-string">&quot;wlanuserip&quot;</span>)):(res.find(<span class="hljs-string">&quot;&#x27;&lt;/script&gt;&quot;</span>))].replace(<span class="hljs-string">&#x27;=&#x27;</span>,<span class="hljs-string">&#x27;%3D&#x27;</span>).replace(<span class="hljs-string">&#x27;&amp;&#x27;</span>,<span class="hljs-string">&#x27;%26&#x27;</span>)
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> info[<span class="hljs-string">&quot;querystr&quot;</span>]:
+        <span class="hljs-keyword">raise</span> internetWorkingFine(<span class="hljs-string">&quot;网络似乎正常~~&quot;</span>)
+    info[<span class="hljs-string">&quot;url&quot;</span>] = res[res.find(<span class="hljs-string">&#x27;http:&#x27;</span>):res.find(<span class="hljs-string">&#x27;eportal&#x27;</span>)]
+    <span class="hljs-keyword">return</span> info</code></pre></div>
 
-<p>上述代码可以直接得到一个视频的总的长度，但是我们想要截取图片的时候需要字符串，类似hh:mm:ss这样的。然后我们想要的是好几张图片？我以三张为例，假设一条线段想要有三个中间节点，那么我们会怎么处理呢？四等分就会有三个时间点了对不对？</p>
-<p>比如60分钟的电影，我们取15分钟时间间隔，15, 30, 45 三个时间节点刚刚好，一般电影开头和截图截不出来什么东西的。我们需要把时间总长度4等分然后取三个节点将其转换成字符串传入截图函数中即可。</p>
-<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> subprocess
-
-<span class="hljs-comment"># 总的过程，传入一个时间长度，获取截图时间节点进行截图存储保存路径</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_thumbnails</span>(<span class="hljs-params">video_duration</span>):</span>
-    number = <span class="hljs-number">3</span> <span class="hljs-comment"># 截图张数</span>
-    picture_list = [] <span class="hljs-comment"># 用于存储截图的保存路径</span>
-    seektime = <span class="hljs-number">0</span> <span class="hljs-comment"># 用于记录截图距离开头的时长，以秒计</span>
-    
-    interval = <span class="hljs-built_in">int</span>(video_duration/(number+<span class="hljs-number">1</span>)) <span class="hljs-comment"># 计算时间间隔</span>
-    <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, number):
-        seektime += interval <span class="hljs-comment"># 计算时间节点</span>
-        img = get_frame_at(seektime, n) <span class="hljs-comment"># 截取对应时间节点的图片</span>
-        <span class="hljs-keyword">if</span> img:
-            picture_list.append(img)
-    <span class="hljs-keyword">return</span> picture_list
-
-<span class="hljs-comment"># 被调用的函数，调用ffmpeg获取某一个时间节点的截图</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_frame_at</span>(<span class="hljs-params">seektime, n=<span class="hljs-number">99</span></span>):</span>
-    timestring = get_time_string(seektime) <span class="hljs-comment"># 将int型转为hh:mm:ss类型用于截图</span>
-    file_name = os.path.basename(video_path)
-    tmp_path = os.path.join(base_path, <span class="hljs-string">&#x27;tmp&#x27;</span>) <span class="hljs-comment"># 截图存放于事先新建的tmp目录下</span>
-    img_path = os.path.join(tmp_path, <span class="hljs-string">&quot;&#123;filename&#125;-out-&#123;d&#125;.png&quot;</span>.<span class="hljs-built_in">format</span>(filename=file_name, d=n)) <span class="hljs-comment"># 截图名称及存放绝对路径</span>
-    command = <span class="hljs-string">&#x27;ffmpeg -ss &#123;timestring&#125; -y -i &quot;&#123;file&#125;&quot; &quot;-f&quot; &quot;image2&quot; &quot;-frames:v&quot;  &quot;1&quot; &quot;-c:v&quot; &quot;png&quot; &#x27;</span> \
-    <span class="hljs-string">&#x27;&quot;-loglevel&quot; &quot;8&quot; &quot;&#123;img_path&#125;&quot;&#x27;</span>.<span class="hljs-built_in">format</span>(timestring=timestring, file=self.abs_file_path,
-                                          img_path=img_path)
+<ol start="4">
+<li>那么接下来的流程就比较清晰了，就需要判断是不是有网，没网就从123.123.123.123获取一下自己的querystring，然后提交data。首先是判断是否掉网：</li>
+</ol>
+<div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_response</span>():</span>
     <span class="hljs-keyword">try</span>:
-        subprocess.call(command, shell=<span class="hljs-literal">True</span>)
-        <span class="hljs-keyword">return</span> img_path
+        requests.get(<span class="hljs-string">&quot;https://www.baidu.com&quot;</span>)
     <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> exc:
-        logger.info(<span class="hljs-string">&#x27;截图失败：%s&#x27;</span> % exc)
-        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+        print(<span class="hljs-string">&quot;当前网络状态出现问题~~&quot;</span>)
+        relogin()
 
-<span class="hljs-comment"># 用于将int型转换为字符串的函数</span>
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_time_string</span>(<span class="hljs-params">seconds</span>) -&gt; str:</span>
-    hours = <span class="hljs-built_in">int</span>(seconds // <span class="hljs-number">3600</span>)
-    minutes = <span class="hljs-built_in">int</span>((seconds % <span class="hljs-number">3600</span>) // <span class="hljs-number">60</span>)
-    seconds = <span class="hljs-built_in">int</span>(seconds % <span class="hljs-number">60</span>)
-    timestring = <span class="hljs-built_in">str</span>(hours) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(minutes).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>) + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-built_in">str</span>(seconds).rjust(<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;0&#x27;</span>)
-    <span class="hljs-keyword">return</span> timestring</code></pre></div>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_password</span>(<span class="hljs-params">pwd, exponent, modulus</span>):</span>
+    e = <span class="hljs-built_in">int</span>(exponent, <span class="hljs-number">16</span>)
+    m = <span class="hljs-built_in">int</span>(modulus, <span class="hljs-number">16</span>)
+    <span class="hljs-comment"># 16进制转10进制</span>
+    t = pwd.encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)
+    <span class="hljs-comment"># 字符串逆向并转换为bytes</span>
+    input_nr = <span class="hljs-built_in">int</span>.from_bytes(t, byteorder=<span class="hljs-string">&#x27;big&#x27;</span>)
+    <span class="hljs-comment"># 将字节转化成int型数字，如果没有标明进制，看做ascii码值</span>
+    crypt_nr = <span class="hljs-built_in">pow</span>(input_nr, e, m)
+    <span class="hljs-comment"># 计算x的y次方，如果z在存在，则再对结果进行取模，其结果等效于pow(x,y) %z</span>
+    length = ceil(m.bit_length() / <span class="hljs-number">8</span>)
+    <span class="hljs-comment"># 取模数的比特长度(二进制长度)，除以8将比特转为字节</span>
+    crypt_data = crypt_nr.to_bytes(length, byteorder=<span class="hljs-string">&#x27;big&#x27;</span>)
+    <span class="hljs-comment"># 将密文转换为bytes存储(8字节)，返回hex(16字节)</span>
+    <span class="hljs-keyword">return</span> crypt_data.<span class="hljs-built_in">hex</span>()
 
+        
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">relogin</span>(<span class="hljs-params">uid, pwd</span>):</span>
+    headers = &#123;
+        <span class="hljs-string">&quot;User-Agent&quot;</span>: <span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &quot;</span>
+                      <span class="hljs-string">&quot;Chrome/96.0.4664.45 Safari/537.36&quot;</span>,
+        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,
+        <span class="hljs-string">&quot;charset&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>,
+    &#125;
+    session = requests.session()
+    pageinfo_url = <span class="hljs-string">&quot;&#123;url&#125;eportal/InterFace.do?method=pageInfo&quot;</span>.<span class="hljs-built_in">format</span>(url=info[<span class="hljs-string">&quot;url&quot;</span>])
+    page_data = &#123;
+        <span class="hljs-string">&quot;queryString&quot;</span>: info[<span class="hljs-string">&quot;querystr&quot;</span>]
+    &#125;
+    req = session.post(pageinfo_url, headers=headers, data=page_data).json()
+    exponent = req[<span class="hljs-string">&quot;publicKeyExponent&quot;</span>]
+    modulus = req[<span class="hljs-string">&quot;publicKeyModulus&quot;</span>]
+    password = get_password(pwd, exponent, modulus)
+
+    login_url = <span class="hljs-string">&quot;&#123;url&#125;eportal/InterFace.do?method=login&quot;</span>.<span class="hljs-built_in">format</span>(url=info[<span class="hljs-string">&quot;url&quot;</span>])
+
+    login_data = &#123;
+        <span class="hljs-string">&quot;userId&quot;</span>: <span class="hljs-built_in">str</span>(uid),
+        <span class="hljs-string">&quot;password&quot;</span>: password,
+        <span class="hljs-string">&quot;service&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+        <span class="hljs-string">&quot;queryString&quot;</span>: info[<span class="hljs-string">&quot;querystr&quot;</span>],
+        <span class="hljs-string">&quot;operatorPwd&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+        <span class="hljs-string">&quot;operatorUserId&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+        <span class="hljs-string">&quot;validcode&quot;</span>: <span class="hljs-string">&quot;&quot;</span>,
+        <span class="hljs-string">&quot;passwordEncrypt&quot;</span>: <span class="hljs-string">&quot;true&quot;</span>
+    &#125;
+    req = session.post(url=login_url, headers=headers, data=login_data).json()
+    <span class="hljs-keyword">if</span> req[<span class="hljs-string">&quot;result&quot;</span>] == <span class="hljs-string">&quot;fail&quot;</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;重新认证失败：&quot;</span> + req[<span class="hljs-string">&quot;message&quot;</span>]
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;重新认证成功~~~&quot;</span></code></pre></div>
+
+<p>先是获取querystring，然后通过pageInfo获取加密的指数和模块，接着是在网上找到的不填充版本的加密代码获取加密后的密码（使用浏览器页面的js代码做验证），最后提交认证。</p>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><hr>
+<p>基本上源代码已经差不多了，整理一下就可以了，为了方便使用，这里重新封装好了一个可以用的exe程序，仍然发布到蝴蝶，使用方式就是在yml文件里指定id和密码，然后一分钟运行一次，方便的话可以设置为开机启动。</p>
+<div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">info:</span>
+  <span class="hljs-attr">userId:</span> <span class="hljs-string">M202177777</span> <span class="hljs-comment"># 学号</span>
+  <span class="hljs-attr">password:</span> <span class="hljs-string">mima123</span>  <span class="hljs-comment"># 密码</span></code></pre></div>
+
+
+<p>运行途中如果出现掉网会记录log：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs javascript"><span class="hljs-number">09</span>/<span class="hljs-number">10</span>/<span class="hljs-number">2023</span> <span class="hljs-number">12</span>:<span class="hljs-number">10</span>:<span class="hljs-number">39</span> PM - <span class="hljs-built_in">Error</span>: 当前网络状态出现问题~~
+<span class="hljs-number">09</span>/<span class="hljs-number">10</span>/<span class="hljs-number">2023</span> <span class="hljs-number">12</span>:<span class="hljs-number">10</span>:<span class="hljs-number">39</span> PM - Relogin 重新认证成功~~~
+<span class="hljs-number">09</span>/<span class="hljs-number">10</span>/<span class="hljs-number">2023</span> <span class="hljs-number">12</span>:<span class="hljs-number">12</span>:<span class="hljs-number">58</span> PM - <span class="hljs-built_in">Error</span>: 当前网络状态出现问题~~
+<span class="hljs-number">09</span>/<span class="hljs-number">10</span>/<span class="hljs-number">2023</span> <span class="hljs-number">12</span>:<span class="hljs-number">12</span>:<span class="hljs-number">58</span> PM - Relogin 重新认证成功~~~</code></pre></div>
+
+
+<p>上述result显示success即可。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><hr>
-<p>是的，现在已经能够通过视频路径获取截图到指定目录了，但是怎么上传呢？国内外的图床很多都有着丰富的API，所以还需要使用一些模块来完成上传的工作。本例子使用imgbox作为目标图床。预知后事，请听下回分解。</p>
+<p>折腾不易，且行且珍惜。</p>
 
             </div>
             <hr>
@@ -336,7 +407,7 @@
                     
                       <a class="hover-with-bg" href="/tags/Python/">Python</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%BA%8A/">图床</a>
+                      <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
                     
                   </div>
                 
@@ -416,18 +487,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%89%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（三）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/Python%E5%9F%BA%E4%BA%8EFFMPEG%E8%87%AA%E5%8A%A8%E6%88%AA%E5%9B%BE%E4%B8%8A%E4%BC%A0%E8%87%B3imgbox%EF%BC%88%E4%B8%80%EF%BC%89/">
-                        <span class="hidden-mobile">Python基于FFMPEG自动截图上传至imgbox（一）</span>
+                      <a href="/ChatGPT-%E5%AD%A6%E6%9C%AF%E4%BC%98%E5%8C%96%E4%BD%93%E9%AA%8C/">
+                        <span class="hidden-mobile">ChatGPT-学术优化体验</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
